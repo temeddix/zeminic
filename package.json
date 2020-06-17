@@ -2,6 +2,7 @@
   "name": "yomium-repository",
   "version": "1.0.0",
   "description": "open webtoon platform Yomium",
+  "private":true,
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
