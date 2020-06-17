@@ -1,21 +1,11 @@
 {
-  "name": "yomium-repository",
-  "version": "1.0.0",
-  "description": "open webtoon platform Yomium",
-  "private":true,
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js",
-    "test": "node index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kundukdong/yomium-repository.git"
-  },
-  "author": "kundukdong",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/kundukdong/yomium-repository/issues"
-  },
-  "homepage": "https://github.com/kundukdong/yomium-repository#readme"
+    "name": "Yomium",
+    "description": "Simple Hello World Node.js sample for Azure App Service",
+    "version": "0.0.1",
+    "private": true,
+    "license": "MIT",
+    "author": "Microsoft",
+    "scripts": {
+        "start": "node index.js"
+    }
 }
