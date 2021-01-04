@@ -1,11 +1,31 @@
 {
-    "name": "yomium",
-    "description": "Simple Hello World Node.js sample for Azure App Service",
-    "version": "0.0.1",
-    "private": true,
-    "license": "MIT",
-    "author": "Microsoft",
-    "scripts": {
-        "start": "node index.js"
-    }
+  "name": "zeminem",
+  "version": "1.0.0",
+  "description": "Zeminem",
+  "main": "web.js",
+  "scripts": {
+    "test": "node web.js"
+  },
+  "keywords": [
+    "Zeminem",
+    "Webtoon",
+    "Comics",
+    "Ductnick",
+    "Malzahar"
+  ],
+  "author": "Kevin Ductnick",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^3.2.0",
+    "await": "^0.2.6",
+    "axios": "^0.21.1",
+    "crypto": "^1.0.1",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "mongoose": "^5.11.7",
+    "nodemailer": "^6.4.17",
+    "nodemailer-smtp-transport": "^2.7.4",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0"
+  }
 }
