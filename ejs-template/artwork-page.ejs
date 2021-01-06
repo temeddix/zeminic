@@ -1,0 +1,260 @@
+<div id='artworkPageVueModel'>
+
+    <top-bar>
+        <template v-slot:page-type>작품</template>
+        <%=artwork.title%>
+    </top-bar>
+
+    <super-container :content-max-width='640'>
+        <% if(status==200){ %>
+            <layout-block class='spacing'>
+            </layout-block>
+
+            <layout-block>
+                <p class='titleText'><%=artwork.title%></p>
+            </layout-block>
+
+            <divider></divider>
+
+            <layout-block>
+                <div>
+                    <p>판매자</p>
+                    <p class='biggerText'><%=artwork.userAlias%></p>
+                </div>
+            </layout-block>
+
+            <layout-block class='spacing'>
+            </layout-block>
+
+            <% var i; for(i in imgs){%>
+                <layout-block>
+                    <img
+                    src=<%=imgs[i]%>
+                    class='mainImage'>
+                </layout-block>
+            <% } %>
+
+            <layout-block class='spacing'>
+            </layout-block>
+            
+            <layout-block>
+                    <p><%-artwork.content.replace(/\r\n/g,"<br>");%></p>
+            </layout-block>
+
+            <layout-block v-if='"<%= artwork.userEmail %>"==$root.userInfo.userEmail' class='spacing'>
+            </layout-block>
+            
+            <layout-block v-if='"<%= artwork.userEmail %>"==$root.userInfo.userEmail'>
+                <elastic-button
+                v-guide-alert='"이 버튼은 해당 작품이 본인이 게시한 것일 때만 보입니다."'
+                class='defaultButton'
+                poppable
+                :popup-width='400'
+                :popup-height='400'>
+                    작품 삭제
+                    <template v-slot:popup-content>
+                        <layout-block>
+                            <div>
+                                <p>정말로 이 작품을 삭제하시겠어요?</p>
+                                <p>이 선택은 되돌릴 수 없습니다.</p>
+                            </div>
+                        </layout-block>
+                        <divider></divider>
+                        <layout-block>
+                            <elastic-button
+                            class='blackButton'
+                            @click.native='deleteArtwork(<%=artwork.id%>)'
+                            id='deleteArtworkButton'>
+                                예!
+                            </elastic-button>
+                        </layout-block>
+                    </template>
+                </elastic-button>
+            </layout-block>
+
+            <divider></divider>
+            
+            <layout-block>
+                <!--<elastic-button
+                class='purchaseButton'
+                id='purchaseButton'
+                @click.native='purchaseArtwork(<%=artwork.id%>)'>
+                    <div>
+                        <p class='bigText'><%=artwork.price%>원</p>
+                        <p>결제하기 (Pay-Front 방식)</p>
+                    </div>
+                </elastic-button>-->
+                <elastic-button
+                id='purchasePopupButton'
+                class='purchaseButton'
+                poppable
+                ref='purchasePopup'>
+
+                    <div>
+                        <p class='bigText'><%=artwork.price%>원</p>
+                        <p>결제하기</p><!--Pay-Back 방식-->
+                    </div>
+
+                    <template v-slot:popup-content>
+
+                        <layout-block>
+                            <p class='titleText'>내 결제수단</p>
+                        </layout-block>
+
+                        <divider></divider>
+                        
+                        <layout-block class='flexBox'>
+                            <elastic-button
+                            ref='purchaseFinalPopup'
+                            class="paycard"
+                            v-for="(method, index) in $root.userInfo.paymentMethod"
+                            :key='method.id'
+                            :popup-width='500'
+                            :popup-height='500'
+                            poppable>
+                                <div>
+                                    <p class="bigText">{{ method.alias }}</p>
+                                    <p>{{ method.cardNumber }}</p>
+                                </div>
+                                <template v-slot:popup-content>
+
+                                    <layout-block>
+                                        <div>
+                                            <p class='titleText'>{{ method.alias }}</p>
+                                            <p class='bigText'>{{ method.cardNumber }}</p>
+                                        </div>
+                                    </layout-block>
+                                            
+                                    <divider></divider>
+
+                                    <layout-block>
+                                        <div>
+                                            <p>이 카드로 결제하시겠어요?</p>
+                                        </div>
+                                    </layout-block>
+
+                                    <layout-block>
+                                        <elastic-button
+                                        id='purchaseBackButton'
+                                        class='defaultButton'
+                                        @click.native='purchaseArtworkBack(<%=artwork.id%>, index)'>
+                                            결제하기
+                                        </elastic-button>
+                                    </layout-block>
+                                </template>
+                            </elastic-button>
+                        </layout-block>
+                    </template>
+
+                </elastic-button>
+            </layout-block>
+            
+        <% } else { %>
+            <p class='bigText'>게시물이 존재하지 않습니다</p>
+        <%} %>
+    </super-container>
+
+</div>
+
+<style>
+    .fillParent{
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+    }
+    .overfillParent{
+        position: absolute;
+        top: -3px;
+        bottom: -3px;
+        left: -3px;
+        right: -3px;
+    }
+    .fillHundred{
+        width: 100%;
+        height:100%;
+        margin: 0px;
+    }
+    .allCenterContainer{
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        flex-direction: column;
+    }
+    .smallText{
+        font-size:7pt;
+    }
+    .bigText{
+        font-size:14pt;
+    }
+    .biggerText{
+        font-size:20pt;
+    }
+    .titleText{
+        font-size:28pt;
+    }
+    .forceCenterOrigin{
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+    }
+    .purchaseButton{
+        width: 200px;
+        height: 72px;
+        margin: 6px;
+    }
+    .defaultButton{
+        width: 120px;
+        margin: 0px 6px;
+    }
+    .blackButton{
+        width: 120px;
+        margin: 0px 6px;
+        background-color: #000000;
+        color: #ffffff;
+    }
+    .dividerWidthProvider{
+        width:100%;
+        max-width:400px;
+    }
+    .spacing{
+        height:4px;
+    }
+    .mainImage{
+        width: 100%;
+        height: 400px;
+    }
+    .textContentArea{
+        border: 1px solid rgba(0,0,0,0.3);
+        width: 100%;
+        border-radius: 12px;
+        padding: 12px;
+    }
+    .paycard{
+        display: inline-flex;
+        flex: 1 1 232px;
+        margin: 4px;
+        max-width: 232px;
+        height: 145px;
+    }
+    .paycardGray{
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        flex: 1 1 232px;
+        margin: 4px;
+        max-width: 232px;
+        height: 145px;
+        background-color: rgba(0,0,0,0.06);
+        border-radius: 12px;
+        border: 1px dashed #aaaaaa;
+    }
+    .cardInfoInput{
+        width: 100%;
+        max-width: 300px;
+    }
+</style>

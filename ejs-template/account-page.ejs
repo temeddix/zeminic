@@ -1,0 +1,334 @@
+<div id='accountPageVueModel'>
+
+    <top-bar>
+        <template v-slot:page-type>계정</template>
+        {{ $root.userInfo.userAlias }}
+    </top-bar>
+
+    <super-container :content-max-width='640'>
+        <transition name="fade" mode="out-in" >
+            <div key='yesDiv' v-if="$root.isAuthenticated && $root.isAuthenticationChecked">
+
+                <layout-block class='spacing'>
+                </layout-block>
+
+                <layout-block>
+                    <div>
+                        <p class="titleText">{{ $root.userInfo.userAlias }}</p>
+                        <p class="bigText">{{ $root.userInfo.userEmail }}</p>
+                    </div>
+                </layout-block>
+
+                <divider></divider>
+
+                <layout-block>
+                    <elastic-button
+                    class="card"
+                    poppable>
+                        <div>
+                            <p class='titleText'>{{ $root.userInfo.uploads.length }}개</p>
+                            <p>작품 등록됨</p>
+                        </div>
+                        <template v-slot:popup-content>
+                            <layout-block>
+                                <p class='titleText'>등록한 작품들</p>
+                            </layout-block>
+                            <divider></divider>
+                            <layout-block
+                            v-for="upload in uploadList"
+                            :key='upload.id'>
+                                <elastic-button
+                                class='linkButton'
+                                :link-to='"/artwork/"+upload.id'>
+                                    {{upload.title}}
+                                </elastic-button>
+                            </layout-block>
+                        </template>
+                    </elastic-button>
+
+                    <elastic-button
+                    class="card"
+                    poppable>
+                        <div>
+                            <p class='titleText'>{{ $root.userInfo.purchased.length }}개</p>
+                            <p>작품 구매함</p>
+                        </div>
+                        <template v-slot:popup-content>
+                            <layout-block>
+                                <p class='titleText'>구매한 작품들</p>
+                            </layout-block>
+                            <divider></divider>
+                            <layout-block
+                            v-for="purchase in purchaseList"
+                            :key='purchase.id'>
+                                <elastic-button
+                                class='linkButton'
+                                :link-to='"/artwork/"+purchase.id'>
+                                    {{purchase.title}}
+                                </elastic-button>
+                            </layout-block>
+                        </template>
+                    </elastic-button>
+                </layout-block>
+
+                <divider></divider>
+                
+                <layout-block>
+                    <p class='bigText' id='purchaseMethods'>등록한 결제수단</p>
+                </layout-block>
+                
+                <layout-block class='flexBox'>
+                    <elastic-button
+                    poppable
+                    ref='infoCardPopup'
+                    class="paycard"
+                    v-for="(method, index) in $root.userInfo.paymentMethod"
+                    :key='method.id'>
+                        <div>
+                            <p class="bigText">{{ method.alias }}</p>
+                            <p>{{ method.cardNumber }}</p>
+                        </div>
+                        <template v-slot:popup-content>
+                            <layout-block>
+                                <div>
+                                    <p class="titleText">{{ method.alias }}</p>
+                                    <p class="bigText">결제 수단</p>
+                                </div>
+                            </layout-block>
+                            <divider>
+                            </divider>
+                            <layout-block>
+                                <div>
+                                    <p>{{ method.type }}</p>
+                                    <p class="bigText">{{ method.cardNumber }}</p>
+                                </div>
+                            </layout-block>
+                            <divider>
+                            </divider>
+                            <layout-block>
+                                <elastic-button
+                                poppable
+                                ref='deleteCardPopup'
+                                :popup-width='500'
+                                :popup-height='500'
+                                class='defaultButton'>
+                                    삭제
+                                    <template v-slot:popup-content>
+                                        <layout-block>
+                                            <p>정말 삭제하시겠어요?</p>
+                                        </layout-block>
+                                        <divider>
+                                        </divider>
+                                        <layout-block>
+                                            <elastic-button
+                                            class='blackButton'
+                                            @click.native='deleteCard(method.alias, index)'>
+                                                카드 삭제하기
+                                            </elastic-button>
+                                        </layout-block>
+                                    </template>
+                                </elastic-button>
+                            </layout-block>
+                        </template>
+                    </elastic-button>
+                    <elastic-button
+                    class="paycardGray"
+                    poppable            
+                    ref='addCardPopup'>
+                        <p class='titleText'>+</p>
+                        <template v-slot:popup-content>
+                            <layout-block>
+                                <p class='titleText'>카드 등록하기</p>
+                            </layout-block>
+                            <divider></divider>
+                            <layout-block>
+                                <elastic-textbox
+                                class="cardInfoInput"
+                                label-text="별칭"
+                                placeholder-text="어떤 이름으로 저장할지 정해 보세요"
+                                v-model='cardInfoInput.alias'>
+                                </elastic-textbox>
+                            </layout-block>
+                            <layout-block>
+                                <elastic-textbox
+                                class="cardInfoInput"
+                                label-text="카드 번호"
+                                placeholder-text="16자리 숫자로 입력하세요"
+                                v-model='cardInfoInput.cardNumber'>
+                                </elastic-textbox>
+                            </layout-block>
+                            <layout-block>
+                                <elastic-textbox
+                                class="cardInfoInput"
+                                label-text="카드 비밀번호 앞 2자리"
+                                placeholder-text="XX"
+                                v-model='cardInfoInput.pwd2digit'>
+                                </elastic-textbox>
+                            </layout-block>
+                            <layout-block>
+                                <elastic-textbox
+                                class="cardInfoInput"
+                                label-text="카드 만료연월"
+                                placeholder-text="YYYY-MM"
+                                v-model='cardInfoInput.expireDate'>
+                                </elastic-textbox>
+                            </layout-block>
+                            <layout-block>
+                                <elastic-textbox
+                                class="cardInfoInput"
+                                label-text="생년월일"
+                                placeholder-text="YYMMDD"
+                                v-model='cardInfoInput.birth'>
+                                </elastic-textbox>
+                            </layout-block>
+                            <layout-block>
+                                <elastic-button
+                                id='addCardSubmitButton'
+                                class='blackButton'
+                                @click.native='addCard()'>
+                                등록
+                                </elastic-button>
+                            </layout-block>
+                        </template>
+                    </elastic-button>
+                </layout-block>
+
+                <divider></divider>
+            
+                <layout-block>
+                    <div>
+                        <p class='bigText'>수익</p>
+                        <p class='hugeText'>{{ $root.userInfo.income }}&#8361;</p>
+                    </div>
+                </layout-block>
+            </div>
+            
+            <div v-else-if='!$root.isAuthenticated && $root.isAuthenticationChecked' key='noDiv' class='hugeMiddleContainer'>
+                <div>
+                    <p class='faceIcon'>:P</p>
+                    <p class='bigText'>로그인이 안 되어있네요!</p>
+                </div>
+            </div>
+
+        </transition>
+    </super-container>
+</div>
+
+<style>
+    .smallText{
+        font-size: 7pt;
+    }
+    .bigText{
+        font-size: 14pt;
+    }
+    .titleText{
+        font-size: 28pt;
+    }
+    .hugeText{
+        font-size: 40pt;
+    }
+    .faceIcon{
+        font-size: 200pt;
+    }
+    .hugeMiddleContainer{
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        flex-direction: column;
+    }
+    .card{
+        flex: 1 1 100px;
+        margin: 4px;
+        height: 120px;
+    }
+    .cardInfoInput{
+        width: 100%;
+        max-width: 300px;
+    }
+    .paycard{
+        display: inline-flex;
+        flex: 1 1 232px;
+        margin: 4px;
+        max-width: 232px;
+        height: 145px;
+    }
+    .paycardGray{
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        flex: 1 1 232px;
+        margin: 4px;
+        max-width: 232px;
+        height: 145px;
+        background-color: rgba(0,0,0,0.06);
+        border-radius: 12px;
+        border: 1px dashed #aaaaaa;
+    }
+
+    .income{
+        margin-top: 20px;
+    }
+
+    .fade-enter-active, .fade-leave-active{
+        transition: opacity .3s;
+    }
+    .fade-enter, .fade-leave-to{
+        opacity: 0;
+    }
+
+    .standardDivider{
+        width: 100%;
+        max-width: 600px;
+    }
+
+    .layoutStack{
+        display: inline-block;
+        position: relative;
+        width: 100%;
+        max-width: 720px;
+        margin-top: 6px;
+        margin-bottom: 6px;
+    }
+
+    .layoutStackSmall{
+        display: inline-block;
+        position: relative;
+        width: 100%;
+        max-width: 320px;
+        margin-top: 6px;
+        margin-bottom: 6px;
+    }
+
+    .spacing{
+        height:4px;
+    }
+    .addPopupButton{
+        border-radius: 1000px;
+        height: 60px;
+        width: 60px;
+        background-color: rgba(255,255,255,0.2);
+    }
+    .addSubmitButton{
+        width: 120px;
+        background-color: #000000;
+        color: #ffffff;
+    }
+    .linkButton{
+        width: 300px;
+    }
+    .blackButton{
+        width: 120px;
+        background-color: #000000;
+        color: #ffffff;
+    }
+    .defaultButton{
+        width: 120px;
+    }
+</style>

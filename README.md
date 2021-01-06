@@ -1,18 +1,7 @@
----
-page_type: sample
-languages:
-- nodejs
-- javascript
-products:
-- azure
-- azure-app-service
-description: "This sample demonstrates a tiny Hello World Node.js app for Azure App Service."
----
+# 미니갤러리 - 제미넴 사전 협업 프로젝트
+* 오픈웹툰 플랫폼 제미넴을 만들기 전에 협업 코딩 연습 용도로 사용할 저장소
 
-# Node.js Hello World
-
-This sample demonstrates a tiny Hello World node.js app for [App Service Web App](https://docs.microsoft.com/azure/app-service-web).
-
-## Contributing
-
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+# 참여자
+* 김동현
+* 박건규
+* 정덕

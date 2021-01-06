@@ -1,0 +1,42 @@
+<html>
+
+<head>
+    <title>test</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <div id="list"></div>
+
+    <script>
+        axios.post('/ajax-tunnel/list-payment-method')
+            .then(function (result) {
+                data = result.data;
+
+                if (data.isSuccessful == true) {
+                    var list = document.getElementById("list");
+                    var array = data.paymentMethod;
+                    var i;
+                    if (array.length == 0) {
+                        list.innerText = "등록된 카드가 없습니다.";
+                        return;
+                    }
+
+                    for (i = 0; i < array.length; i++) {
+                        var toAppend = "[카드 " + i + "]<br>";
+                        toAppend += "별칭 : " + array[i].alias + "<br>";
+                        toAppend += "종류 : " + array[i].type + "<br>";
+                        toAppend += "카드번호 : " + array[i].cardNumber + "<br><br>";
+                        list.innerHTML += toAppend;
+                    }
+                }
+
+            }).catch(function (error) {
+                data = error.response.data;
+                alert(data.message);
+            });
+
+    </script>
+</body>
+
+</html>

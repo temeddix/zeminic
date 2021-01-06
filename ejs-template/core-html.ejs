@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<head>
+    <title>Zeminem Minigallery</title>
+    <meta name='viewport' content='width=device-width, user-scalable=no'>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <style type='text/css'>
+        /* 여기 스타일 클래스를 직접 적은 이유는 웹팩으로 컴파일된 스크립트 파일이 로드되기도 전에 보여지는 로딩화면이어야 하기 때문에 */
+        .start-body{
+            overflow: hidden;
+        }
+        .loading-screen{
+            position: fixed;
+            top: -200px;
+            bottom: -200px;
+            left: -200px;
+            right: -200px;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f1f1f1;
+        }
+        .progress-bar-shell{
+            display: inline-flex;
+            justify-content: left;
+            align-items: center;
+            width: 240px;
+            border-radius: 1000px;
+            height: 12px;
+            background-color: rgba(0,0,0,0.1);
+            padding: 3px;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+        .progress-bar-rounder{
+            display: inline-flex;
+            justify-content: left;
+            align-items: center;
+            border-radius: 1000px;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+        .progress-bar-fill{
+            display: inline-block;
+            border-radius: 1000px;
+            width: 0%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body class='start-body'>
+    <div id='loading-screen' class='loading-screen'>
+        <div class='progress-bar-shell'>
+            <div class='progress-bar-rounder'>
+                <div class='progress-bar-fill' id='progressBarFill'></div>
+            </div>
+        </div>
+    </div>
+    <%- include(pageFilePath) %>
+    <script src='/cdn-libraries-bundled.js'></script>
+    <script src='/npm-libraries-bundled.js'></script>
+    <script src='/custom-libraries-bundled.js'></script>
+    <script src='/vue-script-bundled.js'></script>
+    <script>
+        var isDocumentReady = false;
+        var allElementsCount = 0;
+        var loadedElementsCount = 0;
+        var targetPercentage = 0
+        var tweenedPercentage = 0;
+
+        var tweenTimer = setInterval( function(){
+
+            tweenedPercentage = tweenedPercentage + (targetPercentage-tweenedPercentage)*0.2;
+            document.getElementById("progressBarFill").style.width = tweenedPercentage+'%';
+
+            if(99<tweenedPercentage)
+            {
+                document.getElementById('loading-screen').style.visibility = 'hidden';
+                document.body.className='';
+                clearInterval(tweenTimer);
+            }
+
+        }, 10); 
+
+        document.onreadystatechange = function(event)
+        {
+            if(document.readyState=='interactive')
+            {
+                var allElements = document.body.getElementsByTagName('*');
+                allElementsCount = allElements.length;
+
+                for (var i=0; i < allElements.length ; i++) 
+                {
+                    allElements[i].addEventListener('load', function(){
+                        loadedElementsCount++;
+                        if(isDocumentReady==false){
+                            targetPercentage = loadedElementsCount*100 / allElementsCount;
+                        }
+                    })
+                }
+            }
+            else if(document.readyState=='complete'){
+                isDocumentReady = true;
+                targetPercentage = 100;
+            }
+        }
+    </script>
+</body>
+</html>
