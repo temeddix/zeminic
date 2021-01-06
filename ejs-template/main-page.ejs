@@ -2,7 +2,6 @@
 
     <top-bar>
         <template v-slot:page-type>홈</template>
-        제미넴 미니갤러리
     </top-bar>
 
     <super-container>
@@ -68,69 +67,6 @@
         </layout-block>
         
     </super-container>
-
-    <elastic-button
-    ref='createButton'
-    class='createArtworkButton'
-    v-guide-alert='"작품 이미지를 등록하고 팔아서 수익을 내어 보세요!"'
-    poppable>
-        <p class='whiteText'>작품 새로 팔기</p>
-        <template v-slot:popup-content>
-            <layout-block>
-                <p class='titleText'>작품 새로 팔기</p>
-            </layout-block>
-            <divider></divider>
-            <layout-block>
-                <elastic-textbox
-                class='createInputs'
-                label-text='작품명'
-                ref='submitTitle'
-                v-model='submitArtworkInput.title'>
-                </elastic-textbox>
-            </layout-block>
-            <layout-block>
-                <elastic-textbox
-                class='createInputs'
-                only-number
-                label-text='가격'
-                ref='submitPrice'
-                v-model='submitArtworkInput.price'>
-                </elastic-textbox>
-            </layout-block>
-            <layout-block>
-                <elastic-textbox
-                class='createInputsTall'
-                multi-line
-                label-text='설명'
-                ref='submitContent'
-                v-model='submitArtworkInput.content'>
-                </elastic-textbox>
-            </layout-block>
-            <layout-block>
-                <elastic-button
-                ref='fileSelector'
-                class='createInputs'
-                select-file
-                @got-file='updateFileobj'>
-                    이미지 파일 선택하기
-                </elastic-button>
-            </layout-block>
-            <layout-block>
-                <img
-                class='previewImage'
-                ref='previewImage'>
-            </layout-block>
-            <layout-block>
-                <elastic-button
-                id='artworkSubmitButton'
-                class='createFinalButton'
-                @click.native='submitArtwork'>
-                    <p class='whiteText'>올리기</p>
-                </elastic-button>
-            </layout-block>
-        </template>
-    </elastic-button>
-
 </div>
 
 <style>

@@ -10,7 +10,7 @@
 	id='theLogo'
 	link-to='/'
 	:class='[$style.logoIcon, $style.topBarItemLeft]'
-	v-guide-alert='"반가워요! 여기는 제미넴 웹툰 사이트를 개발하기 전 개발자들끼리 코딩 협업 연습을 하기 위해 만든 미니갤러리 사이트입니다!"'>
+	v-guide-alert='"반가워요! 여기는 오픈 웹툰 플랫폼 제미넴입니다!"'>
 		<div :class='$style.fillParent'
 		style='background-image: url("/logo.png");'>
 		</div>
