@@ -36,7 +36,7 @@
 
 				<layout-block>
 					<elastic-textbox
-					v-model='signInInputs.userEmail'
+					v-model='signInInputs.email'
 					label-text='이메일'
 					placeholder-text='abcde@domain.com'
 					:class='$style.inputBox'></elastic-textbox>
@@ -44,7 +44,7 @@
 				
 				<layout-block>
 					<elastic-textbox
-					v-model='signInInputs.userPw'
+					v-model='signInInputs.pw'
 					label-text='암호'
 					text-hidden
 					:class='$style.inputBox'
@@ -55,7 +55,7 @@
 				<layout-block>
 					<elastic-button
 					id='signInSubmitButton'
-					:class='$style.defaultButton'
+					:class='$style.blackButton'
 					@click.native='signIn'>
 						로그인
 					</elastic-button> 
@@ -66,7 +66,7 @@
 					poppable
 					:popup-width='500'
 					:popup-height='500'
-					:class='$style.defaultButton'>
+					:class='$style.blackButton'>
 
 						회원가입
 
@@ -88,7 +88,7 @@
 							<layout-block>
 								<elastic-textbox
 								:class='$style.inputBox'
-								v-model='signUpInputs.userEmail'
+								v-model='signUpInputs.email'
 								label-text='이메일'>
 								</elastic-textbox>
 							</layout-block>
@@ -120,7 +120,7 @@
 							<layout-block>
 								<elastic-textbox
 								:class='$style.inputBox'
-								v-model='signUpInputs.userPw'
+								v-model='signUpInputs.pw'
 								label-text='암호'
 								text-hidden>
 								</elastic-textbox>
@@ -129,15 +129,7 @@
 							<layout-block>
 								<elastic-textbox
 								:class='$style.inputBox'
-								v-model='signUpInputs.repeat'
-								label-text='암호 재확인'
-								text-hidden></elastic-textbox>
-							</layout-block>
-
-							<layout-block>
-								<elastic-textbox
-								:class='$style.inputBox'
-								v-model='signUpInputs.userAlias'
+								v-model='signUpInputs.nickname'
 								label-text='별명'
                     			v-on:keyup.enter.native='signUp'>
 								</elastic-textbox>
@@ -181,14 +173,14 @@
 				<layout-block>
 					<div>
 						<elastic-button 
-						:class='$style.defaultButton'
+						:class='$style.blackButton'
 						@click.native="signOut">
 							로그아웃
 						</elastic-button>
 						<elastic-button
 						ref='withdrawPopupButton'
 						id='withdrawPopupButton'
-						:class='$style.defaultButton'
+						:class='$style.blackButton'
 						:popup-width='400'
 						:popup-height='400'
 						poppable>
@@ -272,14 +264,13 @@ export default {
 		isEmailValidated: false,
 		emailValidationCode: '',
 		signInInputs: {
-			userEmail: '',
-			userPw: '',
+			email: '',
+			pw: '',
 		},
 		signUpInputs: {
-			userEmail : '',
-			userPw : '',
-			repeat : '',
-			userAlias: '',
+			email : '',
+			pw : '',
+			nickname: '',
 		},
 		withdrawInputs: {
 			userPw: '',
@@ -341,9 +332,8 @@ export default {
 		},
 		signUp(){
 			let self = this;
-			console.log('회원가입 ㄱㄱ');
             axios
-            .post('/ajax-tunnel/signup', this.signUpInputs)
+            .post('/ajax/signup', this.signUpInputs)
             .then(function(response){
                 if(response.data.isSuccessful==true){
                     self.$root.$emit('close-all-sign-popups');
@@ -352,7 +342,7 @@ export default {
                     }, 1000)
 				}
 				else{
-                	self.$root.showElasticAlert('signUpSubmitButton', response.data.message );
+                	self.$root.showElasticAlert('signUpSubmitButton', response.data.msg );
 				}
             })
             .catch(error => alert(error));

@@ -1,21 +1,8 @@
 
-
-
-
-
-
-
-
 /*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 ▶▶NPM 모듈 로드
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
-/*
-	어맛 내코드 누가 건드렸어! 하고 화들짝 놀라지 마셈
-	여기 모듈로드부분에 주석단거 말고는 안건드렸어 ㅋㅋㅋ
-    이렇게 모듈 로드 코드별로 간단하게 모듈 소개를 해주면 좋을듯함 -덕 (2020.07.16 12:53am)
-    오키 알았어
-    참고로 이제 'Passport-좀-되게-해보자' 브랜치(branch)에서 병합중이야 - 동현
-*/
+
 const http = require('http');
 //http server를 열기 위한 모듈
 const fs = require('fs');
@@ -36,6 +23,7 @@ const passportLocal = require('passport-local');
 const connectMongo = require('connect-mongo');
 const ejs = require('ejs');
 const compression = require('compression');
+const util = require("util");
 
 
 
@@ -66,31 +54,35 @@ router.use(compression());
 router.use(express.static('public'));
 //이 폴더들 속 파일에 클라이언트가 맘대로 접근 가능. 즉 개방됨.
 
-
-//@DEOK
-//덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕
 //덕 백엔드 @DEOK
-const packet = require("./server-modules/packet.js");
-const authentication = require('./server-modules/authentication.js');
-const artwork = require('./server-modules/artwork.js');
-const simplepay = require('./server-modules/simplepay.js');
-const credit = require('./server-modules/credit-card.js');
+const packet = require("./server-modules/packet.js"); // 미니갤러리 시절 것들
+const authentication = require('./server-modules/authentication.js'); // 미니갤러리 시절 것들
+const artwork = require('./server-modules/artwork.js'); // 미니갤러리 시절 것들
+const simplepay = require('./server-modules/simplepay.js'); // 미니갤러리 시절 것들
+const credit = require('./server-modules/credit-card.js'); // 미니갤러리 시절 것들
 
-//덕 db서버로 연결                                                  
-const mongoConnection = require("./server-modules/static-modules/MongoConnection.js");
-mongoConnection.connect("MongoDB connected!!");
+const Base = require("./server-modules/ajax/base/base"); //덕이 쓴 초기 제미넴 파일로부터 동현이 옮겨옴
+const Login = require("./server-modules/ajax/Login"); //덕이 쓴 초기 제미넴 파일로부터 동현이 옮겨옴
+const UsersAPI = require('./server-modules/ajax/UsersAPI'); //덕이 쓴 초기 제미넴 파일로부터 동현이 옮겨옴
 
-router.use(packet);
+router.use(packet); // 미니갤러리 시절 것들
 //↑↑↑ 이상 패킷 감지 (ex : 너무 많은 요청)                
-router.use(authentication);
+router.use(authentication); // 미니갤러리 시절 것들
 //↑↑↑ 인증 api                                       
-router.use(simplepay);
+router.use(simplepay); // 미니갤러리 시절 것들
 //↑↑↑ 간편결제 api                            
-router.use(artwork);
+router.use(artwork); // 미니갤러리 시절 것들
 //↑↑↑ 게시판 api       
-router.use(credit);
+router.use(credit); // 미니갤러리 시절 것들
 //↑↑↑ 카드 등록 api
-//덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕덕
+router.use(Login); //덕이 쓴 초기 제미넴 파일로부터 동현이 옮겨옴
+router.use(UsersAPI); //덕이 쓴 초기 제미넴 파일로부터 동현이 옮겨옴
+router.use(function(req,res,next){
+    console.log("디버깅용 : 로그인여부 ",req.isAuthenticated());
+    next();
+}); //덕이 쓴 초기 제미넴 파일로부터 동현이 옮겨옴
+
+
 
 
 
@@ -100,22 +92,8 @@ router.use(credit);
 ▶▶서버-데이터베이스 연결관계
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
-let ourConnection = mongoose.createConnection
-(
-    'mongodb+srv://kundukdong:3workingtogether@cluster0-ughe6.azure.mongodb.net/sample_restaurants?retryWrites=true&w=majority',
-    { useNewUrlParser: true, useUnifiedTopology: true}
-);
-//몽고DB(아틀라스 서비스)와의 연결 수립.
-//보다시피 sample_restaurants 컬렉션(collection)과의 연결임.
-//우리가 쓰는 클러스터(cluster, 일종의 저장소)를 직접 눈으로 보려면 아래 링크로
-//https://cloud.mongodb.com/v2/5eee9a6c9f7e9e320c7bd10e#clusters
-let ourSchema = new mongoose.Schema
-(
-    { owner: String, name: String, text: String }
-);
-//데이터베이스 문서(document)을 추가할 때 사용될 양식(schema)을 마련함!
-let ourModel = ourConnection.model('neighborhoods', ourSchema);
-//컬렉션에 속한 'neighborhoods' 데이터베이스에 ourSchema 양식을 사용하겠다는 모델 준비 완료
+const MongoConnection = require("./server-modules/ajax/static/MongoConnection"); //덕이 쓰고 동현이 옮겨옴
+MongoConnection.connect(); //덕이 쓰고 동현이 옮겨옴
 
 
 

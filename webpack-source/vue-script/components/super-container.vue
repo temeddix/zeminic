@@ -1,4 +1,5 @@
 <template>
+<!--
 	<div v-if='isMobile==false' :class='$style.superContainer'>
 		<vue-scroll ref = 'desktopVueScroll' @handle-scroll='whenScrolled'>
 			<div :class='$style.contentWrapper' :style='contentWrapperStyle'>
@@ -8,7 +9,8 @@
 			</div>
 		</vue-scroll>
 	</div>
-	<div v-else>
+-->
+	<div>
 		<div :class='$style.contentWrapper' :style='contentWrapperStyle'>
 			<div :class='$style.areaForTopBar'></div>
 			<slot></slot>
