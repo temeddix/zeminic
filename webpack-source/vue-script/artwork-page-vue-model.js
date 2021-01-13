@@ -41,13 +41,13 @@ const artworkPageVueModel = new baseVueModel({
                 cardAlias: self.$root.userInfo.paymentMethod[cardIndex].alias
             })
             .then( function(response) {
-                if( response.data.isSuccessful == true){
+                if( response.data.isOk == true){
                     self.closePurchasePopupsAndReload(cardIndex);
                     setTimeout(function(){
-                        self.$root.showElasticAlert('purchasePopupButton', response.data.message);
+                        self.$root.showElasticAlert('purchasePopupButton', response.data.msg);
                     }, 400)
                 } else {
-                    self.$root.showElasticAlert('purchaseBackButton', response.data.message);
+                    self.$root.showElasticAlert('purchaseBackButton', response.data.msg);
                 }
             })
             .catch( function(error) {
@@ -60,11 +60,11 @@ const artworkPageVueModel = new baseVueModel({
             axios.post('/ajax-tunnel/delete-post', {artworkId: artworkId})
             .then(function(response){
                 console.log(response)
-                if(response.data.isSuccessful){
+                if(response.data.isOk){
                     window.location.href = '/';
                 }
                 else{
-                    self.$root.showElasticAlert('deleteArtworkButton', response.data.message);
+                    self.$root.showElasticAlert('deleteArtworkButton', response.data.msg);
                 }
             })
             .catch(error => alert(error));  

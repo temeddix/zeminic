@@ -11,7 +11,7 @@ window.simplePay = {
 
         .then(function (response) {
             response = response.data;
-            if(response.isSuccessful){
+            if(response.isOk){
                 successCallback(response);
             } else {
                 failureCallback(response);
@@ -46,7 +46,7 @@ window.simplePay = {
         .then(function (response) {
             data = response.data;
     
-            if (data.isSuccessful) {
+            if (data.isOk) {
                 var IMP = window.IMP;
                 IMP.init(data.impId);
                 var msg;

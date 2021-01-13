@@ -335,7 +335,7 @@ export default {
             axios
             .post('/ajax/signup', this.signUpInputs)
             .then(function(response){
-                if(response.data.isSuccessful==true){
+                if(response.data.isOk==true){
                     self.$root.$emit('close-all-sign-popups');
                     setTimeout(function(){
                         self.$root.showElasticAlert('signPopupButton', '성공적으로 가입되었습니다!' );
@@ -346,13 +346,13 @@ export default {
 				}
             })
             .catch(error => alert(error));
-		},
+		},/*
 		generateValidationCode(){
             axios
             .post('/ajax-tunnel/generate-validation-code',{
 				userEmail: this.signUpInputs.userEmail,
 			})
-            .then(response => console.log(response.data.message))
+            .then(response => console.log(response.data.msg))
             .catch(error => console.log(error));
 		},
 		validateEmail(){
@@ -364,23 +364,23 @@ export default {
 				validationCode: this.emailValidationCode,
 			})
             .then(function(response){
-				if(response.data.isSuccessful==true){
-					console.log(response.data.message);
-					console.log(response.data.isSuccessful);
-					self.isEmailValidated = response.data.isSuccessful;
+				if(response.data.isOk==true){
+					console.log(response.data.msg);
+					console.log(response.data.isOk);
+					self.isEmailValidated = response.data.isOk;
 				}
 				else{
-                    self.$root.showElasticAlert('validateEmailButton', response.data.message );
+                    self.$root.showElasticAlert('validateEmailButton', response.data.msg );
 				}
 			})
             .catch(error => console.log(error));
-		},
+		},*/ //이메일 인증 절차인데 아직은 안 씀
 		withdraw(){
 			let self = this;
             axios
             .post('/ajax-tunnel/withdraw', this.withdrawInputs)
             .then(response => {
-                if(response.data.isSuccessful==true){
+                if(response.data.isOk==true){
                     self.$root.$emit('close-all-sign-popups');
                     self.$root.getSignStatus();
                     setTimeout(function(){
@@ -388,7 +388,7 @@ export default {
                     }, 1000)
                 }
                 else{
-                    self.$root.showElasticAlert('withdrawSubmitButton', response.data.message );
+                    self.$root.showElasticAlert('withdrawSubmitButton', response.data.msg );
                 }
             })
             .catch(error => alert(error));

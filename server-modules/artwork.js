@@ -71,7 +71,7 @@ BLOBSVC.createContainerIfNotExists(CONTAINER_NAME, function (error, result, resp
 	}
 
 	console.log("create Container result", result.created);
-	console.log("create Container response", response.isSuccessful, response.statusCode);
+	console.log("create Container response", response.isOk, response.statusCode);
 });
 
 //image resizing (making thumbnail image)
@@ -187,7 +187,7 @@ router.post("/ajax-tunnel/artwork-post", function (request, response) {
 		fs.mkdir(uploadPath, function (error) {
 			if (error) {
 				console.log("/artwork-post error occured while generating upload path");
-				response.status(200).json({ isSuccessful: false, message: "upload path를 생성도중 에러가 발생했습니다." });
+				response.status(200).json({ isOk: false, message: "upload path를 생성도중 에러가 발생했습니다." });
 			} else {
 				console.log("upload path successfully created!", uploadPath);
 			}
@@ -198,7 +198,7 @@ router.post("/ajax-tunnel/artwork-post", function (request, response) {
 	//사용자가 로그인한 상태인지 확인
 	if (!request.isAuthenticated()) {
 		console.log("/artwork-post error : not authenticated..");
-		response.status(200).json({ isSuccessful: false, message: "로그인 되어 있지 않습니다." });
+		response.status(200).json({ isOk: false, message: "로그인 되어 있지 않습니다." });
 		return;
 	}
 
@@ -230,7 +230,7 @@ router.post("/ajax-tunnel/artwork-post", function (request, response) {
 			if (response.headersSent) {
 				return;
 			}
-			response.status(200).json({ isSuccessful: false, message: "파일이 없습니다" });
+			response.status(200).json({ isOk: false, message: "파일이 없습니다" });
 			return;
 		}
 
@@ -252,7 +252,7 @@ router.post("/ajax-tunnel/artwork-post", function (request, response) {
 					if (response.headersSent) {
 						return;
 					}
-					response.status(200).json({ isSuccessful: false, message: "제목이 비었습니다" });
+					response.status(200).json({ isOk: false, message: "제목이 비었습니다" });
 					return;
 				}
 				break;
@@ -263,7 +263,7 @@ router.post("/ajax-tunnel/artwork-post", function (request, response) {
 					if (response.headersSent) {
 						return;
 					}
-					response.status(200).json({ isSuccessful: false, message: "본문이 비었습니다" });
+					response.status(200).json({ isOk: false, message: "본문이 비었습니다" });
 					return;
 				}
 				break;
@@ -274,7 +274,7 @@ router.post("/ajax-tunnel/artwork-post", function (request, response) {
 					if (response.headersSent) {
 						return;
 					}
-					response.status(200).json({ isSuccessful: false, message: "가격이 설정되어 있지 않습니다" });
+					response.status(200).json({ isOk: false, message: "가격이 설정되어 있지 않습니다" });
 					return;
 				}
 				price = Number(value);
@@ -305,7 +305,7 @@ router.post("/ajax-tunnel/artwork-post", function (request, response) {
 				if (response.headersSent) {
 					return;
 				}
-				response.status(200).json({ isSuccessful: false, message: "form 파싱중 에러가 발생했습니다." });
+				response.status(200).json({ isOk: false, message: "form 파싱중 에러가 발생했습니다." });
 				return;
 			}
 
@@ -322,7 +322,7 @@ router.post("/ajax-tunnel/artwork-post", function (request, response) {
 			if (filenum == 0) {
 				console.log("no image");
 				response.json({
-					isSuccessful: false,
+					isOk: false,
 					message: "이미지가 없습니다."
 				});
 				return;
@@ -360,7 +360,7 @@ router.post("/ajax-tunnel/artwork-post", function (request, response) {
 			// 				if (response.headersSent) {
 			// 					return;
 			// 				}
-			// 				response.status(200).json({ isSuccessful: false, message: "blob thumbnail upload 도중 에러가 발생했습니다." });
+			// 				response.status(200).json({ isOk: false, message: "blob thumbnail upload 도중 에러가 발생했습니다." });
 			// 				return;
 			// 			}
 
@@ -382,11 +382,11 @@ router.post("/ajax-tunnel/artwork-post", function (request, response) {
 				if (response.headersSent) {
 					return;
 				}
-				response.status(200).json({ isSuccessful: false, message: "blob upload 도중 에러가 발생했습니다." });
+				response.status(200).json({ isOk: false, message: "blob upload 도중 에러가 발생했습니다." });
 				return;
 			}
 
-			if (res.isSuccessful == true) {
+			if (res.isOk == true) {
 				console.log(res.statusCode, "Blob upload succeeded");
 				imgarr.push(result.name);
 				console.log("\tTO", result.container, "AS", "\"" + result.name + "\"");
@@ -421,7 +421,7 @@ router.post("/ajax-tunnel/artwork-post", function (request, response) {
 			resize(firstImage, outpath, function (err, resized) {
 				if (err) {
 					console.log("error occured while making thumbnail", err);
-					response.status(200).json({ isSuccessful: false, message: "blob thumbnail 생성 도중 에러가 발생했습니다." });
+					response.status(200).json({ isOk: false, message: "blob thumbnail 생성 도중 에러가 발생했습니다." });
 					return;
 				} else {
 					console.log("resizing completed");
@@ -433,7 +433,7 @@ router.post("/ajax-tunnel/artwork-post", function (request, response) {
 							if (response.headersSent) {
 								return;
 							}
-							response.status(200).json({ isSuccessful: false, message: "blob thumbnail upload 도중 에러가 발생했습니다." });
+							response.status(200).json({ isOk: false, message: "blob thumbnail upload 도중 에러가 발생했습니다." });
 							return;
 						}
 
@@ -484,7 +484,7 @@ router.post("/ajax-tunnel/artwork-post", function (request, response) {
 				if (response.headersSent) {
 					return;
 				}
-				response.status(200).json({ isSuccessful: false, message: "데이터베이스에 artwork를 등록하는 도중 에러가 발생했습니다." });
+				response.status(200).json({ isOk: false, message: "데이터베이스에 artwork를 등록하는 도중 에러가 발생했습니다." });
 				return;
 			}
 			artworkMaxIndex += 1;//전역변수
@@ -502,14 +502,14 @@ router.post("/ajax-tunnel/artwork-post", function (request, response) {
 				if (response.headersSent) {
 					return;
 				}
-				response.status(200).json({ isSuccessful: false, message: "사용자 데이터베이스를 업데이트 하는 도중 에러가 발생했습니다." });
+				response.status(200).json({ isOk: false, message: "사용자 데이터베이스를 업데이트 하는 도중 에러가 발생했습니다." });
 				return;
 			}
 
 			if (response.headersSent) {
 				return;
 			}
-			response.status(200).json({ isSuccessful: true, message: "게시물 업로드를 성공했습니다." });
+			response.status(200).json({ isOk: true, message: "게시물 업로드를 성공했습니다." });
 
 			//임시 폴더 비우기
 			//cleanDir(uploadPath, "artwork upload");
@@ -622,7 +622,7 @@ router.post("/ajax-tunnel/delete-post", function (request, response) {
 	postId = request.body.artworkId;
 
 	if (!request.isAuthenticated()) {
-		response.status(200).json({ isSuccessful: false, message: "로그인 되어 있지 않습니다" });
+		response.status(200).json({ isOk: false, message: "로그인 되어 있지 않습니다" });
 		return;
 	}
 	userEmail = request.user.userEmail;
@@ -648,16 +648,16 @@ router.post("/ajax-tunnel/delete-post", function (request, response) {
 			if (error) {
 				console.log("error occured in artwork.js /ajax-tunnel/delete-post");
 				console.log(error);
-				response.status(200).json({ isSuccessful: false, message: "게시글을 삭제하는 도중 에러가 발생했습니다." });
+				response.status(200).json({ isOk: false, message: "게시글을 삭제하는 도중 에러가 발생했습니다." });
 				return;
 			}
 
 			if (document == undefined) {
-				response.status(200).json({ isSuccessful: false, message: "게시물을 삭제할 수 없습니다." });
+				response.status(200).json({ isOk: false, message: "게시물을 삭제할 수 없습니다." });
 				return;
 			}
 
-			response.status(200).json({ isSuccessful: true, document: document, message: "게시물을 성공적으로 삭제했습니다" });
+			response.status(200).json({ isOk: true, document: document, message: "게시물을 성공적으로 삭제했습니다" });
 			relay.callback();
 
 			//TODO : 유저 uploads 배열에서 pull
@@ -682,7 +682,7 @@ router.post("/ajax-tunnel/list-artwork", function (request, response) {
 		}
 
 		response.status(200).json({
-			isSuccessful: true,
+			isOk: true,
 			artworkList: artworkList,
 			message: "게시물을 성공적으로 로드했습니다"
 		});
@@ -695,7 +695,7 @@ router.post("/ajax-tunnel/list-my-artwork", function (request, response) {
 
 	if (!request.isAuthenticated()) {
 		console.log("/ajax-tunnel/list-my-artwork : user not authenticated");
-		response.status(200).json({ isSuccessful: false, message: "로그인 되어 있지 않습니다." });
+		response.status(200).json({ isOk: false, message: "로그인 되어 있지 않습니다." });
 		return;
 	}
 
@@ -703,12 +703,12 @@ router.post("/ajax-tunnel/list-my-artwork", function (request, response) {
 	Artwork.find({ id: { $gt: 0 }, userEmail: userEmail }, { id: 1, title: 1, content: 1 }, function (err, myArtworkList) {
 		if (err) {
 			console.log(err);
-			response.status(200).json({ isSuccessful: false, message: "데이터베이스를 불러오는동안 에러가 발생했습니다." });
+			response.status(200).json({ isOk: false, message: "데이터베이스를 불러오는동안 에러가 발생했습니다." });
 			return;
 		}
 
 		response.status(200).json({
-			isSuccessful: true,
+			isOk: true,
 			message: "게시물을 성공적으로 로드했습니다",
 			myArtworkList: myArtworkList
 		});
@@ -721,7 +721,7 @@ router.post("/ajax-tunnel/list-purchased", function (request, response) {
 
 	if (!request.isAuthenticated()) {
 		console.log("/ajax-tunnel/list-purchased : user not authenticated");
-		response.status(200).json({ isSuccessful: false, message: "로그인 되어 있지 않습니다." });
+		response.status(200).json({ isOk: false, message: "로그인 되어 있지 않습니다." });
 		return;
 	}
 
@@ -729,12 +729,12 @@ router.post("/ajax-tunnel/list-purchased", function (request, response) {
 	Artwork.find({ id: { "$in": purchased } }, { id: 1, title: 1 }, function (err, purchasedList) {
 		if (err) {
 			console.log(err);
-			response.status(200).json({ isSuccessful: false, message: "데이터베이스를 불러오는동안 에러가 발생했습니다." });
+			response.status(200).json({ isOk: false, message: "데이터베이스를 불러오는동안 에러가 발생했습니다." });
 			return;
 		}
 
 		response.status(200).json({
-			isSuccessful: true,
+			isOk: true,
 			message: "게시물을 성공적으로 로드했습니다",
 			purchasedList: purchasedList
 		});
@@ -751,7 +751,7 @@ router.post("/ajax-tunnel/list-sb-artwork", function (request, response) {
 		.sort({ "id": -1 }).exec()
 		.then(function (docs) {
 			response.status(200).json({
-				isSuccessful: true,
+				isOk: true,
 				message: "게시물을 성공적으로 로드했습니다",
 				documents: docs
 			});
@@ -759,7 +759,7 @@ router.post("/ajax-tunnel/list-sb-artwork", function (request, response) {
 		.catch(function (error) {
 			console.log("list-sb-artwork error occured.");
 			console.log(error);
-			response.status(200).json({ isSuccessful: false, message: "데이터베이스를 불러오는동안 에러가 발생했습니다." });
+			response.status(200).json({ isOk: false, message: "데이터베이스를 불러오는동안 에러가 발생했습니다." });
 
 		});
 	return;
@@ -781,7 +781,7 @@ router.post("/ajax-tunnel/list-recent", function (request, response) {
 			.limit(AMOUNT_LIST_RECENT).exec()
 			.then(function (docs) {
 				response.status(200).json({
-					isSuccessful: true,
+					isOk: true,
 					message: "게시물을 성공적으로 로드했습니다",
 					documents: docs
 				});
@@ -790,14 +790,14 @@ router.post("/ajax-tunnel/list-recent", function (request, response) {
 			.catch(function (error) {
 				console.log("list-recent error occured.");
 				console.log(error);
-				response.status(200).json({ isSuccessful: false, message: "데이터베이스를 불러오는동안 에러가 발생했습니다." });
+				response.status(200).json({ isOk: false, message: "데이터베이스를 불러오는동안 에러가 발생했습니다." });
 			});
 		return;
 	}
 
 	//if cached
 	response.status(200).json({
-		isSuccessful: true,
+		isOk: true,
 		message: "게시물을 성공적으로 로드했습니다 (캐시)",
 		documents: listRecentCache
 	});
@@ -815,18 +815,18 @@ router.post("/ajax-tunnel/list-id-limited", function (request, response) {
 	if (artworkId == undefined ||
 		limit == undefined ||
 		direction == undefined) {
-		response.status(200).json({ isSuccessful: false, message: "필수인자가 비어있습니다." });
+		response.status(200).json({ isOk: false, message: "필수인자가 비어있습니다." });
 		return;
 	}
 	if (direction != 1 && direction != -1) {
-		response.status(200).json({ isSuccessful: false, message: "direction은 1이거나 -1이어야 합니다" });
+		response.status(200).json({ isOk: false, message: "direction은 1이거나 -1이어야 합니다" });
 		return;
 	}
 
 	//db callback
 	function findThen(docs) {
 		response.status(200).json({
-			isSuccessful: true,
+			isOk: true,
 			message: "게시물을 성공적으로 로드했습니다",
 			documents: docs
 		});
@@ -834,7 +834,7 @@ router.post("/ajax-tunnel/list-id-limited", function (request, response) {
 	function findCatch(error) {
 		console.log("list-id-limited error occured.");
 		console.log(error);
-		response.status(200).json({ isSuccessful: false, message: "데이터베이스를 불러오는동안 에러가 발생했습니다." });
+		response.status(200).json({ isOk: false, message: "데이터베이스를 불러오는동안 에러가 발생했습니다." });
 	}
 
 	//db query
@@ -861,7 +861,7 @@ router.post('/ajax-tunnel/search-artwork', function (request, response) {
 
 	if (keyword == undefined) {
 		console.log("search artwork error : no keyword");
-		response.status(200).json({ isSuccessful: false, message: "필수 인자가 비었습니다 : keyword" });
+		response.status(200).json({ isOk: false, message: "필수 인자가 비었습니다 : keyword" });
 		return;
 	}
 
@@ -875,7 +875,7 @@ router.post('/ajax-tunnel/search-artwork', function (request, response) {
 	query.exec()
 		.then(function (result) {
 			if (result.length == 0) {
-				response.status(200).json({ isSuccessful: true, message: "검색 결과가 없습니다", data: [] });
+				response.status(200).json({ isOk: true, message: "검색 결과가 없습니다", data: [] });
 				console.log("no search result");
 				return;
 			}
@@ -886,13 +886,13 @@ router.post('/ajax-tunnel/search-artwork', function (request, response) {
 				result[i].thumbnail = genTmpSASUri(result[i].thumbnail);
 			}
 
-			response.status(200).json({ isSuccessful: true, message: "검색 쿼리 성공", data: result });
+			response.status(200).json({ isOk: true, message: "검색 쿼리 성공", data: result });
 		})
 		.catch(function (e) {
 			console.log("search error");
 			console.log(e);
 
-			response.status(200).json({ isSuccessful: false, message: "오류 발생", error: e });
+			response.status(200).json({ isOk: false, message: "오류 발생", error: e });
 		});
 });
 

@@ -13,8 +13,8 @@ function validateEmail(email) { //아이디 체크
 	return re.test(String(email).toLowerCase());
 }
 function validatePassword(pwstr) { //패스워드 체크
-    //알파벳,숫자,특수문자 포함 8글자이상
-	let reg = RegExp("^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*\?])(?=.{8,})");
+    //알파벳,숫자 포함 8글자이상
+	let reg = RegExp("^(?=.*[a-z])(?=.*[0-9])(?=.{8,})");
 
 	//실패시 false
 	if (!reg.test(pwstr)) {

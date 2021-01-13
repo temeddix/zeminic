@@ -170,11 +170,11 @@ router.post('/ajax-tunnel/list-payment-method', function (req, res) {
     if (req.isAuthenticated()) {
         user = req.user;
     } else {
-        res.status(200).json({isSuccessful: false, message: "로그인 되어 있지 않습니다." });
+        res.status(200).json({isOk: false, message: "로그인 되어 있지 않습니다." });
         return;
     }
 
-    res.status(200).json({ isSuccessful: true,"paymentMethod": user.paymentMethod });
+    res.status(200).json({ isOk: true,"paymentMethod": user.paymentMethod });
 });
 
 router.post('/ajax-tunnel/create-payment-method', function (req, res) {
@@ -191,7 +191,7 @@ router.post('/ajax-tunnel/create-payment-method', function (req, res) {
     if (req.isAuthenticated()) {
         userEmail = req.user.userEmail;
     } else {
-        res.status(200).json({isSuccessful: false, message: "로그인 되어 있지 않습니다" });
+        res.status(200).json({isOk: false, message: "로그인 되어 있지 않습니다" });
         return;
     }
 
@@ -200,7 +200,7 @@ router.post('/ajax-tunnel/create-payment-method', function (req, res) {
         cvcNumber == undefined ||
         expireDate == undefined) {
         console.log("/create_payment-method : errorblank");
-        res.status(400).json({isSuccessful: false, message: "필수인자가 비어있습니다." });
+        res.status(400).json({isOk: false, message: "필수인자가 비어있습니다." });
         return;
     }
 
@@ -209,7 +209,7 @@ router.post('/ajax-tunnel/create-payment-method', function (req, res) {
     let expireYear = Number(expireDate.substr(2, 2));
     if (expireMonth > 12 || expireMonth < 1 || expireYear < new Date().getYear() - 100) {
         console.log("expire date error :", expireMonth, expireYear);
-        res.status(400).json({isSuccessful: false, message: "만료연월 형식에 문제가 있습니다." });
+        res.status(400).json({isOk: false, message: "만료연월 형식에 문제가 있습니다." });
         return;
     }
 
@@ -217,7 +217,7 @@ router.post('/ajax-tunnel/create-payment-method', function (req, res) {
     let idCard = identifyCardByNumber(cardNumber);
     if (idCard.code != 200) {
         console.log("/create_payment-method error(idCard) :", idCard.code);
-        res.status(400).json({ isSuccessful: false, message: "카드를 식별할 수 없습니다." });
+        res.status(400).json({ isOk: false, message: "카드를 식별할 수 없습니다." });
         return;
     }
 
@@ -237,7 +237,7 @@ router.post('/ajax-tunnel/create-payment-method', function (req, res) {
     for (i in accArray) {
         if (accArray[i].alias == alias || accArray[i].cardNumber == cardNumber) {
             console.log("/create-payment-method error : card already exists. check alias and card number");
-            res.status(200).json({ isSuccessful: false, message: "별칭 혹은 카드번호가 같은 결제 수단이 이미 존재합니다." });
+            res.status(200).json({ isOk: false, message: "별칭 혹은 카드번호가 같은 결제 수단이 이미 존재합니다." });
             return;
         }
     }
@@ -246,13 +246,13 @@ router.post('/ajax-tunnel/create-payment-method', function (req, res) {
     User.updateOne({ userEmail: userEmail }, { "$push": { paymentMethod: accToPush } }, function (err, result) {
         if (err) {
             console.log("error occured : /create_payment-method updateOne()");
-            res.status(500).json({isSuccessful: false, message: "결제 수단을 업데이트하는 도중 에러가 발생했습니다." });
+            res.status(500).json({isOk: false, message: "결제 수단을 업데이트하는 도중 에러가 발생했습니다." });
             return;
         }
 
         console.log("/create_payment-method : created");
         res.status(200).json({
-            isSuccessful:true,
+            isOk:true,
             message: "결제 수단 등록에 성공했습니다",
             cardAlias: alias,
             type: cardType
@@ -273,24 +273,24 @@ router.post('/ajax-tunnel/delete-payment-method', function (req, res) {
     if (req.isAuthenticated()) {
         userEmail = req.user.userEmail;
     } else {
-        res.status(200).json({isSuccessful: false, message: "로그인 되어 있지 않습니다." });
+        res.status(200).json({isOk: false, message: "로그인 되어 있지 않습니다." });
         return;
     }
 
     User.updateOne({ userEmail: userEmail }, { "$pull": { paymentMethod: { "alias": alias } } }, function (err, result) {
         if (err) {
             console.log("error occured : /delete_payment-method updateOne()", err);
-            res.status(500).json({isSuccessful: false,message: "결제수단을 삭제하는 도중 에러가 발생했습니다." });
+            res.status(500).json({isOk: false,message: "결제수단을 삭제하는 도중 에러가 발생했습니다." });
             return;
         }
 
         if (result.nModified == 0) {
             console.log("/delete_payment-method : no account matched with alias \"" + alias + "\"");
-            res.status(200).json({isSuccessful: false, message: "매칭되는 결제 수단이 없습니다" });
+            res.status(200).json({isOk: false, message: "매칭되는 결제 수단이 없습니다" });
             return;
         }
         console.log("/delete_payment-method : deleted");
-        res.status(200).json({ isSuccessful: true,message: "결제수단을 성공적으로 삭제했습니다." });
+        res.status(200).json({ isOk: true,message: "결제수단을 성공적으로 삭제했습니다." });
         return;
     });
 
@@ -308,7 +308,7 @@ router.post('/ajax-tunnel/modify-payment-method', function (req, res) {
     if (req.isAuthenticated()) {
         userEmail = req.user.userEmail;
     } else {
-        res.status(200).json({ isSuccessful: false,message: "로그인 되어 있지 않습니다." });
+        res.status(200).json({ isOk: false,message: "로그인 되어 있지 않습니다." });
         return;
     }
 
@@ -318,13 +318,13 @@ router.post('/ajax-tunnel/modify-payment-method', function (req, res) {
         function (err, result) {
             if (err) {
                 console.log("error occured : /modify_payment-method updateOne()", err);
-                res.status(500).json({ isSuccessful: false,message: "결제 수단 정보를 업데이트 하는 도중 에러가 발생했습니다." });
+                res.status(500).json({ isOk: false,message: "결제 수단 정보를 업데이트 하는 도중 에러가 발생했습니다." });
                 return;
             }
 
             console.log("/modify_payment-method : modified");
             res.status(200).json({
-                isSuccessful: true,
+                isOk: true,
                 message:"결제 수단 업데이트를 성공했습니다",
                 cardNewAlias:alias
             });
@@ -344,7 +344,7 @@ router.post('/ajax-tunnel/pay', function (request, response) {
     if (request.isAuthenticated()) {
         userEmail = request.user.userEmail;
     } else {
-        response.status(200).json({ isSuccessful: false,message: "로그인 되어 있지 않습니다." });
+        response.status(200).json({ isOk: false,message: "로그인 되어 있지 않습니다." });
         return;
     }
 
@@ -362,12 +362,12 @@ router.post('/ajax-tunnel/pay', function (request, response) {
             Artwork.findOne({ id: artworkId }, function (error, artworkData) {
                 if (error) {
                     console.log(error);
-                    response.status(500).json({isSuccessful: false, message: "매칭되는 artwork를 찾는 도중 db서버에서 에러가 발생했습니다." });
+                    response.status(500).json({isOk: false, message: "매칭되는 artwork를 찾는 도중 db서버에서 에러가 발생했습니다." });
                     return;
                 }
                 if (artworkData == undefined) {
                     console.log("No matching artwork (id=" + artworkId + ")");
-                    response.status(404).json({isSuccessful: false, message: "매칭되는 artwork가 없습니다." });
+                    response.status(404).json({isOk: false, message: "매칭되는 artwork가 없습니다." });
                     relay.callback(true);
                 }
 
@@ -383,14 +383,14 @@ router.post('/ajax-tunnel/pay', function (request, response) {
             //check if this is my artwork
             if (artworkData.userEmail == userEmail) {
                 console.log("Error : tried to buy my artwork");
-                response.status(403).json({ isSuccessful: false,message: "자기 자신의 작품을 구매할 수는 없습니다" });
+                response.status(403).json({ isOk: false,message: "자기 자신의 작품을 구매할 수는 없습니다" });
                 return;
             }
 
             //Check if already purchased
             if (request.user.purchased.includes(artworkData.id)) {
                 console.log("Error : already purchased");
-                response.status(403).json({ isSuccessful: false,message: "이미 구매한 작품입니다." });
+                response.status(403).json({ isOk: false,message: "이미 구매한 작품입니다." });
                 return;
             }
 
@@ -445,7 +445,7 @@ router.post('/ajax-tunnel/pay', function (request, response) {
             if (error) {
                 console.log(error);
                 if(!response.headersSent){
-                    response.status(500).json({ isSuccessful: false,message: "데이터베이스 업데이트 에러" });
+                    response.status(500).json({ isOk: false,message: "데이터베이스 업데이트 에러" });
                 }
                 return;
             }
@@ -466,7 +466,7 @@ router.post('/ajax-tunnel/pay', function (request, response) {
         //Relay 7: finishing
         function finishing(relay){
             console.log("Relay 6 finishing");
-            response.status(200).json({ isSuccessful: true,message: "구매 성공" });
+            response.status(200).json({ isOk: true,message: "구매 성공" });
             relay.callback();
         }
 

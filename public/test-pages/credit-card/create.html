@@ -30,14 +30,14 @@
                 .then(function (result) {
                     data = result.data;
 
-                    alert(data.message);
-                    if(data.isSuccessful == true){
+                    alert(data.msg);
+                    if(data.isOk == true){
                         location.reload();
                     }
                     
                 }).catch(function (error) {
                     data = error.response.data;
-                    alert(data.message);
+                    alert(data.msg);
                 });
 
 

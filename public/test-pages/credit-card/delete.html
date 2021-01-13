@@ -22,7 +22,7 @@
             .then(function (result) {
                 data = result.data;
 
-                if (data.isSuccessful == true) {
+                if (data.isOk == true) {
                     var list = document.getElementById("list");
                     var array = data.paymentMethod;
                     var i;
@@ -42,7 +42,7 @@
 
             }).catch(function (error) {
                 data = error.response.data;
-                alert(data.message);
+                alert(data.msg);
             });
 
         function myfunc() {
@@ -54,14 +54,14 @@
                 .then(function (result) {
                     data = result.data;
 
-                    alert(data.message);
-                    if(data.isSuccessful == true){
+                    alert(data.msg);
+                    if(data.isOk == true){
                         location.reload();
                     }
                     
                 }).catch(function (error) {
                     data = error.response.data;
-                    alert(data.message);
+                    alert(data.msg);
                 });
 
         }

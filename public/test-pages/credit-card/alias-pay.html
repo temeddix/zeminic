@@ -24,16 +24,16 @@
                 .then(function (result) {
                     data = result.data;
 
-                    if(data.isSuccessful == true){
+                    if(data.isOk == true){
                         alert("성공");
                     } else {
                         alert("실패");
                     }
-                    alert(data.message);
+                    alert(data.msg);
                     
                 }).catch(function (error) {
                     data = error.response.data;
-                    alert(data.message);
+                    alert(data.msg);
                 });
 
 

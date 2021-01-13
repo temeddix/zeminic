@@ -18,10 +18,10 @@ module.exports = {
     },
 
     resYes : function(res,msg,data){
-        res.json({ok:true,msg:msg,data:data});
+        res.json({isOk:true,msg:msg,ref:data});
     },
     
     resNo : function(res,msg,data){
-        res.json({ok:false,msg:msg,data:data});
+        res.json({isOk:false,msg:msg,ref:data});
     }
 };

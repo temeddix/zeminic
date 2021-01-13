@@ -65,7 +65,7 @@ function payOneTime(mUid,amount,cardNum,expiry,birth,pwd2, callback) {//return :
 		
         if (result.status == 200 && result.message == null) {
             let retval = {
-				isSuccessful:true,
+				isOk:true,
 				message : "결제 성공",
 
 				result : {
@@ -82,7 +82,7 @@ function payOneTime(mUid,amount,cardNum,expiry,birth,pwd2, callback) {//return :
         } else {
 			console.log("Payment failed",result);
 			let retval = {
-				isSuccessful:false,
+				isOk:false,
 				message : "결제 중 오류 발생",
 				result : result
 			};
@@ -94,7 +94,7 @@ function payOneTime(mUid,amount,cardNum,expiry,birth,pwd2, callback) {//return :
         if (err instanceof IamporterError) {
 			console.log("ERROR", err);
 			let retval = {
-				isSuccessful:false,
+				isOk:false,
 				message : "서버 에러 :"+String(err),
 				result : err
 			};
@@ -190,7 +190,7 @@ router.post("/ajax-tunnel/get-imp-param", function (request, response) {
 	if(!request.isAuthenticated()){ // 유저 로그인체크
 		console.log("/get-imp-param : not Authed");
 		response.status(200).json({
-			isSuccessful:false,
+			isOk:false,
 			message : "not authenticated"});
 
 		return;
@@ -205,7 +205,7 @@ router.post("/ajax-tunnel/get-imp-param", function (request, response) {
 	if (!Object.keys(PAYMENT_METHOD).includes(paymentMethod)) {
 		console.log("/get-imp-param : unknown payment method", paymentMethod);
 		response.status(200).json({
-			isSuccessful: false,
+			isOk: false,
 			message: "unknown payment method"
 		});
 		return;
@@ -213,7 +213,7 @@ router.post("/ajax-tunnel/get-imp-param", function (request, response) {
 	if (Number(artworkId) == NaN) {
 		console.log("/get-imp-param : artworkId NaN");
 		response.status(200).json({
-			isSuccessful: false,
+			isOk: false,
 			message: "artwork id NaN"
 		});
 		return;
@@ -234,7 +234,7 @@ router.post("/ajax-tunnel/get-imp-param", function (request, response) {
 				console.log("/get-imp-param error");
 				console.log(err);
 				response.status(200).json({
-					isSuccessful: false,
+					isOk: false,
 					message: "state2 : Artwork db query failed"
 				});
 				return;
@@ -243,7 +243,7 @@ router.post("/ajax-tunnel/get-imp-param", function (request, response) {
 			if (!result) {
 				console.log("result empty", result);
 				response.status(200).json({
-					isSuccessful: false,
+					isOk: false,
 					message: "state 4 : empty result (no artwork was found)"
 				});
 				return;
@@ -277,7 +277,7 @@ router.post("/ajax-tunnel/get-imp-param", function (request, response) {
 			if (error) {
 				console.log("getToken error");
 				response.status(200).json({
-					isSuccessful: false,
+					isOk: false,
 					message: "cannot get payment token"
 				});
 				return;
@@ -287,14 +287,14 @@ router.post("/ajax-tunnel/get-imp-param", function (request, response) {
 			if (error && result!="결제정보 사전등록에 실패하였습니다(이미 등록된 merchant_uid입니다).") {
 				console.log("prepare error",error,result);
 				response.status(200).json({
-					isSuccessful: false,
+					isOk: false,
 					message: "cannot prepare payment"
 				});
 				return;
 			}
 
 			response.status(200).json({
-				isSuccessful: true,
+				isOk: true,
 				message: "IMP 결제 정보 응답 성공",
 				impParam: responseData,
 				impId: IMPID
@@ -311,7 +311,7 @@ router.post("/ajax-tunnel/pay-card", function(request,response){
 	if(!request.isAuthenticated()){
 		console.log("not authed");
 		response.json({
-			isSuccessful:false,
+			isOk:false,
 			message:"로그인 되어 있지 않습니다"
 		});
 		return;
@@ -373,7 +373,7 @@ router.post("/ajax-tunnel/pay-card", function(request,response){
 			Artwork.findOne({id:artworkId}, function(error,doc){
 				if(error){
 					response.json({
-						isSuccessful:false,
+						isOk:false,
 						message : "error occured (db)"});
 					return;
 				}
@@ -389,7 +389,7 @@ router.post("/ajax-tunnel/pay-card", function(request,response){
 		},
 
 		function(retjson,relay){
-			if(!retjson.isSuccessful){
+			if(!retjson.isOk){
 				console.log(retjson.message);
 				response.status(200).json({
 					isSuccessful : false,
@@ -400,7 +400,7 @@ router.post("/ajax-tunnel/pay-card", function(request,response){
 			}
 
 			response.status(200).json({
-				isSuccessful:true,
+				isOk:true,
 				message : "결제 성공",
 				result : retjson.result
 			});
@@ -423,7 +423,7 @@ router.post("/ajax-tunnel/pay-card-alias", function(request,response){
 	if(!request.isAuthenticated()){
 		console.log("not authed");
 		response.json({
-			isSuccessful:false,
+			isOk:false,
 			message:"로그인 되어 있지 않습니다"
 		});
 		return;
@@ -445,7 +445,7 @@ router.post("/ajax-tunnel/pay-card-alias", function(request,response){
 
 	if(targetCard == undefined){
 		response.json({
-			isSuccessful:false,
+			isOk:false,
 			message : "별칭이랑 매칭되는 카드가 없습니다"
 		});
 		return;
@@ -507,14 +507,14 @@ router.post("/ajax-tunnel/pay-card-alias", function(request,response){
 			Artwork.findOne({id:artworkId}, function(error,doc){
 				if(error){
 					response.json({
-						isSuccessful:false,
+						isOk:false,
 						message : "게시물을 찾는도중 에러 발생"});
 					return;
 				}
 
 				if(doc == undefined){
 					response.json({
-						isSuccessful:false,
+						isOk:false,
 						message : "요청하신 게시물이 없습니다."});
 					return;
 				}
@@ -531,7 +531,7 @@ router.post("/ajax-tunnel/pay-card-alias", function(request,response){
 		},
 
 		function(retjson,relay){
-			if(!retjson.isSuccessful){
+			if(!retjson.isOk){
 				console.log(retjson.message);
 				response.status(200).json({
 					isSuccessful : false,
@@ -542,7 +542,7 @@ router.post("/ajax-tunnel/pay-card-alias", function(request,response){
 			}
 
 			response.status(200).json({
-				isSuccessful:true,
+				isOk:true,
 				message : "결제 성공",
 				response : retjson.result
 			});

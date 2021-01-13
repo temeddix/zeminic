@@ -109,18 +109,18 @@ router.post('/ajax-tunnel/signup', function (req, res) {
 		repeat == "" ||
 		userAlias == "") {
 		console.log('/ajax-tunnel/signup : ERROR! argument blank');
-		res.status(200).json({ isSuccessful: false, message: "필수 인자가 비어있습니다." });
+		res.status(200).json({ isOk: false, message: "필수 인자가 비어있습니다." });
 		return;
 	}
 
 	//id, password validation
 	if (!validateEmail(userEmail)) {
-		res.status(200).json({ isSuccessful: false, message: "이메일 형식이 맞지 않습니다." });
+		res.status(200).json({ isOk: false, message: "이메일 형식이 맞지 않습니다." });
 		return;
 	}
 	let ret = validatePassword(userPw);
 	if (ret != 0) {
-		res.status(200).json({ isSuccessful: false, message: "비밀번호 형식이 맞지 않습니다. 소문자,숫자,특수문자로 조합된 8글자 이상의 형식이어야 합니다." });
+		res.status(200).json({ isOk: false, message: "비밀번호 형식이 맞지 않습니다. 소문자,숫자,특수문자로 조합된 8글자 이상의 형식이어야 합니다." });
 		return;
 	}
 
@@ -128,7 +128,7 @@ router.post('/ajax-tunnel/signup', function (req, res) {
 	//password confirmation
 	if (userPw != repeat) {
 		console.log("signup() : password confirmation failed");
-		res.status(200).json({ isSuccessful: false, message: "비밀번호가 일치하지 않습니다." });
+		res.status(200).json({ isOk: false, message: "비밀번호가 일치하지 않습니다." });
 		return;
 	}
 
@@ -137,10 +137,10 @@ router.post('/ajax-tunnel/signup', function (req, res) {
 		if (err) {
 			console.log("signup() : error occured while creating account");
 			console.log("err :", err);
-			res.status(200).json({ isSuccessful: false, message: "계정을 생성하는 중 에러가 발생했습니다" });//ca=creating account
+			res.status(200).json({ isOk: false, message: "계정을 생성하는 중 에러가 발생했습니다" });//ca=creating account
 		} else {
 			console.log("signup() succeeded : ", userEmail, userPw);
-			res.status(200).json({ isSuccessful: true, message: "계정 생성에 성공했습니다." });;
+			res.status(200).json({ isOk: true, message: "계정 생성에 성공했습니다." });;
 		}
 	}
 	userPw = crypto.createHash('sha512').update(userPw).digest('base64');
@@ -168,16 +168,16 @@ router.post('/ajax-tunnel/can-sign-up', function (req, res) {
 		if (err) {
 			console.log("/can-sign-up findOne() : err");
 			console.log(err);
-			res.status(200).json({ isSuccessful: false, message: "아이디 데이터베이스에 쿼리하는 도중 에러가 발생했습니다." });
+			res.status(200).json({ isOk: false, message: "아이디 데이터베이스에 쿼리하는 도중 에러가 발생했습니다." });
 			return;
 		}
 
 		console.log("/can-sign-up data=", data);
 		if (data == null) {
-			res.status(200).json({ isSuccessful: true, message: "생성할 수 있는 아이디입니다." });
+			res.status(200).json({ isOk: true, message: "생성할 수 있는 아이디입니다." });
 			return;
 		} else {
-			res.status(200).json({ isSuccessful: false, message: "아이디가 이미 존재합니다." });
+			res.status(200).json({ isOk: false, message: "아이디가 이미 존재합니다." });
 			return;
 		}
 	}
@@ -193,7 +193,7 @@ router.post('/ajax-tunnel/withdraw', function (request, response) {
 
 	if (!request.isAuthenticated()) {
 		console.log("/withdraw user not authenticated");
-		response.status(200).json({ isSuccessful: false, message: "로그인 되어 있지 않습니다." });;
+		response.status(200).json({ isOk: false, message: "로그인 되어 있지 않습니다." });;
 		return;
 	}
 
@@ -205,15 +205,15 @@ router.post('/ajax-tunnel/withdraw', function (request, response) {
 		if (error) {
 			console.log("/withdraw error occured (findOneAndRemove failed)");
 			console.log("error=", error);
-			response.status(200).json({ isSuccessful: false, message: "계정 정보를 삭제하는 도중 에러가 발생했습니다." });
+			response.status(200).json({ isOk: false, message: "계정 정보를 삭제하는 도중 에러가 발생했습니다." });
 		} else {
 			if (response1 == null) {
 				console.log("/withdraw no matching user found");
-				response.status(200).json({ isSuccessful: false, message: "암호를 잘못 입력하셨습니다." });
+				response.status(200).json({ isOk: false, message: "암호를 잘못 입력하셨습니다." });
 			} else {
 				console.log("/withdraw Response=", response1);
 				request.logout();
-				response.status(200).json({ isSuccessful: true, message: "성공적으로 계정을 삭제했습니다." });
+				response.status(200).json({ isOk: true, message: "성공적으로 계정을 삭제했습니다." });
 			}
 		}
 	});
@@ -226,7 +226,7 @@ router.post('/ajax-tunnel/sign-in', function (req, res, next) {
 
 	if (!req.body.userEmail || !req.body.userPw) {
 		console.log("error : field empty");
-		res.status(200).json({ isSuccessful: false, message: "필수 인자가 빠져있습니다." });
+		res.status(200).json({ isOk: false, message: "필수 인자가 빠져있습니다." });
 		return;
 	}
 
@@ -234,23 +234,23 @@ router.post('/ajax-tunnel/sign-in', function (req, res, next) {
 		//case 1 : error occured
 		if (err) {
 			console.log("passport error");
-			res.status(200).json({ isSuccessful: false, message: "passport 에러" });
+			res.status(200).json({ isOk: false, message: "passport 에러" });
 			next(err);
 		}
 
 		//case 2 : login failed
 		if (!user) {
-			return res.status(200).json({ isSuccessful: false, message: "로그인 실패 : user가 존재하지 않습니다" });
+			return res.status(200).json({ isOk: false, message: "로그인 실패 : user가 존재하지 않습니다" });
 		}
 
 		//case 3 : login succeeded
 		req.logIn(user, function (err) {
 			if (err) {
 				console.log("passport logIn() error");
-				res.status(200).json({ isSuccessful: false, message: "로그인 실패 : passport logIn()에러" });
+				res.status(200).json({ isOk: false, message: "로그인 실패 : passport logIn()에러" });
 				next(err);
 			}
-			return res.status(200).json({ isSuccessful: true, userEmail: user.userEmail, userAlias: user.userAlias, message: "로그인 성공" });
+			return res.status(200).json({ isOk: true, userEmail: user.userEmail, userAlias: user.userAlias, message: "로그인 성공" });
 		});
 	})(req, res, next);
 });
@@ -263,7 +263,7 @@ router.post('/ajax-tunnel/sign-out', function (req, res) {
 		console.log(req.user.userEmail + " logout!");
 		req.logout();
 	}
-	res.status(200).json({ isSuccessful: true, message: "로그아웃 성공" });
+	res.status(200).json({ isOk: true, message: "로그아웃 성공" });
 }
 );
 
@@ -273,10 +273,10 @@ router.post('/ajax-tunnel/sign-in-check', function (req, res) {
 
 	if (req.isAuthenticated()) {
 		console.log("current state : logined");
-		res.status(200).json({ isSuccessful: true, user:req.user, isAuthenticated: true,  message: "로그인 되어 있습니다." });
+		res.status(200).json({ isOk: true, user:req.user, isAuthenticated: true,  message: "로그인 되어 있습니다." });
 	} else {
 		console.log("current state : not logined");
-		res.status(200).json({ isSuccessful: false, isAuthenticated: false, message: "로그인 되어 있지 않습니다." });
+		res.status(200).json({ isOk: false, isAuthenticated: false, message: "로그인 되어 있지 않습니다." });
 	}
 }
 );

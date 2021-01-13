@@ -174,10 +174,10 @@ const baseVueModel = vue.extend({
             let self = this;
             
             axios
-            .post('/ajax-tunnel/sign-in', signInInputs)
+            .post('/ajax/login', signInInputs)
             // response를 안쓰지만 인자로 받는 이유는 이걸 안받으면 리스폰스 받기도 전에 코드 시행해버림
             .then(function(response){
-                if(response.data.isSuccessful==true){
+                if(response.data.isOk==true){
                     console.log(response);
                     self.$root.$emit('close-all-sign-popups');
                     self.getSignStatus();
@@ -186,7 +186,7 @@ const baseVueModel = vue.extend({
                     }, 1000)
                 }
                 else{
-                    self.showElasticAlert('signInSubmitButton', response.data.message);
+                    self.showElasticAlert('signInSubmitButton', response.data.msg);
                 }
             })
             .catch(error => alert(error));
@@ -196,10 +196,10 @@ const baseVueModel = vue.extend({
             let self = this;
 
             axios
-            .post('/ajax-tunnel/sign-out')
+            .post('/ajax/logout')
             // response를 안쓰지만 인자로 받는 이유는 이걸 안받으면 리스폰스 받기도 전에 코드 시행해버림
             .then(function(response){
-                if(response.data.isSuccessful==true){
+                if(response.data.isOk==true){
                     console.log(response);
                     self.$root.$emit('close-all-sign-popups');
                     self.getSignStatus();
@@ -208,7 +208,7 @@ const baseVueModel = vue.extend({
                     }, 1000)
                 }
                 else{
-                    self.showElasticAlert('signInSubmitButton', response.data.message);
+                    self.showElasticAlert('signInSubmitButton', response.data.msg);
                 }
             })
             .catch(error => alert(error));

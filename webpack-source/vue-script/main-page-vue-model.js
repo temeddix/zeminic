@@ -53,7 +53,7 @@ mainPageVueModel = new baseVueModel({
             axios.post('/ajax-tunnel/list-artwork',
             {})
             .then( response => {
-                if ( response.data.isSuccessful == true ) {
+                if ( response.data.isOk == true ) {
                     setTimeout(function(){
                         self.artworkList = response.data.artworkList;
                     }, 600);
@@ -140,7 +140,7 @@ mainPageVueModel = new baseVueModel({
             axios.post('/ajax-tunnel/artwork-post', formData)
             .then(function(response){
                 console.log(response);
-                if(response.data.isSuccessful==true){
+                if(response.data.isOk==true){
                     self.$root.$emit('close-create-popup');
     
                     setTimeout(function(){
@@ -148,7 +148,7 @@ mainPageVueModel = new baseVueModel({
                     }, 1000)
                 }
                 else{
-                    self.$root.showElasticAlert('artworkSubmitButton', response.data.message);
+                    self.$root.showElasticAlert('artworkSubmitButton', response.data.msg);
                 }
             })
             .catch(function(error){

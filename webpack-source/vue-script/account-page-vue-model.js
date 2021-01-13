@@ -41,18 +41,18 @@ const accountPageVueModel = new baseVueModel({
                 birth: self.cardInfoInput.birth,
             })
             .then( function(response) {
-                if( response.data.isSuccessful == true ){
+                if( response.data.isOk == true ){
                     self.$refs.addCardPopup.hidePopup();
                     setTimeout(function(){
-                        self.$root.showElasticAlert('purchaseMethods', response.data.message);
+                        self.$root.showElasticAlert('purchaseMethods', response.data.msg);
                         self.$root.getSignStatus();
                     }, 400);
                 }
                 else{
-                    self.$root.showElasticAlert('addCardSubmitButton', response.data.message);
+                    self.$root.showElasticAlert('addCardSubmitButton', response.data.msg);
                 }
             }).catch(function (error) {
-                alert(error.response.data.message);
+                alert(error.response.data.msg);
             });
         },
         deleteCard: function(cardAlias, cardIndex){
@@ -62,21 +62,21 @@ const accountPageVueModel = new baseVueModel({
                 alias: cardAlias
             })
             .then(function (response) {
-                if(response.data.isSuccessful == true){
+                if(response.data.isOk == true){
                     self.$refs.deleteCardPopup[cardIndex].hidePopup();
                     setTimeout(function(){
                         self.$refs.infoCardPopup[cardIndex].hidePopup();
                     }, 400)
                     setTimeout(function(){
-                        self.$root.showElasticAlert('purchaseMethods', response.data.message);
+                        self.$root.showElasticAlert('purchaseMethods', response.data.msg);
                         self.$root.getSignStatus();
                     }, 800)
                 }
                 else{
-                    alert(response.data.message);
+                    alert(response.data.msg);
                 }
             }).catch(function (error) {
-                alert(error.response.data.message);
+                alert(error.response.data.msg);
             });
         },
     },

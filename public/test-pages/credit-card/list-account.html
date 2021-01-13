@@ -13,7 +13,7 @@
             .then(function (result) {
                 data = result.data;
 
-                if (data.isSuccessful == true) {
+                if (data.isOk == true) {
                     var list = document.getElementById("list");
                     var array = data.paymentMethod;
                     var i;
@@ -33,7 +33,7 @@
 
             }).catch(function (error) {
                 data = error.response.data;
-                alert(data.message);
+                alert(data.msg);
             });
 
     </script>
