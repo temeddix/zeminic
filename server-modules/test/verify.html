@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <title>Verification</title>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    </head>
+
+    <body>
+        token <input type="text" id="token"><br>
+
+        <input type="button" onclick="f();" id="submit" value="Submit"><br>
+
+
+        <script>
+            let token = document.getElementById("token");
+            let submit = document.getElementById("submit");
+
+            async function f(){
+                let response = await axios.post("/ajax/verify", {
+                    token : token.value
+                });
+        
+                console.log("result",response);
+                let resdata = response.data; // Backend API에서 리턴하는 obj
+
+                alert("response data : "+JSON.stringify(resdata));
+            }
+            
+        </script>
+    </body>
+</html>

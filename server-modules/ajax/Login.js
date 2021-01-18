@@ -101,7 +101,7 @@ router.post('/ajax/login', function (req, res, next) {
                 next(err);
                 return;
 			}
-			return res.status(200).json({ isOk: true, msg: "로그인 성공" , ref:user });
+			return res.status(200).json({ ok: true, msg: "로그인 성공" , data:user });
 		});
 	})(req, res, next);
 });

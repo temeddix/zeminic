@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const collectionName = "comics";
 const userSchema = new Schema({
     _id : mongoose.Schema.Types.ObjectId,
+    title : {type:String, default : "no title"},
     description : {type:String,default:"no description"},
     genre : {type:String,default:"genre not specified"},
     thumbnail : {type:String,default:"undefined"},
