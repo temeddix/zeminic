@@ -1,3 +1,5 @@
+//미완. 아직 쓰지 마세효~
+
 const express = require('express');
 const Chapters = require("./static/Chapters");
 const Base = require("./base/base");

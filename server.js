@@ -55,32 +55,18 @@ router.use(express.static('public'));
 //이 폴더들 속 파일에 클라이언트가 맘대로 접근 가능. 즉 개방됨.
 
 //덕 백엔드 @DEOK
-const packet = require("./server-modules/packet.js"); // 미니갤러리 시절 것들
-const authentication = require('./server-modules/authentication.js'); // 미니갤러리 시절 것들
-const artwork = require('./server-modules/artwork.js'); // 미니갤러리 시절 것들
-const simplepay = require('./server-modules/simplepay.js'); // 미니갤러리 시절 것들
-const credit = require('./server-modules/credit-card.js'); // 미니갤러리 시절 것들
+const Login = require("./server-modules/ajax/Login"); //로그인 api
+const UsersAPI = require('./server-modules/ajax/UsersAPI'); //회원 api
+const ComicsAPI = require("./server-modules/ajax/ComicsAPI"); //웹툰정보 api
 
-const Base = require("./server-modules/ajax/base/base"); //덕이 쓴 초기 제미넴 파일로부터 동현이 옮겨옴
-const Login = require("./server-modules/ajax/Login"); //덕이 쓴 초기 제미넴 파일로부터 동현이 옮겨옴
-const UsersAPI = require('./server-modules/ajax/UsersAPI'); //덕이 쓴 초기 제미넴 파일로부터 동현이 옮겨옴
-
-router.use(packet); // 미니갤러리 시절 것들
-//↑↑↑ 이상 패킷 감지 (ex : 너무 많은 요청)                
-router.use(authentication); // 미니갤러리 시절 것들
-//↑↑↑ 인증 api                                       
-router.use(simplepay); // 미니갤러리 시절 것들
-//↑↑↑ 간편결제 api                            
-router.use(artwork); // 미니갤러리 시절 것들
-//↑↑↑ 게시판 api       
-router.use(credit); // 미니갤러리 시절 것들
-//↑↑↑ 카드 등록 api
-router.use(Login); //덕이 쓴 초기 제미넴 파일로부터 동현이 옮겨옴
-router.use(UsersAPI); //덕이 쓴 초기 제미넴 파일로부터 동현이 옮겨옴
+router.use(Login);
+router.use(UsersAPI);
+router.use(ComicsAPI);
 router.use(function(req,res,next){
     console.log("디버깅용 : 로그인여부 ",req.isAuthenticated());
     next();
-}); //덕이 쓴 초기 제미넴 파일로부터 동현이 옮겨옴
+});
+router.use("/test",express.static("server-modules\\test"));
 
 
 

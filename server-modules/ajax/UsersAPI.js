@@ -13,8 +13,8 @@ function validateEmail(email) {
 }
 function validatePassword(pwstr) {
 	//패스워드 체크
-	//알파벳,숫자,특수문자 포함 8글자이상
-	let reg = RegExp("^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*?])(?=.{8,})");
+	//알파벳,숫자 포함 8글자이상
+	let reg = RegExp("^(?=.*[a-z])(?=.*[0-9])(?=.{8,})");
 
 	//실패시 false
 	if (!reg.test(pwstr)) {
@@ -105,6 +105,7 @@ router.post("/ajax/verify", async function (req, res, next) {
     }
 });
 
+//회원탈퇴
 router.post("/ajax/withdraw", async function (req, res) {
 	let email = req.body.email;
 	let pw = req.body.pw;

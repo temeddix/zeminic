@@ -22,6 +22,7 @@
         "formidable": "^1.2.2",
         "iamporter": "^1.4.2",
         "mongoose": "^5.9.20",
+        "multiparty": "^4.2.2",
         "node-mailer": "^0.1.1",
         "nodemailer-smtp-transport": "^2.7.4",
         "passport": "^0.4.1",

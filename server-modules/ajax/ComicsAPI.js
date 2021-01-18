@@ -30,8 +30,8 @@ router.post("/ajax/comics/create",function(req,res,next){
                 {"fieldName":"","originalFilename":"","path":"","headers":{"content-disposition":"form-data; name=\"files\"; filename=\"다운로드 (1).jpg\"","content-type":"image/jpeg"},"size":}
             */
             let description = fields.description[0];
-            let genre = fields.genre[0];
-            let title = fields.title[0];
+            let genre = fields['genre'][0];
+            let title = fields['title'][0];
             let poster = "";
             let thumbnail = "";
 
@@ -90,13 +90,67 @@ router.post("/ajax/comics/create",function(req,res,next){
 });
 
 //Comics 조회
-router.post("/ajax/comics/search",function(req,res,next){
+router.post("/ajax/comics/search",async function(req,res,next){
+    let title = req.body.title;
+
+    try{
+        let found = await Comics.findOne({title:title});
+
+        if(!found){
+            Base.logInfo("No comic found");
+            Base.resNo(res,"No comic found");
+            return;
+        }
+
+        Base.logInfo("Found Comic "+title,found);
+        Base.resYes(res,"found "+title,found);
+    
+    } catch(err){
+        Base.logErr("error occured while searching comics",err);
+        Base.resNo(res,"error occured while searching comics",err);
+    }
     
 });
 
 //Comics 삭제
-router.post("/ajax/comics/remove", function(req,res,next){
+router.post("/ajax/comics/delete", async function(req,res,next){
+    let title = req.body.title;
 
+    if(!req.isAuthenticated()){
+        Base.resNo(res,"Login first");
+        return;
+    }
+
+    try{
+        let found = await Comics.findOne({title:title});
+
+        if(!found){
+            Base.logInfo("No comic found");
+            Base.resNo(res,"No comic found");
+            return;
+        }
+
+        Base.logInfo("Found Comic "+title,found);
+
+        if(found.writerId.toString() != req.user._id.toString()){
+            Base.logInfo("cannot delete comic because WRITER ID != USER ID",[found.writerId,req.user._id]);
+            Base.resNo(res,"cannot delete comics because you are not writer", req.user.email);
+            return;
+        }
+
+        let result = await Comics.deleteOne({_id:found._id});
+        Base.logInfo("Comics deleteOne result",result);
+        
+        if(result.ok){
+            Base.resYes(res,"Comic "+title+" deleted",result);
+        } else {
+            Base.resNo(res,"Comic "+title+" not deleted",result);
+        }
+    
+    } catch(err){
+        Base.logErr("error occured while searching comics",err);
+        Base.resNo(res,"error occured while searching comics",err);
+    }
 });
 
 module.exports = router;
