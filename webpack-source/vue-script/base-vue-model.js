@@ -6,6 +6,7 @@ import vue from 'vue';
 import vueScroll from 'vuescroll';
 import vueTouchEvents from 'vue2-touch-events';
 import vuetify from 'vuetify/lib' //Material Design 양식에 기반한 Vue UI 컴포넌트 라이브러리. https://vuetifyjs.com/en/getting-started/installation/ 여기가 사용법 안내.
+import vueRouter from 'vue-router'
 
 
 
