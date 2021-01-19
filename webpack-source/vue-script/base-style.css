@@ -6,16 +6,6 @@
 *{
     font-family: 'Noto Sans KR';
     font-size: 10pt;
-    color:#000000;
-    box-sizing: border-box;
-    margin: 0px;
-    padding: 0px;
-    border: 0px;
-    outline: none;
-    text-align: center;
-    vertical-align: middle;
-    background-size: cover;
-    background-position: center center;
 }
 
 html, body{

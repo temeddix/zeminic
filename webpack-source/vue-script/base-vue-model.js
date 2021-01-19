@@ -5,8 +5,7 @@
 import vue from 'vue';
 import vueScroll from 'vuescroll';
 import vueTouchEvents from 'vue2-touch-events';
-import vuesax from 'vuesax' //Vue UI 컴포넌트 라이브러리. https://vuesax.com/docs/guide/ 여기가 사용법 안내.
-import 'vuesax/dist/vuesax.css'
+import vuetify from 'vuetify/lib' //Material Design 양식에 기반한 Vue UI 컴포넌트 라이브러리. https://vuetifyjs.com/en/getting-started/installation/ 여기가 사용법 안내.
 
 
 
@@ -46,15 +45,7 @@ vue.use(vueScroll,{
     },
     name: 'vue-scroll'
 });
-vue.use(vuesax, {
-    colors: {
-      primary:'#5b3cc4',
-      success:'rgb(23, 201, 100)',
-      danger:'rgb(242, 19, 93)',
-      warning:'rgb(255, 130, 0)',
-      dark:'rgb(36, 33, 69)'
-    }
-});
+vue.use(vuetify);
 
 
 
@@ -76,6 +67,8 @@ import divider from './components/divider.vue';
 vue.component('divider', divider)
 import layoutBlock from './components/layout-block.vue';
 vue.component('layout-block', layoutBlock)
+import testComponent from './components/test-component.vue';
+vue.component('test-component', testComponent)
 
 
 
@@ -117,6 +110,10 @@ vue.directive('guide-alert', {
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
 const baseVueModel = vue.extend({
+    vuetify: new vuetify({
+        treeShake: true,
+        //vuetify options
+    }),
     data: function(){ return{
         isAuthenticationChecked: false,
         isAuthenticated: null,

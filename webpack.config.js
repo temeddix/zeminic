@@ -3,7 +3,7 @@ const vueLoaderPlugin = require('vue-loader/lib/plugin')
 const webpackBundleAnalyzer = require('webpack-bundle-analyzer');
 const webpackRawBundler = require('webpack-raw-bundler');
 const glob = require('glob');
-
+const vuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 let bundleAnalyzerPlugin = webpackBundleAnalyzer.BundleAnalyzerPlugin;
 
 let config = {
@@ -25,6 +25,7 @@ let config = {
     },
     plugins: [
         new vueLoaderPlugin(),
+        new vuetifyLoaderPlugin(),
         new bundleAnalyzerPlugin(),
         new webpackRawBundler({
             //진짜 단순히 합치기만 해 줌
@@ -57,8 +58,7 @@ let config = {
                         ]
                 }
             },
-            // this will apply to both plain `.css` files
-            // AND `<style>` blocks in `.vue` files
+            // this will apply to both plain `.css` files AND `<style>` blocks in `.vue` files
             {
                 test: /\.css$/,
                 use: [
