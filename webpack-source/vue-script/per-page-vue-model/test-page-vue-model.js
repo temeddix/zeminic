@@ -32,6 +32,13 @@ const testPageVueModel = new baseVueModel({
         }
     },
     methods: {
+        openNotification() {
+          this.$vs.notification({
+            title: 'Documentation Vuesax 4.0+',
+            text: `These documents refer to the latest version of vuesax (4.0+),
+            to see the documents of the previous versions you can do it here 👉 Vuesax3.x`
+          })
+        }
     },
     created: function(){
     },

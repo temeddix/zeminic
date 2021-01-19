@@ -5,7 +5,8 @@
 import vue from 'vue';
 import vueScroll from 'vuescroll';
 import vueTouchEvents from 'vue2-touch-events';
-import vuetify from 'vuetify/lib' //용량절약 Treeshaking을 위해 lib을 씀. https://vuetifyjs.com/en/features/treeshaking/#vuetify-loader
+import vuesax from 'vuesax' //Vue UI 컴포넌트 라이브러리. https://vuesax.com/docs/guide/ 여기가 사용법 안내.
+import 'vuesax/dist/vuesax.css'
 
 
 
@@ -16,33 +17,44 @@ import vuetify from 'vuetify/lib' //용량절약 Treeshaking을 위해 lib을 �
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
 vue.use(vueTouchEvents);
-vue.use(vueScroll, {ops: {
-    vuescroll: {
-        mode: 'native',
-        sizeStrategy: 'percent',
-        detectResize: true,
-        wheelScrollDuration: 100,
-        wheelDirectionReverse: false
+vue.use(vueScroll,{
+    ops: {
+        vuescroll: {
+            mode: 'native',
+            sizeStrategy: 'percent',
+            detectResize: true,
+            wheelScrollDuration: 100,
+            wheelDirectionReverse: false
+        },
+        scrollPanel: {
+            scrollingX: false,
+            scrollingY: true,
+        },
+        rail: {},
+        bar: {
+            showDelay: 1000,
+            onlyShowBarOnScroll: true,
+            keepShow: false,
+            background: '#000000',
+            opacity: 0.2,
+            hoverStyle: false,
+            specifyBorderRadius: false,
+            minSize: 0,
+            size: '6px',
+            disable: false
+        }
     },
-    scrollPanel: {
-        scrollingX: false,
-        scrollingY: true,
-    },
-    rail: {},
-    bar: {
-        showDelay: 1000,
-        onlyShowBarOnScroll: true,
-        keepShow: false,
-        background: '#000000',
-        opacity: 0.2,
-        hoverStyle: false,
-        specifyBorderRadius: false,
-        minSize: 0,
-        size: '6px',
-        disable: false
+    name: 'vue-scroll'
+});
+vue.use(vuesax, {
+    colors: {
+      primary:'#5b3cc4',
+      success:'rgb(23, 201, 100)',
+      danger:'rgb(242, 19, 93)',
+      warning:'rgb(255, 130, 0)',
+      dark:'rgb(36, 33, 69)'
     }
-}, name: 'vue-scroll'});
-vue.use(vuetify)
+});
 
 
 
@@ -112,7 +124,6 @@ const baseVueModel = vue.extend({
             userEmail: '',
             userAilas: '',
         },
-        scrollPosition: 0,
         topBarTimer: null,
         layoutDebugging: false,
         isDebugging: false,
@@ -266,7 +277,6 @@ const baseVueModel = vue.extend({
 
 		window.addEventListener('scroll', function() {
 			let scrollTop = document.documentElement.scrollTop;
-            self.$root.scrollPosition = scrollTop;
 		});
 
 		window.addEventListener('resize', function() {

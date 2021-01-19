@@ -1,18 +1,18 @@
 <template>
-    <div :class='{[$style.componentWrapper]:true, [$style.debugStyle]: $root.layoutDebugging}'>
-        <div :class='$style.spacingBlock'></div>
-        <div :class='$style.lineAndDiamond'>
-            <div :class='$style.sideSpacing'></div>
-            <div :class='$style.thinLine'></div>
-            <div :class='$style.diamondWrapper'>
+    <div class='componentWrapper'>
+        <div class='spacingBlock'></div>
+        <div class='lineAndDiamond'>
+            <div class='sideSpacing'></div>
+            <div class='thinLine'></div>
+            <div class='diamondWrapper'>
                 <svg width='18' height='18'>
                     <polygon points='0,9 9,0 18,9 9,18' style='fill:rgba(0,0,0,0.3);'/>
                 </svg>
             </div>
-            <div :class='$style.thinLine'></div>
-            <div :class='$style.sideSpacing'></div>
+            <div class='thinLine'></div>
+            <div class='sideSpacing'></div>
         </div>
-        <div :class='$style.spacingBlock'></div>
+        <div class='spacingBlock'></div>
     </div>
 </template>
 
@@ -35,7 +35,7 @@ export default {
 };
 </script>
 
-<style module>
+<style scoped>
     .componentWrapper{
         display: inline-block;
         width: 100%;

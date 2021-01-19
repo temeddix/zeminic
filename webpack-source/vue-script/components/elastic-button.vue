@@ -1,7 +1,7 @@
 <template>
     <div
     ref='buttonElement'
-    :class='$style.buttonClass'
+    class='buttonClass'
     :style='buttonStyle'
     @click='showPopup'
     @mouseover='mouseOver'
@@ -14,55 +14,55 @@
         <div
         ref='switchIndicator'
         v-show='switchOn'
-        :class='$style.switchIndicator'
+        class='switchIndicator'
         :style='switchIndicatorStyle'>
         </div>
 
         {{ (selectFile && fileName!='')? fileName: '' }}
         <slot v-if='fileName==""'></slot>
 
-        <div :class='[$style.overfillParent, $style.baseHighlight]'>
+        <div class='overfillParent baseHighlight'>
         </div>
 
-        <div :class='$style.overfillParent'>
-            <div :class='[$style.mouseHighlight, $style.overfillParent]'
+        <div class='overfillParent'>
+            <div class=' mouseHighlight overfillParent'
             :style='{opacity: Math.min(0.8, tweenedActivation*0.5)}'>
             </div>
         </div>
 
         <a v-if='linkTo!=""' :href='linkTo'>
-            <div :class='$style.fillParent'></div>
+            <div class='fillParent'></div>
         </a>
 
-        <div v-if='selectFile' :class='$style.fillParent' @click='getFile'>
+        <div v-if='selectFile' class='fillParent' @click='getFile'>
             <input
             type='file'
             multiple
             ref='fileInput'
-            :class='$style.fileInput'
+            class='fileInput'
             @change='updatefileName'>
         </div>
 
-        <div v-if='poppable' ref='popupElement' :class='$style.popupClass' :style='popupStyle'>
-            <div :class='$style.fillParent'>
+        <div v-if='poppable' ref='popupElement' class='popupClass' :style='popupStyle'>
+            <div class='fillParent'>
                 <elastic-button
-                :class='$style.exitButton'
+                class='exitButton'
                 @click.native='hidePopup'>
                 </elastic-button>
                 <vue-scroll>
                     <div
-                    :class='[$style.fillParent, $style.popupContent]'>
-                        <div :class='$style.contentWrapper'>
-                            <div :class='$style.filler'></div>
+                    class='fillParent popupContent'>
+                        <div class='contentWrapper'>
+                            <div class='filler'></div>
                             <slot name='popup-content'>내용</slot>
-                            <div :class='$style.filler'></div>
+                            <div class='filler'></div>
                         </div>
                     </div>
                 </vue-scroll>
             </div>
         </div>
 
-        <div ref='overlayElement' :class='$style.overlayClass' v-if='poppable' v-show='isPopped' @click='hidePopup'>
+        <div ref='overlayElement' class='overlayClass' v-if='poppable' v-show='isPopped' @click='hidePopup'>
         </div>
 
     </div>
@@ -292,7 +292,7 @@ export default {
 };
 </script>
 
-<style module>
+<style scoped>
     .fillParent{
         position: absolute;
         top: 0px;

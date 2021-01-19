@@ -30,8 +30,7 @@
         "path": "^0.12.7",
         "sharp": "^0.26.1",
         "util": "^0.12.3",
-        "vuetify": "^2.4.2",
-        "vuetify-loader": "^1.6.0"
+        "vuesax": "^4.0.1-alpha.25"
     },
     "devDependencies": {
         "@babel/cli": "^7.10.5",

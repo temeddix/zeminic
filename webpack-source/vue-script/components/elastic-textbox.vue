@@ -1,11 +1,11 @@
 <template>
-    <div :class='$style.componentWrapper' :style='transformer'>
-        <div :class='[$style.baseHighlight, $style.fillParent]'>
+    <div class='componentWrapper' :style='transformer'>
+        <div class='baseHighlight fillParent'>
         </div>
 
         <textarea
         v-if='multiLine'
-        :class='$style.inputElement'
+        class='inputElement'
         ref='inputArea'
         @input='onInput'
         @mouseover='mouseOver'
@@ -16,7 +16,7 @@
 
         <input
         v-else-if='textHidden' 
-        :class='$style.inputElement'
+        class='inputElement'
         type='password'
         ref='inputArea'
         @input='onInput'
@@ -27,7 +27,7 @@
 
         <input
         v-else-if='onlyNumber' 
-        :class='$style.inputElement'
+        class='inputElement'
         type='number'
         ref='inputArea'
         @input='onInput'
@@ -38,7 +38,7 @@
 
         <input
         v-else
-        :class='$style.inputElement'
+        class='inputElement'
         type='text'
         ref='inputArea'
         @input='onInput'
@@ -47,14 +47,14 @@
         @focus='onFocus'
         @blur='onBlur'>
         
-        <div ref='labelText' :class='$style.labelText'>
-            <p ref='labelTextInside' :class='$style.labelTextInside'>
+        <div ref='labelText' class='labelText'>
+            <p ref='labelTextInside' class='labelTextInside'>
                 {{ labelText }}
             </p>
         </div>
         
-        <div ref='placeholder' :class='$style.placeholderText' :style='placeholderStyle'>
-            <p ref='placeholderInside' :class='$style.placeholderTextInside'>
+        <div ref='placeholder' class='placeholderText' :style='placeholderStyle'>
+            <p ref='placeholderInside' class='placeholderTextInside'>
                 {{ placeholderText }}
             </p>
         </div>
@@ -190,7 +190,7 @@ export default {
 };
 </script>
 
-<style module>
+<style scoped>
     .componentWrapper{
         display: inline-flex;
         position: relative;

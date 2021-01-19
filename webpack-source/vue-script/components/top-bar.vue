@@ -1,17 +1,17 @@
 <template>
-<div :class='$style.topBar' :style='outerStyle'>
+<div class='topBar' :style='outerStyle'>
 
-	<div :class='$style.pageInformation' :style='pageInformationStyle'>
-		<div :class='$style.pageType'><slot name='page-type'></slot></div>
-		<div :class='$style.pageName' ><slot></slot></div>
+	<div class='pageInformation' :style='pageInformationStyle'>
+		<div class='pageType'><slot name='page-type'></slot></div>
+		<div class='pageName' ><slot></slot></div>
 	</div>
 
 	<elastic-button
 	id='theLogo'
 	link-to='/'
-	:class='[$style.logoIcon, $style.topBarItemLeft]'
+	class='logoIcon topBarItemLeft'
 	v-guide-alert='"반가워요! 여기는 오픈 웹툰 플랫폼 제미넴입니다!"'>
-		<div :class='$style.fillParent'
+		<div class='fillParent'
 		style='background-image: url("/logo.png");'>
 		</div>
 	</elastic-button>
@@ -20,7 +20,7 @@
 	ref='signPopupButton'
 	id='signPopupButton'
 	:switch-on='$root.isAuthenticated'
-	:class='[$style.signStatusButton, $style.topBarItemRight]'
+	class='signStatusButton topBarItemRight'
 	poppable>
 
 		{{ $root.isAuthenticated? $root.userInfo.userAlias: '로그인하세요!' }}
@@ -29,7 +29,7 @@
 			<div v-if='$root.isAuthenticated==false'>
 
 				<layout-block>
-					<p :class='$style.titleText'>로그인</p>
+					<p class='titleText'>로그인</p>
 				</layout-block>
 
 				<divider></divider>
@@ -39,7 +39,7 @@
 					v-model='signInInputs.email'
 					label-text='이메일'
 					placeholder-text='abcde@domain.com'
-					:class='$style.inputBox'></elastic-textbox>
+					class='inputBox'></elastic-textbox>
 				</layout-block>
 				
 				<layout-block>
@@ -47,7 +47,7 @@
 					v-model='signInInputs.pw'
 					label-text='암호'
 					text-hidden
-					:class='$style.inputBox'
+					class='inputBox'
 					v-on:keyup.enter.native='signIn'>
 					</elastic-textbox>
 				</layout-block>
@@ -55,7 +55,7 @@
 				<layout-block>
 					<elastic-button
 					id='signInSubmitButton'
-					:class='$style.blackButton'
+					class='blackButton'
 					@click.native='signIn'>
 						로그인
 					</elastic-button> 
@@ -66,14 +66,14 @@
 					poppable
 					:popup-width='500'
 					:popup-height='500'
-					:class='$style.blackButton'>
+					class='blackButton'>
 
 						회원가입
 
 						<template v-slot:popup-content>
 
 							<layout-block>
-								<p :class='$style.titleText'>회원가입</p>
+								<p class='titleText'>회원가입</p>
 							</layout-block>
 
 							<divider></divider>
@@ -87,27 +87,27 @@
 -->
 							<layout-block>
 								<elastic-textbox
-								:class='$style.inputBox'
+								class='inputBox'
 								v-model='signUpInputs.email'
 								label-text='이메일'>
 								</elastic-textbox>
 							</layout-block>
 <!--
 							<layout-block>
-								<div :class='[$style.inputBox, $style.flexContainer]'>
+								<div class='inputBox flexContainer'>
 									<elastic-button
-									:class='$style.sideButton'
+									class='sideButton'
 									@click.native='generateValidationCode'>
 										전송
 									</elastic-button>
 									<elastic-textbox
 									v-model='emailValidationCode'
-									:class='$style.smallInputBox'
+									class='smallInputBox'
 									label-text='인증 코드'>
 									</elastic-textbox>
 									<elastic-button
 									id='validateEmailButton'
-									:class='$style.sideButton'
+									class='sideButton'
 									@click.native='validateEmail'
 									:switch-on='isEmailValidated'>
 										인증
@@ -119,7 +119,7 @@
 -->
 							<layout-block>
 								<elastic-textbox
-								:class='$style.inputBox'
+								class='inputBox'
 								v-model='signUpInputs.pw'
 								label-text='암호'
 								text-hidden>
@@ -128,7 +128,7 @@
 
 							<layout-block>
 								<elastic-textbox
-								:class='$style.inputBox'
+								class='inputBox'
 								v-model='signUpInputs.nickname'
 								label-text='별명'
                     			v-on:keyup.enter.native='signUp'>
@@ -140,7 +140,7 @@
 							<layout-block>
 								<elastic-button
 								id='signUpSubmitButton'
-								:class='$style.blackButton'
+								class='blackButton'
 								@click.native="signUp">
 									가입하기
 								</elastic-button>
@@ -157,14 +157,14 @@
 				<layout-block>
 					<elastic-button
 					link-to='/account'
-					:class='[$style.accountButton, $style.topBarItemRight, $style.bigText]'>
+					class='accountButton topBarItemRight bigText'>
 					</elastic-button>
 				</layout-block>
 
 				<layout-block>
 					<div>
-						<p :class='$style.titleText'>{{ $root.userInfo.userAlias }}</p>
-						<p :class='$style.bigText'>{{ $root.userInfo.userEmail }}</p>
+						<p class='titleText'>{{ $root.userInfo.userAlias }}</p>
+						<p class='bigText'>{{ $root.userInfo.userEmail }}</p>
 					</div>
 				</layout-block>
 
@@ -173,14 +173,14 @@
 				<layout-block>
 					<div>
 						<elastic-button 
-						:class='$style.blackButton'
+						class='blackButton'
 						@click.native="signOut">
 							로그아웃
 						</elastic-button>
 						<elastic-button
 						ref='withdrawPopupButton'
 						id='withdrawPopupButton'
-						:class='$style.blackButton'
+						class='blackButton'
 						:popup-width='400'
 						:popup-height='400'
 						poppable>
@@ -199,7 +199,7 @@
 
 								<layout-block>
 									<elastic-textbox
-									:class='$style.inputBox'
+									class='inputBox'
 									v-model='withdrawInputs.userPw'
 									label-text='암호'
 									text-hidden>
@@ -211,7 +211,7 @@
 								<layout-block>
 									<elastic-button
 									id='withdrawSubmitButton'
-									:class='$style.blackButton'
+									class='blackButton'
 									@click.native='withdraw'>
 										탈퇴하기
 									</elastic-button>
@@ -227,7 +227,7 @@
 	</elastic-button>
 
 	<elastic-button
-	:class='[$style.fullscreenButton, $style.topBarItemRight]'
+	class='fullscreenButton topBarItemRight'
 	:switch-on='$root.isFullscreen'
 	v-guide-alert='"전체화면에서 더 몰입도 높은 경험을 만끽해 보세요!"'
 	@click.native='$root.toggleFullscreen()'>
@@ -236,32 +236,44 @@
 	<div
 	ref='mouseDetector'
 	v-if='!isMobile'
-	:class='$style.mouseDetector'
+	class='mouseDetector'
 	@mouseover='$root.showTopBar()'>
 	</div>
 
 	<elastic-button
 	ref='debuggingPanel'
-	:class='$style.debuggingPanel'
+	class='debuggingPanel'
 	poppable>
 		<template v-slot:popup-content>
 			디버깅 패널이다!
 			<br>원하는 거 다 적어봐라
 			<br>Shift+D를 누르면 보인다
 			<br>
-			<v-btn
-			elevation="9"
-			></v-btn>
-			<v-alert
-			type="success"
-			></v-alert>
-			<br>$root.scrollPosition: {{ parseInt($root.scrollPosition) }}
+			<vs-button
+				:active="active == 0"
+				@click="active = 0"
+			>
+				Active
+			</vs-button>
+			<vs-button
+				:active="active == 1"
+				@click="active = 1"
+			>
+				Default
+			</vs-button>
+			<vs-button disabled >Disabled</vs-button>
+			<div class="center">
+				<vs-button
+					@click="openNotification">
+					Open Notification
+				</vs-button>
+			</div>
 		</template>
 	</elastic-button>
 
 	<elastic-button
 	ref='showTopBarButton'
-	:class='$style.showTopBarButton'
+	class='showTopBarButton'
 	@click.native='$root.showTopBar()'>
 	</elastic-button>
 </div>
@@ -290,6 +302,7 @@ export default {
 		showPageInformation: true,
 		tweenedInformationSize: 1,
 		targetTopBarPosition: 0,
+		active: 0,
 	}},
 	computed:{
 		outerStyle(){ 
@@ -372,6 +385,13 @@ export default {
             })
             .catch(error => alert(error));
 		},
+        openNotification() {
+          this.$vs.notification({
+            title: 'Documentation Vuesax 4.0+',
+            text: `These documents refer to the latest version of vuesax (4.0+),
+            to see the documents of the previous versions you can do it here 👉 Vuesax3.x`
+          })
+        } //실험용
 	},
 	created: function() {
 		let self = this;

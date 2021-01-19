@@ -1,9 +1,9 @@
 <template>
-    <div :style='balloonStyle' :class='$style.alertBalloon'>
+    <div :style='balloonStyle' class='alertBalloon'>
         <svg width='12' height='8' :style='pokeStyle'>
             <polygon points='0,0 12,0 6,8' style='fill:rgba(0,0,0,1);' />
         </svg>
-        <p :class='$style.alertTextClass'>{{alertText}}</p>
+        <p class='alertTextClass'>{{alertText}}</p>
     </div>
 </template>
 
@@ -128,7 +128,7 @@ export default {
 }
 </script>
 
-<style module>
+<style scoped>
     .allCenterContainer{
         display: inline-flex;
         justify-content: center;

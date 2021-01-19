@@ -1,6 +1,6 @@
 <template>
     <div
-    :class='{[$style.layoutBlock]:true, [$style.debugStyle]:$root.layoutDebugging}'>
+    class='layoutBlock'>
         <slot></slot>
     </div>
 </template>
@@ -24,7 +24,7 @@ export default {
 };
 </script>
 
-<style module>
+<style scoped>
     .layoutBlock{
         display: inline-flex;
         justify-content: center;
@@ -35,9 +35,5 @@ export default {
         width: 100%;
         margin: 6px 0px;
         padding: 0px 20px;
-    }
-    .debugStyle{
-        background-color: #ffaaff;
-        border: 1px solid #ff33ff;
     }
 </style>
