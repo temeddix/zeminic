@@ -3,6 +3,7 @@ const vueLoaderPlugin = require('vue-loader/lib/plugin')
 const webpackBundleAnalyzer = require('webpack-bundle-analyzer');
 const webpackRawBundler = require('webpack-raw-bundler');
 const glob = require('glob');
+const vuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 
 let bundleAnalyzerPlugin = webpackBundleAnalyzer.BundleAnalyzerPlugin;
 
@@ -26,6 +27,7 @@ let config = {
     plugins: [
         new vueLoaderPlugin(),
         new bundleAnalyzerPlugin(),
+        new vuetifyLoaderPlugin(), //vuetify의 용량절약 Treeshaking을 위한 플러그인. https://vuetifyjs.com/en/features/treeshaking/#vuetify-loader
         new webpackRawBundler({
             //진짜 단순히 합치기만 해 줌
             //모듈 불러오기나 파일을 압축하는 Minify 과정이나 호환성 변환같은 것들은 전~혀 실행하지 않음
@@ -76,7 +78,7 @@ let config = {
                 ]
             },
             {
-                test: /\.scss$/,
+                test: /\.s(c|a)ss$/,
                 use: [
                     'vue-style-loader',
                     {
@@ -89,7 +91,15 @@ let config = {
                             },
                         }
                     },
-                    'sass-loader'
+                    {
+                        loader: 'sass-loader',
+                        // Requires sass-loader@^8.0.0 이 버전 미만은 옵션이 다름
+                        options: {
+                            implementation: require('sass'),
+                            sassOptions: {
+                            },
+                        },
+                    },
                 ]
             }
         ]

@@ -1,4 +1,4 @@
-import baseVueModel from './base-vue-model.js';
+import baseVueModel from '../base-vue-model.js';
 let accountPageVueModel = null;
 
 if( document.getElementById('accountPageVueModel')!=null ){

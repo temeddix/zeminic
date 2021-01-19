@@ -1,4 +1,4 @@
-import baseVueModel from './base-vue-model.js';
+import baseVueModel from '../base-vue-model.js';
 let mainPageVueModel = null;
 
 if( document.getElementById('mainPageVueModel')!=null ){
@@ -158,7 +158,7 @@ mainPageVueModel = new baseVueModel({
     created: function(){
         let self = this;
         
-        self.getAllArtworks();
+        //self.getAllArtworks();
         self.$root.$on('close-create-popup', function(){
             self.$refs.createButton.hidePopup();
         });

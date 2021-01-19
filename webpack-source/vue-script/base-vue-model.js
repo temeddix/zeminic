@@ -5,6 +5,7 @@
 import vue from 'vue';
 import vueScroll from 'vuescroll';
 import vueTouchEvents from 'vue2-touch-events';
+import vuetify from 'vuetify/lib' //용량절약 Treeshaking을 위해 lib을 씀. https://vuetifyjs.com/en/features/treeshaking/#vuetify-loader
 
 
 
@@ -41,6 +42,7 @@ vue.use(vueScroll, {ops: {
         disable: false
     }
 }, name: 'vue-scroll'});
+vue.use(vuetify)
 
 
 
@@ -50,8 +52,6 @@ vue.use(vueScroll, {ops: {
 ▶▶Vue 컴포넌트
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
-import superContainer from './components/super-container.vue';
-vue.component('super-container', superContainer)
 import topBar from './components/top-bar.vue';
 vue.component('top-bar', topBar)
 import elasticButton from './components/elastic-button.vue';
@@ -113,11 +113,11 @@ const baseVueModel = vue.extend({
             userAilas: '',
         },
         scrollPosition: 0,
-        isTopBarShown: false,
         topBarTimer: null,
         layoutDebugging: false,
         isDebugging: false,
         isFullscreen: false,
+		isMobile: detectMobile(),
     }},
     computed: {
     },
@@ -259,10 +259,19 @@ const baseVueModel = vue.extend({
     mounted: function(){
         let self = this;
         
-        self.$root.getSignStatus(); //페이지 열자마자 로그인 상태 확인
+        //self.getSignStatus(); //페이지 열자마자 로그인 상태 확인
 
         gsap.registerPlugin(CustomEase); //gsap에서 애니메이션 곡선 플러그인 사용하도록 등록
         objectFitImages(); //IE 이미지 크기조절방식 호환성을 위한 폴리필(Polyfill) 실행
+
+		window.addEventListener('scroll', function() {
+			let scrollTop = document.documentElement.scrollTop;
+            self.$root.scrollPosition = scrollTop;
+		});
+
+		window.addEventListener('resize', function() {
+			self.isMobile= detectMobile();
+		});
     }
 });
 

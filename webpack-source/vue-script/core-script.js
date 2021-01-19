@@ -12,7 +12,7 @@ import babelPolyfill from '@babel/polyfill';
 
 import baseStyle from './base-style.css';
 
-import mainPageVueModel from './main-page-vue-model.js';
-import artworkPageVueModel from './artwork-page-vue-model.js';
-import accountPageVueModel from './account-page-vue-model.js';
-import testPageVueModel from './test-page-vue-model.js';
+import mainPageVueModel from './per-page-vue-model/main-page-vue-model.js';
+import artworkPageVueModel from './per-page-vue-model/artwork-page-vue-model.js';
+import accountPageVueModel from './per-page-vue-model/account-page-vue-model.js';
+import testPageVueModel from './per-page-vue-model/test-page-vue-model.js';

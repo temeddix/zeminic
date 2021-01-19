@@ -1,1 +1,166 @@
-!function(t){var e={};function o(n){if(e[n])return e[n].exports;var i=e[n]={i:n,l:!1,exports:{}};return t[n].call(i.exports,i,i.exports,o),i.l=!0,i.exports}o.m=t,o.c=e,o.d=function(t,e,n){o.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:n})},o.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},o.t=function(t,e){if(1&e&&(t=o(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var n=Object.create(null);if(o.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var i in t)o.d(n,i,function(e){return t[e]}.bind(null,i));return n},o.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return o.d(e,"a",e),e},o.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},o.p="",o(o.s=368)}({368:function(t,e,o){o(369),o(370),o(371),o(372),o(373),t.exports=o(374)},369:function(t,e){window.becomeNew=function(t,e,o,n){detectMobile();var i=t.getBoundingClientRect(),d=e.getBoundingClientRect(),r=e.cloneNode(!0),a={position:"fixed",display:"flex",justifyContent:"center",alignItems:"center",textAlign:"center",left:i.left,top:i.top,width:i.width,height:i.height,margin:0,zIndex:100,transform:"",overflow:"hidden",visibility:"visible",boxShadow:window.getComputedStyle(t).boxShadow,borderRadius:Math.min(isNaN(parseInt(t.style.borderRadius))?1e3:parseInt(parseInt(t.style.borderRadius)),isNaN(parseInt(getComputedStyle(e).borderTopLeftRadius))?1e3:parseInt(getComputedStyle(t).borderTopLeftRadius),parseInt(i.width/2),parseInt(i.height/2)),backgroundColor:window.getComputedStyle(t).backgroundColor,border:window.getComputedStyle(t).border,color:window.getComputedStyle(t).color,fontSize:window.getComputedStyle(t).fontSize,fontFamily:window.getComputedStyle(t).fontFamily,fontStyle:window.getComputedStyle(t).fontStyle,fontVariant:window.getComputedStyle(t).fontVariant,fontWeight:window.getComputedStyle(t).fontWeight,lineHeight:window.getComputedStyle(t).lineHeight},u={ease:"power4",duration:o,autoRound:!0,onComplete:function(){gsap.set(e,{visibility:"inherit"}),document.body.removeChild(r)},left:d.left,top:d.top,width:d.width,height:d.height,borderRadius:Math.min(isNaN(parseInt(e.style.borderRadius))?1e3:parseInt(parseInt(e.style.borderRadius)),isNaN(parseInt(getComputedStyle(e).borderTopLeftRadius))?1e3:parseInt(getComputedStyle(e).borderTopLeftRadius),parseInt(d.width/2),parseInt(d.height/2)),backgroundColor:window.getComputedStyle(e).backgroundColor,border:window.getComputedStyle(e).border,color:window.getComputedStyle(e).color,fontSize:window.getComputedStyle(e).fontSize,fontFamily:window.getComputedStyle(e).fontFamily,fontStyle:window.getComputedStyle(e).fontStyle,fontVariant:window.getComputedStyle(e).fontVariant,fontWeight:window.getComputedStyle(e).fontWeight,lineHeight:window.getComputedStyle(e).lineHeight},l={ease:n?"power4.inOut":CustomEase.create("custom","M0,0,C0,0.484,0.034,0.726,0.16,0.852,0.292,0.984,0.504,1,1,1"),boxShadow:window.getComputedStyle(e).boxShadow};r.className="",document.body.appendChild(r),gsap.set([t,e],{visibility:"hidden"}),gsap.set(r,a),gsap.to(r,u),gsap.to(r,l)}},370:function(t,e){window.calculatePosition=function(t){var e=t.getBoundingClientRect(),o=window.pageYOffset||document.documentElement.scrollTop||document.body.scrollTop||0,n=window.pageXOffset||document.documentElement.scrollLeft||document.body.scrollLeft||0,i=document.documentElement.clientTop||document.body.clientTop||0,d=document.documentElement.clientLeft||document.body.clientLeft||0;return{top:Math.round(e.top+o-i),left:Math.round(e.left+n-d),height:e.height,width:e.width}}},371:function(t,e){window.detectMobile=function(){return[/Android/i,/webOS/i,/iPhone/i,/iPad/i,/iPod/i,/BlackBerry/i,/Windows Phone/i].some((function(t){return navigator.userAgent.match(t)}))}},372:function(t,e){window.hexToRgb=function(t){var e=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(t);return e?{red:parseInt(e[1],16),green:parseInt(e[2],16),blue:parseInt(e[3],16)}:null}},373:function(t,e){window.rgbToHex=function(t,e,o){function n(t){var e=t.toString(16);return 1==e.length?"0"+e:e}return"#"+n(t)+n(e)+n(o)}},374:function(t,e){window.simplePay={payBack:function(t,e,o,n){axios.post("/ajax-tunnel/pay-card-alias",{artworkId:t,cardAlias:e}).then((function(t){(t=t.data).isOk?o(t):n(t)})).catch((function(t){n(t)}))},payFront:function(t,e,o,n){axios.post("/ajax-tunnel/get-imp-param",{artworkId:t,paymentMethod:e}).then((function(t){if(data=t.data,data.isOk){var e=window.IMP;e.init(data.impId),e.request_pay({pg:data.impParam.pg,pay_method:data.impParam.pay_method,merchant_uid:data.impParam.merchant_uid,name:data.impParam.name,amount:Number(data.impParam.amount)},(function(e){if(e.success){e.merchant_uid,e.paid_amount;o(t)}else{"에러내용 : "+e.error_msg,n(t)}}))}else n(t)})).catch((function(t){n(t)}))}}}});
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./webpack-source/custom-libraries/become-new.js":
+/*!*******************************************************!*\
+  !*** ./webpack-source/custom-libraries/become-new.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("window.becomeNew = function (fromElement, toElement, duration, smoothShadow) {\n  var isMobile = detectMobile();\n  var fromPosition = fromElement.getBoundingClientRect();\n  var toPosition = toElement.getBoundingClientRect();\n  var clone = toElement.cloneNode(true);\n  /*\r\n  if(isMobile==true){\r\n      for(let i=0; i<clone.children.length; i++){\r\n          clone.removeChild(clone.children[i])\r\n      }\r\n  }\r\n  */\n\n  var initialState = {\n    position: 'fixed',\n    display: 'flex',\n    justifyContent: 'center',\n    alignItems: 'center',\n    textAlign: 'center',\n    left: fromPosition.left,\n    top: fromPosition.top,\n    width: fromPosition.width,\n    height: fromPosition.height,\n    margin: 0,\n    zIndex: 100,\n    transform: '',\n    overflow: 'hidden',\n    visibility: 'visible',\n    //여기까지가 강제 설정, 밑으로는 실제 형태 존중\n    boxShadow: window.getComputedStyle(fromElement).boxShadow,\n    borderRadius: Math.min(isNaN(parseInt(fromElement.style.borderRadius)) ? 1000 : parseInt(parseInt(fromElement.style.borderRadius)), isNaN(parseInt(getComputedStyle(toElement).borderTopLeftRadius)) ? 1000 : parseInt(getComputedStyle(fromElement).borderTopLeftRadius), parseInt(fromPosition.width / 2), parseInt(fromPosition.height / 2)),\n    backgroundColor: window.getComputedStyle(fromElement).backgroundColor,\n    border: window.getComputedStyle(fromElement).border,\n    color: window.getComputedStyle(fromElement).color,\n    fontSize: window.getComputedStyle(fromElement).fontSize,\n    fontFamily: window.getComputedStyle(fromElement).fontFamily,\n    fontStyle: window.getComputedStyle(fromElement).fontStyle,\n    fontVariant: window.getComputedStyle(fromElement).fontVariant,\n    fontWeight: window.getComputedStyle(fromElement).fontWeight,\n    lineHeight: window.getComputedStyle(fromElement).lineHeight\n  };\n  var transitionPlan = {\n    ease: 'power4',\n    duration: duration,\n    autoRound: true,\n    onComplete: onCompleteFunction,\n    //여기까지가 gsap 애니메이션 설정\n    left: toPosition.left,\n    top: toPosition.top,\n    width: toPosition.width,\n    height: toPosition.height,\n    //여기까지가 강제 설정, 밑으로는 실제 형태 존중\n    borderRadius: Math.min(isNaN(parseInt(toElement.style.borderRadius)) ? 1000 : parseInt(parseInt(toElement.style.borderRadius)), isNaN(parseInt(getComputedStyle(toElement).borderTopLeftRadius)) ? 1000 : parseInt(getComputedStyle(toElement).borderTopLeftRadius), parseInt(toPosition.width / 2), parseInt(toPosition.height / 2)),\n    backgroundColor: window.getComputedStyle(toElement).backgroundColor,\n    border: window.getComputedStyle(toElement).border,\n    color: window.getComputedStyle(toElement).color,\n    fontSize: window.getComputedStyle(toElement).fontSize,\n    fontFamily: window.getComputedStyle(toElement).fontFamily,\n    fontStyle: window.getComputedStyle(toElement).fontStyle,\n    fontVariant: window.getComputedStyle(toElement).fontVariant,\n    fontWeight: window.getComputedStyle(toElement).fontWeight,\n    lineHeight: window.getComputedStyle(toElement).lineHeight\n  };\n  var shadowTransitionPlan = {\n    ease: smoothShadow ? 'power4.inOut' : CustomEase.create(\"custom\", \"M0,0,C0,0.484,0.034,0.726,0.16,0.852,0.292,0.984,0.504,1,1,1\"),\n    boxShadow: window.getComputedStyle(toElement).boxShadow\n  }; //그림자는 성능상 가장 무겁기 때문에 마지막에 커짐. 안 그러면 프레임드랍 심함.\n\n  clone.className = '';\n  document.body.appendChild(clone);\n  gsap.set([fromElement, toElement], {\n    visibility: \"hidden\"\n  });\n  gsap.set(clone, initialState);\n  gsap.to(clone, transitionPlan);\n  gsap.to(clone, shadowTransitionPlan);\n\n  function onCompleteFunction() {\n    gsap.set(toElement, {\n      visibility: \"inherit\"\n    });\n    document.body.removeChild(clone);\n  }\n};\n\n//# sourceURL=webpack:///./webpack-source/custom-libraries/become-new.js?");
+
+/***/ }),
+
+/***/ "./webpack-source/custom-libraries/calculate-position.js":
+/*!***************************************************************!*\
+  !*** ./webpack-source/custom-libraries/calculate-position.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("window.calculatePosition = function (element) {\n  var rect = element.getBoundingClientRect();\n  var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;\n  var scrollLeft = window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0;\n  var clientTop = document.documentElement.clientTop || document.body.clientTop || 0;\n  var clientLeft = document.documentElement.clientLeft || document.body.clientLeft || 0;\n  return {\n    top: Math.round(rect.top + scrollTop - clientTop),\n    left: Math.round(rect.left + scrollLeft - clientLeft),\n    height: rect.height,\n    width: rect.width\n  };\n};\n\n//# sourceURL=webpack:///./webpack-source/custom-libraries/calculate-position.js?");
+
+/***/ }),
+
+/***/ "./webpack-source/custom-libraries/detect-mobile.js":
+/*!**********************************************************!*\
+  !*** ./webpack-source/custom-libraries/detect-mobile.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("window.detectMobile = function () {\n  var toMatch = [/Android/i, /webOS/i, /iPhone/i, /iPad/i, /iPod/i, /BlackBerry/i, /Windows Phone/i];\n  return toMatch.some(function (toMatchItem) {\n    return navigator.userAgent.match(toMatchItem);\n  });\n};\n\n//# sourceURL=webpack:///./webpack-source/custom-libraries/detect-mobile.js?");
+
+/***/ }),
+
+/***/ "./webpack-source/custom-libraries/hex-to-rgb.js":
+/*!*******************************************************!*\
+  !*** ./webpack-source/custom-libraries/hex-to-rgb.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("window.hexToRgb = function (hex) {\n  var result = /^#?([a-f\\d]{2})([a-f\\d]{2})([a-f\\d]{2})$/i.exec(hex);\n  return result ? {\n    red: parseInt(result[1], 16),\n    green: parseInt(result[2], 16),\n    blue: parseInt(result[3], 16)\n  } : null;\n}; // alert(hexToRgb(\"#0033ff\").green); >> \"51\";\n\n//# sourceURL=webpack:///./webpack-source/custom-libraries/hex-to-rgb.js?");
+
+/***/ }),
+
+/***/ "./webpack-source/custom-libraries/rgb-to-hex.js":
+/*!*******************************************************!*\
+  !*** ./webpack-source/custom-libraries/rgb-to-hex.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("window.rgbToHex = function (r, g, b) {\n  function componentToHex(c) {\n    var hex = c.toString(16);\n    return hex.length == 1 ? \"0\" + hex : hex;\n  }\n\n  return \"#\" + componentToHex(r) + componentToHex(g) + componentToHex(b);\n}; //alert(rgbToHex(0, 51, 255)); >> #0033ff\n\n//# sourceURL=webpack:///./webpack-source/custom-libraries/rgb-to-hex.js?");
+
+/***/ }),
+
+/***/ "./webpack-source/custom-libraries/simple-pay.js":
+/*!*******************************************************!*\
+  !*** ./webpack-source/custom-libraries/simple-pay.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("window.simplePay = {\n  payBack: function payBack(artworkId, cardAlias, successCallback, failureCallback) {\n    axios.post('/ajax-tunnel/pay-card-alias', {\n      artworkId: artworkId,\n      cardAlias: cardAlias\n    }).then(function (response) {\n      response = response.data;\n\n      if (response.isOk) {\n        successCallback(response);\n      } else {\n        failureCallback(response);\n      }\n      /*\r\n          성공하면 response.response\r\n          response : {\r\n                  amount : response.data.amount,\r\n                  apply_num : response.data.apply_num,\r\n                  card_name : response.data.card_name,\r\n                  merchant_uid : response.data.merchant_uid,\r\n                  paid_at : response.data.paid_at,\r\n                  receipt_url : response.data.receipt_url\r\n              }\r\n      */\n\n    })[\"catch\"](function (error) {\n      failureCallback(error);\n    });\n  },\n  payFront: function payFront(artworkId, paymentMethod, successCallback, failureCallback) {\n    axios.post('/ajax-tunnel/get-imp-param', {\n      artworkId: artworkId,\n      paymentMethod: paymentMethod\n    }).then(function (response) {\n      data = response.data;\n\n      if (data.isOk) {\n        var IMP = window.IMP;\n        IMP.init(data.impId);\n        var msg;\n        IMP.request_pay({\n          pg: data.impParam.pg,\n          pay_method: data.impParam.pay_method,\n          merchant_uid: data.impParam.merchant_uid,\n          name: data.impParam.name,\n          amount: Number(data.impParam.amount)\n        }, function (rsp) {\n          if (rsp.success) {\n            //결제 성공시 실행될 코드\n            var retobj = {\n              merchant_uid: rsp.merchant_uid,\n              amount: rsp.paid_amount\n            };\n            successCallback(response);\n          } else {\n            //결제 실패시 실행될 코드\n            var msg = '결제에 실패하였습니다.';\n            msg += '에러내용 : ' + rsp.error_msg;\n            failureCallback(response);\n          }\n        });\n      } else {\n        failureCallback(response);\n      }\n    })[\"catch\"](function (error) {\n      failureCallback(error);\n    });\n  }\n};\n\n//# sourceURL=webpack:///./webpack-source/custom-libraries/simple-pay.js?");
+
+/***/ }),
+
+/***/ 1:
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./webpack-source/custom-libraries/become-new.js ./webpack-source/custom-libraries/calculate-position.js ./webpack-source/custom-libraries/detect-mobile.js ./webpack-source/custom-libraries/hex-to-rgb.js ./webpack-source/custom-libraries/rgb-to-hex.js ./webpack-source/custom-libraries/simple-pay.js ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("__webpack_require__(/*! ./webpack-source/custom-libraries/become-new.js */\"./webpack-source/custom-libraries/become-new.js\");\n__webpack_require__(/*! ./webpack-source/custom-libraries/calculate-position.js */\"./webpack-source/custom-libraries/calculate-position.js\");\n__webpack_require__(/*! ./webpack-source/custom-libraries/detect-mobile.js */\"./webpack-source/custom-libraries/detect-mobile.js\");\n__webpack_require__(/*! ./webpack-source/custom-libraries/hex-to-rgb.js */\"./webpack-source/custom-libraries/hex-to-rgb.js\");\n__webpack_require__(/*! ./webpack-source/custom-libraries/rgb-to-hex.js */\"./webpack-source/custom-libraries/rgb-to-hex.js\");\nmodule.exports = __webpack_require__(/*! ./webpack-source/custom-libraries/simple-pay.js */\"./webpack-source/custom-libraries/simple-pay.js\");\n\n\n//# sourceURL=webpack:///multi_./webpack-source/custom-libraries/become-new.js_./webpack-source/custom-libraries/calculate-position.js_./webpack-source/custom-libraries/detect-mobile.js_./webpack-source/custom-libraries/hex-to-rgb.js_./webpack-source/custom-libraries/rgb-to-hex.js_./webpack-source/custom-libraries/simple-pay.js?");
+
+/***/ })
+
+/******/ });

@@ -240,15 +240,24 @@
 	@mouseover='$root.showTopBar()'>
 	</div>
 
-	<div
+	<elastic-button
 	ref='debuggingPanel'
-	v-if='$root.isDebugging'
-	:class='$style.debuggingPanel'>
-		디버깅 패널이다!
-		<br>원하는 거 다 적어봐라
-		<br>
-		<br>$root.scrollPosition: {{ parseInt($root.scrollPosition) }}
-	</div>
+	:class='$style.debuggingPanel'
+	poppable>
+		<template v-slot:popup-content>
+			디버깅 패널이다!
+			<br>원하는 거 다 적어봐라
+			<br>Shift+D를 누르면 보인다
+			<br>
+			<v-btn
+			elevation="9"
+			></v-btn>
+			<v-alert
+			type="success"
+			></v-alert>
+			<br>$root.scrollPosition: {{ parseInt($root.scrollPosition) }}
+		</template>
+	</elastic-button>
 
 	<elastic-button
 	ref='showTopBarButton'
@@ -261,6 +270,7 @@
 <script>
 export default {
 	data: function() { return {
+        isVisible: false,
 		isEmailValidated: false,
 		emailValidationCode: '',
 		signInInputs: {
@@ -279,12 +289,9 @@ export default {
 		isMobile: detectMobile(),
 		showPageInformation: true,
 		tweenedInformationSize: 1,
+		targetTopBarPosition: 0,
 	}},
 	computed:{
-		targetTopBarPosition()
-		{
-			return this.$root.isTopBarShown? 0 : -Math.min(this.$root.scrollPosition,200);
-		},
 		outerStyle(){ 
 			return {
 				top: this.tweenedTopBarPosition<0? this.tweenedTopBarPosition + 'px': '0px',
@@ -346,35 +353,7 @@ export default {
 				}
             })
             .catch(error => alert(error));
-		},/*
-		generateValidationCode(){
-            axios
-            .post('/ajax-tunnel/generate-validation-code',{
-				userEmail: this.signUpInputs.userEmail,
-			})
-            .then(response => console.log(response.data.msg))
-            .catch(error => console.log(error));
 		},
-		validateEmail(){
-			let self = this;
-
-            axios
-            .post('/ajax-tunnel/validate-email',{
-				userEmail: this.signUpInputs.userEmail,
-				validationCode: this.emailValidationCode,
-			})
-            .then(function(response){
-				if(response.data.isOk==true){
-					console.log(response.data.msg);
-					console.log(response.data.isOk);
-					self.isEmailValidated = response.data.isOk;
-				}
-				else{
-                    self.$root.showElasticAlert('validateEmailButton', response.data.msg );
-				}
-			})
-            .catch(error => console.log(error));
-		},*/ //이메일 인증 절차인데 아직은 안 씀
 		withdraw(){
 			let self = this;
             axios
@@ -427,13 +406,33 @@ export default {
         });
 	},
 	mounted: function(){
+		let self = this;
+
 		let showTopBarButton = this.$refs.showTopBarButton.$el;
 		document.body.appendChild(showTopBarButton);
+
+		let debuggingPanel = this.$refs.debuggingPanel.$el;
+		document.body.appendChild(debuggingPanel);
 
 		if(this.isMobile == false){
 			let mouseDetector = this.$refs.mouseDetector;
 			document.body.appendChild(mouseDetector);
 		}
+
+		document.addEventListener('scroll', function(){
+			self.targetTopBarPosition = this.isVisible? 0 : -Math.min(window.scrollY,200)
+			console.log(self.targetTopBarPosition)
+		})
+
+		document.addEventListener('keydown', function(evt){
+			if (!evt) evt = event;
+			if (evt.shiftKey && evt.keyCode==68){ //D+P https://www.quirksmode.org/js/keys.html
+				self.$refs.debuggingPanel.$el.click()
+			}
+			else if (evt.shiftKey && evt.keyCode == 9){ //Shif+TAB
+				alert("Shift+TAB");
+			}
+		})
 	}
 }
 </script>
@@ -594,19 +593,12 @@ export default {
 		margin: 6px;
 		background-image: url('/svg-icons/fullscreen.svg');
 	}
-	.debuggingPanel{
-		background-color: brown;
-		color: #ffffff;
-		border: 1px solid #660000;
-		opacity: 0.7;
-		position: fixed;
-		top: 30px;
-		left: 30px;
-		right: 30px;
-		padding: 20px;
-		display: flex;
-		justify-content: center;
-		pointer-events: none;
-		z-index: 1000;
-	}
+    .debuggingPanel{
+		position: fixed !important;
+		top: -80px;
+		left: 14px;
+		z-index: 45 !important;
+		border-radius: 1000px !important;
+        background-image: url(/svg-icons/pull-down.svg);
+    }
 </style>
