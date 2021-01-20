@@ -1,132 +1,39 @@
-/*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-▶▶필요한 자바스크립트 모듈들 로드
-■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
+<template>
+<div>
+    <v-expansion-panels>
+        <v-expansion-panel
+            v-for="(item,i) in 5"
+            :key="i"
+        >
+            <v-expansion-panel-header>
+            Item
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </v-expansion-panel-content>
+        </v-expansion-panel>
+    </v-expansion-panels>
 
-import vue from 'vue';
-import vueScroll from 'vuescroll';
-import vueTouchEvents from 'vue2-touch-events';
+    <v-btn elevation="15">이건 버튼이다 버튼</v-btn>
+
+    <v-checkbox
+    v-model="checkbox"
+    :label="`Checkbox 1: ${checkbox.toString()}`"
+    ></v-checkbox>
+</div>
+</template>
+
+<script>
 import vuetify from 'vuetify/lib' //Material Design 양식에 기반한 Vue UI 컴포넌트 라이브러리. https://vuetifyjs.com/en/getting-started/installation/ 여기가 사용법 안내.
 import vueRouter from 'vue-router'
 
-
-
-
-
-/*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-▶▶Vue 플러그인
-■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
-
-vue.use(vueTouchEvents);
-vue.use(vueScroll,{
-    ops: {
-        vuescroll: {
-            mode: 'native',
-            sizeStrategy: 'percent',
-            detectResize: true,
-            wheelScrollDuration: 100,
-            wheelDirectionReverse: false
-        },
-        scrollPanel: {
-            scrollingX: false,
-            scrollingY: true,
-        },
-        rail: {},
-        bar: {
-            showDelay: 1000,
-            onlyShowBarOnScroll: true,
-            keepShow: false,
-            background: '#000000',
-            opacity: 0.2,
-            hoverStyle: false,
-            specifyBorderRadius: false,
-            minSize: 0,
-            size: '6px',
-            disable: false
-        }
-    },
-    name: 'vue-scroll'
-});
-vue.use(vuetify);
-
-
-
-
-
-/*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-▶▶Vue 컴포넌트
-■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
-
-import topBar from './components/top-bar.vue';
-vue.component('top-bar', topBar)
-import elasticButton from './components/elastic-button.vue';
-vue.component('elastic-button', elasticButton)
-import elasticTextbox from './components/elastic-textbox.vue';
-vue.component('elastic-textbox', elasticTextbox)
-import elasticAlert from './components/elastic-alert.vue';
-vue.component('elastic-alert', elasticAlert)
-import divider from './components/divider.vue';
-vue.component('divider', divider)
-import layoutBlock from './components/layout-block.vue';
-vue.component('layout-block', layoutBlock)
-import testComponent from './components/test-component.vue';
-vue.component('test-component', testComponent)
-
-
-
-
-
-/*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-▶▶Vue 지시문
-■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
-
-// 전역 사용자 정의 디렉티브 v-guide-alert 등록
-vue.directive('guide-alert', {
-    // 바인딩 된 엘리먼트가 DOM에 삽입되었을 때...
-    inserted: function (el, binding, vnode) {
-        let showTimer;
-        
-        el.addEventListener('mouseover', function(event){
-            showTimer = setTimeout(function(){
-                vnode.context.$root.showElasticAlert(el, binding.value);
-            }, 500)
-        })
-        el.addEventListener('mouseleave', function(){
-            clearTimeout(showTimer);
-        })
-        el.addEventListener('mousedown', function(){
-            clearTimeout(showTimer);
-        })
-        el.addEventListener('click', function(){
-            clearTimeout(showTimer);
-        })
-    }
-})
-
-
-
-
-
-/*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-▶▶시작 기반 뷰모델
-■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
-
-const baseVueModel = vue.extend({
+export default {
+    el: '#vueModelElement',
     vuetify: new vuetify({
-        treeShake: true,
         //vuetify options
     }),
     data: function(){ return{
-        isAuthenticationChecked: false,
-        isAuthenticated: null,
-        userInfo: {
-            userEmail: '',
-            userAilas: '',
-        },
-        topBarTimer: null,
-        layoutDebugging: false,
-        isDebugging: false,
-        isFullscreen: false,
-		isMobile: detectMobile(),
+        checkbox: false, //실험용
     }},
     computed: {
     },
@@ -281,6 +188,8 @@ const baseVueModel = vue.extend({
 			self.isMobile= detectMobile();
 		});
     }
-});
+};
+</script>
 
-export default baseVueModel;
+<style scoped>
+</style>

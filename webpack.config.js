@@ -9,7 +9,7 @@ let bundleAnalyzerPlugin = webpackBundleAnalyzer.BundleAnalyzerPlugin;
 let config = {
     mode: 'development',
     entry: {
-        'vue-script': './webpack-source/vue-script/core-script.js',
+        'vue-script': './webpack-source/vue-script/core.js',
         'npm-libraries': glob.sync('./webpack-source/npm-libraries/*.js'),
         'custom-libraries': glob.sync('./webpack-source/custom-libraries/*.js'),
     },
