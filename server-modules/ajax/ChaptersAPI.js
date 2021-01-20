@@ -2,48 +2,70 @@
 
 const express = require('express');
 const Chapters = require("./static/Chapters");
+const Comics = require('./static/Comics');
 const Base = require("./base/base");
 const mongoose = require("mongoose");
 
 const router = express.Router();
 
-//회원 등록
-router.post("/ajax/createChapter", async function(req,res){
-    let thumbnail = req.body.thumbnail;
-    let title = req.body.title;
-    let comicID = req.body.comic;//ObjectIdString
-    comicID = mongoose.Types.ObjectId(comicID);
-    let chargeMethod = req.body.chargeMethod;
-    let releaseDate = Number(req.body.releaseDate);
-    let price = Number(req.body.price);
+//챕터 등록
+router.post("/ajax/create/chapter", async function(req,res){
 
-    //TODO : 이미지 업로드
-
-    //TODO : Auth 체크
-
-    //TODO : 수정
-    let newChapter = new Chapters({
-        title : title,
-        thumbnail : thumbnail,
-        comic : comicID,
-        chargeMethod:chargeMethod,
-        releaseDate:releaseDate,
-        price:price
-    });
-    //newUser._id.toString()
-    //var id = mongoose.Types.ObjectId(hashstring);
-
-    try {
-        let result = await newChapter.save();
-        Base.logInfo("회차등록 성공",result);
-        Base.resYes(res,"회차등록 성공",result);
-    } catch (err){
-        Base.logErr("회차등록 실패",err);
-        Base.resNo(res,"회차등록 실패",err);
+    //Auth 체크
+    if(!req.isAuthenticated()){
+        Base.logInfo("failed to upload chapter. not logined");
+        Base.resNo(res,"Login first");
+        return;
     }
+
+    //이미지 업로드
+    Base.parseForm(req,async function(err,fileds,files){
+        if(err){
+            Base.logErr("Error occured while parsing form",err);
+            Base.resNo(res,"Error occured while parsing form");
+            return;
+        }
+
+        let title = fields['title'][0];
+        let comicTitle = fields['comicTitle'][0];
+            let comicID = await Comics.find({title:comicTitle});
+            if(!comicID){
+                Base.logInfo("failed to create chapter. Comics does not exist",comicTitle);
+                Base.resNo(res,"Comics doesn't exist",comicTitle);
+                return;
+            }
+            comicID = comicID._id;
+        let chargeMethod = fields['chargeMethod'][0];
+        let releaseDate = Number(fields['releaseDate'][0]);
+        let price = Number(fields['price'][0]);
+
+        let thumbnail = Base.filenameFromPath(files['thumbnail'][0]['path']);
+    },1024*1024*10);
+
+    
+    // let newChapter = new Chapters({
+    //     title : title,
+    //     thumbnail : thumbnail,
+    //     comic : comicID,
+    //     chargeMethod:chargeMethod,
+    //     releaseDate:releaseDate,
+    //     price:price
+    // });
+    // //newUser._id.toString()
+    // //var id = mongoose.Types.ObjectId(hashstring);
+
+    // try {
+    //     let result = await newChapter.save();
+    //     Base.logInfo("회차등록 성공",result);
+    //     Base.resYes(res,"회차등록 성공",result);
+    // } catch (err){
+    //     Base.logErr("회차등록 실패",err);
+    //     Base.resNo(res,"회차등록 실패",err);
+    // }
 } );
 
-router.post("/ajax/removeChapter", async function(req,res){
+//챕터 삭제
+router.post("/ajax/delete/Chapter", async function(req,res){
     //TODO : req
     let _id = req.body.chapterID;
     _id = mongoose.Types.ObjectId(_id);

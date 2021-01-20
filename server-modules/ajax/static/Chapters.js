@@ -10,7 +10,7 @@ const userSchema = new Schema({
     viewed : {type:Number,default:0},
     thumbnail : {type:String,default:"undefined"},
     title : {type:String,default:"notitle"},
-    imagesList : [Number],
+    imagesList : [String],
     comicsId : {type:mongoose.Schema.Types.ObjectId, ref:"comics"},
     registration : {type:Number, default:Date.now()},
     chargeMethod : {type:String,default:"무료"},
