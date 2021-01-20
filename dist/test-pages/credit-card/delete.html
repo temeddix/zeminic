@@ -1,0 +1,74 @@
+<html>
+
+<head>
+    <title>test</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <div id="list"></div>
+
+    <form id="myform">
+        별칭 : <input type="text" id="alias" name="alias" placeholder="삭제할 카드 별칭" /><br>
+        <input type="button" id="btn" onclick='myfunc()' value="삭-제"><br>
+        <input type="button" id="btn2"
+            onclick="location.href='/deoktest/index.html';" value="뒤로가기">
+    </form>
+
+    <script>
+        let br = "<br>";
+
+        axios.post('/ajax-tunnel/list-payment-method')
+            .then(function (result) {
+                data = result.data;
+
+                if (data.isOk == true) {
+                    var list = document.getElementById("list");
+                    var array = data.paymentMethod;
+                    var i;
+                    if (array.length == 0) {
+                        list.innerText = "등록된 카드가 없습니다.";
+                        return;
+                    }
+
+                    for (i = 0; i < array.length; i++) {
+                        var toAppend = "[카드 " + i + "]<br>";
+                        toAppend += "별칭 : " + array[i].alias + "<br>";
+                        toAppend += "종류 : " + array[i].type + "<br>";
+                        toAppend += "카드번호 : " + array[i].cardNumber + "<br><br>";
+                        list.innerHTML += toAppend;
+                    }
+                }
+
+            }).catch(function (error) {
+                data = error.response.data;
+                alert(data.msg);
+            });
+
+        function myfunc() {
+            let myform = document.getElementById("myform");
+            axios.post('/ajax-tunnel/delete-payment-method',
+                {
+                    alias:myform.alias.value
+                })
+                .then(function (result) {
+                    data = result.data;
+
+                    alert(data.msg);
+                    if(data.isOk == true){
+                        location.reload();
+                    }
+                    
+                }).catch(function (error) {
+                    data = error.response.data;
+                    alert(data.msg);
+                });
+
+        }
+
+
+    </script>
+
+</body>
+
+</html>

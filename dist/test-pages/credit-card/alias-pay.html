@@ -1,0 +1,47 @@
+<html>
+
+<head>
+    <title>test</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <form id="myform">
+        내 카드 별칭 : <input type="text" id="alias" name="alias" /><br>
+        게시물번호 : <input type="text" id="artworkId" name="artworkId" /><br>
+        <input type="button" id="btn" onclick='myfunc()' value="결제하기">
+    </form>
+
+    <script>
+        function myfunc() {
+            let myform = document.getElementById("myform");
+
+            axios.post('/ajax-tunnel/pay-card-alias',
+                {
+                    artworkId:myform.artworkId.value,
+                    cardAlias:myform.alias.value,
+                })
+                .then(function (result) {
+                    data = result.data;
+
+                    if(data.isOk == true){
+                        alert("성공");
+                    } else {
+                        alert("실패");
+                    }
+                    alert(data.msg);
+                    
+                }).catch(function (error) {
+                    data = error.response.data;
+                    alert(data.msg);
+                });
+
+
+        }
+
+
+    </script>
+
+</body>
+
+</html>

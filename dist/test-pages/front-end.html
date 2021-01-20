@@ -1,0 +1,80 @@
+<html>
+    <head>
+        <style>
+            *{
+                box-sizing: border-box;
+                vertical-align: middle;
+                text-align: center;
+            }
+            .theContainer{
+                display:inline-flex;
+                flex-direction: column;
+                align-items: center;
+                flex-wrap: nowrap;
+                overflow: scroll;
+                width: 600px;
+                height: 600px;
+                background-color:aqua;
+                margin: 20px;
+            }
+            .theItem{
+                width: 400px;
+                flex: 0 0 100px;
+                margin: auto;
+                padding: 10px;
+            }
+            .theColor{
+                background-color:darkred;
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <div id='testPageVueModel'>
+            <p>{{ windowInnerWidth }}</p>
+            <div class='theContainer' id='testId'>
+                <div class='theItem'><div class='theColor'></div></div>
+            </div>
+            <div class='theContainer'>
+                <vs-button
+                    :active="active == 0"
+                    @click="active = 0"
+                >
+                    Active
+                </vs-button>
+                <vs-button
+                    :active="active == 1"
+                    @click="active = 1"
+                >
+                    Default
+                </vs-button>
+                <vs-button disabled >Disabled</vs-button>
+                <div class="center">
+                    <vs-button
+                        @click="openNotification">
+                        Open Notification
+                    </vs-button>
+                </div>
+                <div class='theItem'><div class='theColor'></div></div>
+                <div class='theItem'><div class='theColor'></div></div>
+                <div class='theItem'><div class='theColor'></div></div>
+                <div class='theItem'><div class='theColor'></div></div>
+                <div class='theItem'><div class='theColor'></div></div>
+                <div class='theItem'><div class='theColor'></div></div>
+                <div class='theItem'><div class='theColor'></div></div>
+                <div class='theItem'><div class='theColor'></div></div>
+                <div class='theItem'><div class='theColor'></div></div>
+                <div class='theItem'><div class='theColor'></div></div>
+                <div class='theItem'><div class='theColor'></div></div>
+                <div class='theItem'><div class='theColor'></div></div>
+                <div class='theItem'><div class='theColor'></div></div>
+                <div class='theItem'><div class='theColor'></div></div>
+            </div>
+        </div>
+        <script src='/cdn-libraries-bundled.js'></script>
+        <script src='/npm-libraries-bundled.js'></script>
+        <script src='/custom-libraries-bundled.js'></script>
+        <script src='/vue-script-bundled.js'></script>
+    </body>
+</html>

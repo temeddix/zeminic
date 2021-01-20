@@ -1,0 +1,51 @@
+<html>
+
+<head>
+    <title>test</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <form id="myform">
+        별칭 : <input type="text" id="alias" name="alias" /><br>
+        카드번호 : <input type="text" id="cardNumber" name="cardNumber" /><br>
+        비번앞두자리 : <input type="text" id="pwd2digit" name="pwd2digit" /><br>
+        생년월일 : <input type="text" id="birth" name="birth"/><br>
+        만료년월 : <input type="text" id="expireDate" name="expireDate" /><br>
+        <input type="button" id="btn" onclick='myfunc()' value="생성하기(클릭)">
+    </form>
+
+    <script>
+        function myfunc() {
+            let myform = document.getElementById("myform");
+
+            axios.post('/ajax-tunnel/create-payment-method',
+                {
+                    alias:myform.alias.value,
+                    cardNumber:myform.cardNumber.value,
+                    pwd2digit:myform.pwd2digit.value,
+                    expireDate:myform.expireDate.value,
+                    birth:myform.birth.value
+                })
+                .then(function (result) {
+                    data = result.data;
+
+                    alert(data.msg);
+                    if(data.isOk == true){
+                        location.reload();
+                    }
+                    
+                }).catch(function (error) {
+                    data = error.response.data;
+                    alert(data.msg);
+                });
+
+
+        }
+
+
+    </script>
+
+</body>
+
+</html>

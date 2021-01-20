@@ -1,0 +1,37 @@
+<html>
+    <head>
+        <title>Sign up</title>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    </head>
+
+    <body>
+        Email <input type="text" id="email"><br>
+        PW <input type="password" id="pw"><br>
+        Repeat <input type="password" id="repeat"><br>
+        Nickname <input type="text" id="nickname"><br>
+        <input type="button" onclick="f();" id="submit" value="Submit"><br>
+
+
+        <script>
+            let email = document.getElementById("email");
+            let pw = document.getElementById("pw");
+            let repeat = document.getElementById("repeat");
+            let nickname = document.getElementById("nickname");
+            let submit = document.getElementById("submit");
+
+            async function f(){
+                let response = await axios.post("/ajax/signup", {
+                    email: email.value,
+                    pw:pw.value,
+                    nickname:nickname.value
+                });
+        
+                console.log("result",response);
+                let resdata = response.data; // Backend API에서 리턴하는 obj
+
+                alert("response data : "+JSON.stringify(resdata));
+            }
+            
+        </script>
+    </body>
+</html>

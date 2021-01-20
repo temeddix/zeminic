@@ -36,10 +36,6 @@ const util = require("util");
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
 let server = new express();
-server.set('view engine', 'ejs');
-//간단한 서버쪽 렌더링(SSR) ejs 템플릿엔진을 사용 가능하게 해 줌. NPM까지 알아서 로드하나 보네.
-server.set('views', './ejs-template/')
-//그럼 템플릿엔진이 어떤 폴더에서 템플릿 파일(views)들을 꺼낼 것인가? 바로 이 폴더다.
 server.use(cookieParser());
 //request.cookies 를 만들어 줌.
 server.use(bodyParser.urlencoded({ extended: false }));
@@ -50,7 +46,7 @@ server.use(bodyParser.text());
 // HTTP 요청(request) 중 내용 형식(type)이 'text/plain'인 것들에게 request.body를 만들어 줌.
 server.use(compression());
 //응답(response)을 보낼 때 압축해서 보내서 빨라짐.
-server.use(express.static('public'));
+server.use(express.static('dist'));
 //이 폴더들 속 파일에 클라이언트가 맘대로 접근 가능. 즉 개방됨.
 
 //덕 백엔드 @DEOK
@@ -94,7 +90,7 @@ server.get
 (
     '/*',
     function(req, res){
-        res.sendFile('./public/index.html')
+        res.sendFile('./dist/index.html')
     }
 );
 
