@@ -30,7 +30,6 @@ img{
     object-fit: cover;
     background-color: #cccccc;
     border-width: 0px;
-	font-family: 'object-fit: cover;'; /* IE 호환성을 위한 폴리필(Polyfill) 라이브러리 object-fit-image.js 전용 속성 */
 }
 
 

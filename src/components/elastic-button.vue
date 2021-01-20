@@ -225,14 +225,16 @@ export default {
             }
         },
         targetActivation(newValue) {
-            gsap.to(this.$data, { 
+            let self= this;
+            gsap.to(self.$data, { 
                 duration: 0.3, 
                 ease: 'power4',
                 tweenedActivation: newValue 
             })
         },
         targetPopupPositionTop(newValue) {
-            gsap.to(this.$data, { 
+            let self= this;
+            gsap.to(self.$data, { 
                 duration: 0.6, 
                 ease: 'power4',
                 tweenedPopupPositionTop: newValue 
@@ -240,14 +242,15 @@ export default {
         },
         targetPopupPositionLeft(newValue){
             let self= this;
-            gsap.to(this.$data, { 
+            gsap.to(self.$data, { 
                 duration: 0.6, 
                 ease: 'power4',
                 tweenedPopupPositionLeft: newValue
             })
         },
         targetPopupWidth(newValue) {
-            gsap.to(this.$data, { 
+            let self= this;
+            gsap.to(self.$data, { 
                 duration: 0.6, 
                 ease: 'power4',
                 tweenedPopupWidth: newValue 
@@ -255,7 +258,7 @@ export default {
         },
         targetPopupHeight(newValue){
             let self= this;
-            gsap.to(this.$data, { 
+            gsap.to(self.$data, { 
                 duration: 0.6, 
                 ease: 'power4',
                 tweenedPopupHeight: newValue
