@@ -32,5 +32,5 @@ jobs:
       with:
         app-name: 'zeminem'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_a0f8a52cb1d845aa83fb51fef6814f70 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_96e13cdf99da4faab5c0b23a88e0560d }}
         package: .
