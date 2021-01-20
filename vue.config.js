@@ -9,7 +9,7 @@ module.exports = {
         },
         plugins: [
             new vuetifyLoaderPlugin(),
-            //new webpackBundleAnalyzer.BundleAnalyzerPlugin(),
+            //new webpackBundleAnalyzer.BundleAnalyzerPlugin(), //이걸 켜면 웹팩 프로세스가 종료되지 않아 애저(Azure)에 배포 시 빌드만 하고 배포 단계로 넘어가지 않음.
         ],
         module: {
             rules: [{

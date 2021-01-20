@@ -12,24 +12,15 @@
 
 html, body{
     background-color: #f1f1f1;
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: auto;
 }
 
 a{
     cursor: default;
 }
 
-input,textarea,button{
-    resize: none;
-    overflow: hidden;
-}
-
 img{
-    border-radius: 12px;
     object-fit: cover;
-    background-color: #cccccc;
-    border-width: 0px;
 }
 
 
