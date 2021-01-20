@@ -6,11 +6,11 @@
 * 정덕
 
 ## 가장 중요한 명령어들
-개발(Development)을 위해 변동사항을 감지하는 자동(Hot-reload) 컴파일 켜기
+개발(Development)을 위해 변동사항을 감지하는 자동(Hot-reload) 웹팩(Webpack) 컴파일 켜기
 ```
 npm run serve
 ```
-배포(Production)를 위해 용량을 최소화하여(Minify) 컴파일하기
+배포(Production)를 위해 용량을 최소화하여(Minify) 웹팩(Webpack) 컴파일하기
 ```
 npm run build
 ```
