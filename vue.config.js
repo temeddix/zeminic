@@ -6,7 +6,6 @@ module.exports = {
         entry: {
         },
         output: {
-            filename: '[name]-bundled.js'
         },
         plugins: [
             new vuetifyLoaderPlugin(),
