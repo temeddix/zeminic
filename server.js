@@ -23,6 +23,8 @@ const passportLocal = require('passport-local');
 const connectMongo = require('connect-mongo');
 const compression = require('compression');
 const util = require("util");
+const historyFallback = require('connect-history-api-fallback');
+// single-page-app을 만들기 위해 주소를 기본값인 /로 속여서 index.html을 응답하는 역할
 
 
 
@@ -46,6 +48,8 @@ server.use(bodyParser.text());
 // HTTP 요청(request) 중 내용 형식(type)이 'text/plain'인 것들에게 request.body를 만들어 줌.
 server.use(compression());
 //응답(response)을 보낼 때 압축해서 보내서 빨라짐.
+server.use(historyFallback())
+//잘못된 주소를 모두 static 폴더로 안내해 줌. 즉 잘못된 주소로는 모두 index.html이 응답됨. 404는 없는 셈.
 server.use(express.static('dist'));
 //이 폴더들 속 파일에 클라이언트가 맘대로 접근 가능. 즉 개방됨.
 
