@@ -9,7 +9,7 @@ module.exports = {
         },
         plugins: [
             new vuetifyLoaderPlugin(),
-            new webpackBundleAnalyzer.BundleAnalyzerPlugin(),
+            //new webpackBundleAnalyzer.BundleAnalyzerPlugin(),
         ],
         module: {
             rules: [{
