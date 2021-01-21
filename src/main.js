@@ -5,6 +5,7 @@
 import vue from 'vue';
 import vueScroll from 'vuescroll';
 import vueTouchEvents from 'vue2-touch-events';
+import vueRouter from 'vue-router';
 import vuetify from 'vuetify/lib'; //Material Design 양식에 기반한 Vue UI 컴포넌트 라이브러리. https://vuetifyjs.com/en/getting-started/installation/ 여기가 사용법 안내.
 
 
@@ -40,36 +41,37 @@ import './style.css';
 /*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 ▶▶Vue 플러그인 적용
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
-// 관련글 https://ui.toast.com/weekly-pick/ko_20200804
+
+vue.use(vueRouter)
 vue.use(vueTouchEvents);
-vue.use(vueScroll,{
-    ops: {
-        vuescroll: {
-            mode: 'native',
-            sizeStrategy: 'percent',
-            detectResize: true,
-            wheelScrollDuration: 100,
-            wheelDirectionReverse: false
-        },
-        scrollPanel: {
-            scrollingX: false,
-            scrollingY: true,
-        },
-        rail: {},
-        bar: {
-            showDelay: 1000,
-            onlyShowBarOnScroll: true,
-            keepShow: false,
-            background: '#000000',
-            opacity: 0.2,
-            hoverStyle: false,
-            specifyBorderRadius: false,
-            minSize: 0,
-            size: '6px',
-            disable: false
-        }
+vue.use(vueScroll, {
+  ops: {
+    vuescroll: {
+      mode: 'native',
+      sizeStrategy: 'percent',
+      detectResize: true,
+      wheelScrollDuration: 100,
+      wheelDirectionReverse: false
     },
-    name: 'vue-scroll'
+    scrollPanel: {
+      scrollingX: false,
+      scrollingY: true,
+    },
+    rail: {},
+    bar: {
+      showDelay: 1000,
+      onlyShowBarOnScroll: true,
+      keepShow: false,
+      background: '#000000',
+      opacity: 0.2,
+      hoverStyle: false,
+      specifyBorderRadius: false,
+      minSize: 0,
+      size: '6px',
+      disable: false
+    }
+  },
+  name: 'vue-scroll'
 });
 vue.use(vuetify);
 
@@ -83,25 +85,25 @@ vue.use(vuetify);
 
 // 전역 사용자 정의 디렉티브 v-guide-alert 등록
 vue.directive('guide-alert', {
-    // 바인딩 된 엘리먼트가 DOM에 삽입되었을 때...
-    inserted: function (el, binding, vnode) {
-        let showTimer;
-        
-        el.addEventListener('mouseover', function(){
-            showTimer = setTimeout(function(){
-                vnode.context.$root.showElasticAlert(el, binding.value);
-            }, 500)
-        })
-        el.addEventListener('mouseleave', function(){
-            clearTimeout(showTimer);
-        })
-        el.addEventListener('mousedown', function(){
-            clearTimeout(showTimer);
-        })
-        el.addEventListener('click', function(){
-            clearTimeout(showTimer);
-        })
-    }
+  // 바인딩 된 엘리먼트가 DOM에 삽입되었을 때...
+  inserted: function (el, binding, vnode) {
+    let showTimer;
+
+    el.addEventListener('mouseover', function () {
+      showTimer = setTimeout(function () {
+        vnode.context.$root.showElasticAlert(el, binding.value);
+      }, 500)
+    })
+    el.addEventListener('mouseleave', function () {
+      clearTimeout(showTimer);
+    })
+    el.addEventListener('mousedown', function () {
+      clearTimeout(showTimer);
+    })
+    el.addEventListener('click', function () {
+      clearTimeout(showTimer);
+    })
+  }
 })
 
 
@@ -148,6 +150,6 @@ vue.config.productionTip = false
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
 new vue({
-    vuetify: new vuetify(),
-    render: h => h(app),
-  }).$mount('#vueModelElement')
+  vuetify: new vuetify(),
+  render: h => h(app),
+}).$mount('#vueModelElement')

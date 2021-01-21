@@ -24,7 +24,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .layoutBlock{
         display: inline-flex;
         justify-content: center;

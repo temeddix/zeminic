@@ -1,44 +1,53 @@
-@viewport {width: device-width; user-zoom:fixed};
+@viewport {
+  width: device-width;
+  user-zoom: fixed
+}
+
+;
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap');
 
 /* ■■■■■■ 태그별 전역(Global) 기본 스타일 ■■■■■ */
 
-*{
-    font-family: 'Noto Sans KR';
-    font-size: 10pt;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+* {
+  font-family: 'Noto Sans KR';
+  font-size: 10pt;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-html, body{
-    background-color: #f1f1f1;
-    overflow: auto;
+html,
+body {
+  overflow: auto;
 }
 
-a{
-    cursor: default;
+a {
+  cursor: default;
+  color: inherit;
+  /* blue colors for links too */
+  text-decoration: inherit;
+  /* no underline */
 }
 
-img{
-    object-fit: cover;
+img {
+  object-fit: cover;
 }
 
 
 /* ■■■■■■ 여기서부턴 웹브라우저별로 다르고 쓸데없게 존재하는 잡다한 UI 통일하고 제거하는 역할 ■■■■■ */
 
 
-::selection{
-    background: rgba(0,0,0,0.5);
+::selection {
+  background: rgba(0, 0, 0, 0.5);
 }
 
-input::-ms-clear{
-    display: none;
-    /* 이건 인터넷익스플로러에서 입력상자에서 나타나는 쓸데없는 아이콘들 없애는 역할*/
+input::-ms-clear {
+  display: none;
+  /* 이건 인터넷익스플로러에서 입력상자에서 나타나는 쓸데없는 아이콘들 없애는 역할*/
 }
 
-input::-ms-reveal{
-    display: none;
-    /* 이건 인터넷익스플로러에서 입력상자에서 나타나는 쓸데없는 아이콘들 없애는 역할*/
+input::-ms-reveal {
+  display: none;
+  /* 이건 인터넷익스플로러에서 입력상자에서 나타나는 쓸데없는 아이콘들 없애는 역할*/
 }
 
 input::-webkit-outer-spin-button,
