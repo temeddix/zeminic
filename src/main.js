@@ -8,6 +8,8 @@ import vueTouchEvents from 'vue2-touch-events';
 import vueRouter from 'vue-router';
 import vuetify from 'vuetify/lib'; //Material Design 양식에 기반한 Vue UI 컴포넌트 라이브러리. https://vuetifyjs.com/en/getting-started/installation/ 여기가 사용법 안내.
 
+import './style.css'; //CSS 파일은 import하는 것만으로도 전체에 반영돼. 웹팩 기능이야.
+
 
 
 
@@ -22,16 +24,6 @@ import vuetify from 'vuetify/lib'; //Material Design 양식에 기반한 Vue UI 
 
 import "./libraries/**/*.js";
 
-
-
-
-
-/*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-▶▶제미넴만의 뷰모델 준비
-■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
-
-import app from './app.vue'
-import './style.css';
 
 
 
@@ -111,25 +103,31 @@ vue.directive('guide-alert', {
 
 
 /*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-▶▶Vue 컴포넌트 등록
+▶▶Vue 컴포넌트 등록 (전역으로 Global하게=어디에서든 쓸 수 있게)
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
-import helloWorld from './components/hello-world.vue'
-vue.component('hello-world', helloWorld)
-import topBar from './components/top-bar.vue';
-vue.component('top-bar', topBar)
-import elasticButton from './components/elastic-button.vue';
-vue.component('elastic-button', elasticButton)
-import elasticTextbox from './components/elastic-textbox.vue';
-vue.component('elastic-textbox', elasticTextbox)
-import elasticAlert from './components/elastic-alert.vue';
-vue.component('elastic-alert', elasticAlert)
-import divider from './components/divider.vue';
-vue.component('divider', divider)
-import layoutBlock from './components/layout-block.vue';
-vue.component('layout-block', layoutBlock)
+vue.component('hello-world', require('./components/hello-world.vue').default)
+vue.component('top-bar', require('./components/top-bar.vue').default)
+vue.component('elastic-button', require('./components/elastic-button.vue').default)
+vue.component('elastic-textbox', require('./components/elastic-textbox.vue').default)
+vue.component('elastic-alert', require('./components/elastic-alert.vue').default)
+vue.component('divider', require('./components/divider.vue').default)
+vue.component('layout-block', require('./components/layout-block.vue').default)
 
 
+
+
+
+/*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+▶▶주소에 따라 <router-view> 내용을 바꿔주는 vue-router 주소관계 설정
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
+
+const routes = [
+  { path: '/', component: require('./views/home.vue').default },
+  { path: '/flower/:flowerId', component: require('./views/flower.vue').default },
+  { path: '/grass', component: require('./views/grass.vue').default },
+  { path: '/tree', component: require('./views/tree.vue').default },
+]
 
 
 
@@ -150,6 +148,10 @@ vue.config.productionTip = false
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
 new vue({
+  router: new vueRouter({
+    routes: routes,
+    mode: 'history',
+  }),
   vuetify: new vuetify(),
-  render: h => h(app),
+  render: h => h(require('./app.vue').default),
 }).$mount('#vueModelElement')

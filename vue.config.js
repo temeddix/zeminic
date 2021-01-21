@@ -2,6 +2,7 @@ const webpackBundleAnalyzer = require('webpack-bundle-analyzer');
 const vuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 
 module.exports = {
+    transpileDependencies: ['vuetify'], //vuetify 컴포넌트의 ie11호환을 위해 꼭 필요함
     configureWebpack: {
         entry: {
         },
