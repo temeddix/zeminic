@@ -8,7 +8,7 @@ import vueTouchEvents from 'vue2-touch-events';
 import vueRouter from 'vue-router';
 import vuetify from 'vuetify/lib'; //Material Design 양식에 기반한 Vue UI 컴포넌트 라이브러리. https://vuetifyjs.com/en/getting-started/installation/ 여기가 사용법 안내.
 
-import './style.css'; //CSS 파일은 import하는 것만으로도 전체에 반영돼. 웹팩 기능이야.
+import './style.scss'; //CSS 파일은 import하는 것만으로도 전체에 반영돼. 웹팩 기능이야.
 
 
 

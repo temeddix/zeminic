@@ -13,12 +13,14 @@
   font-size: 10pt;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  outline: none; /* 클릭시 버튼에 테두리 나오는 효과 제거 */
+  outline: none;
+  /* 클릭시 버튼에 테두리 나오는 효과 제거 */
 }
 
 html,
 body {
-  overflow: auto;
+  overflow: overlay;
+  /* 스크롤바가 영역을 차지하지 않고 단순히 얹히기만 하도록 */
 }
 
 a {
@@ -55,4 +57,38 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  /* 세로축 스크롤바 길이 */
+  height: 12px;
+
+  /* 가로축 스크롤바 길이 */
+  /*스크롤바 모양 수정(webkit 기반 브라우저)*/
+  /*http://jsfiddle.net/smutnyleszek/t4q7o36r*/
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 0px;
+  -webkit-transition: background-color 0.5s;
+
+  &:hover {
+    background-color: rgba(0,0,0,0.08);
+  }
+  /*스크롤바 움직임 영역 모양 수정(webkit 기반 브라우저)*/
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  border-radius: 0px;
+  background: rgba(0, 0, 0, 0.04);
+  -webkit-transition: background-color 0.5s;
+
+  &:hover {
+    background-color: rgba(0,0,0,0.16);
+  }
+  /*스크롤바 막대 모양 수정(webkit 기반 브라우저)*/
 }
