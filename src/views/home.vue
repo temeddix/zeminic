@@ -3,9 +3,11 @@
     <v-row>
       <v-col class="text-center">
         <img alt="Vue logo" src="../assets/logo.png" class="logo" />
-        <br />
-        <br />
-        <hello-world msg="Welcome to Your Vue.js App" />
+      </v-col>
+    </v-row>
+    <v-row class='mt-4 mb-n6'>
+      <v-col class="text-center">
+        <p class='text-h4'>제미넴 개발 초기 화면</p>
       </v-col>
     </v-row>
 
@@ -38,7 +40,7 @@
       </v-col>
     </v-row>
 
-    <v-row>
+    <v-row class='mb-10'>
       <v-col class="d-flex justify-center">
         <v-bottom-sheet v-model="sheet">
           <template v-slot:activator="{ on, attrs }">
@@ -52,7 +54,7 @@
               text
               @click="sheet = !sheet"
             >
-              close
+              Close
             </v-btn>
             <div class="ma-2">
               This is a bottom sheet This is a bottom sheet This is a bottom
@@ -82,8 +84,8 @@
       </v-col>
     </v-row>
 
-    <v-row v-for="n in 7" :key="n">
-      <v-col v-for="k in n + 1" :key="k">
+    <v-row v-for="n in 7" :key="n" class='px-2'>
+      <v-col v-for="k in n + 1" :key="k" class='px-1'>
         <v-card class="d-flex justify-center align-center small-card">
           {{ k }} of {{ n + 1 }}
         </v-card>

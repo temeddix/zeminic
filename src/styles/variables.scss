@@ -1,0 +1,32 @@
+/* 이 파일에 있는 변수들은 웹팩이 vuetify 컴포넌트 설정을 덮어씌우는 데에 사용함 */
+/* https://vuetifyjs.com/en/features/sass-variables/ */
+
+// Globals
+$body-font-family: 'Noto Sans KR', '맑은 고딕', sans-serif;
+$border-radius-root: 6px;
+$font-size-root: 14px;
+
+// Variables must come before the import
+$btn-letter-spacing: 0;
+$btn-font-weight: 400;
+$list-item-title-font-size: 0.929rem;
+$list-item-dense-title-font-size: 0.929rem;
+$list-item-dense-title-font-weight: initial;
+$fab-icon-sizes: (
+  'small': 20
+);
+$btn-sizes: (
+  'default': 41,
+  'large': 54
+);
+
+$headings: (
+  'h1': (
+    'size': 3.3125rem,
+    'line-height': 1.15em
+  ),
+  'h2': (
+    'size': 2.25rem,
+    'line-height': 1.5em
+  )
+);

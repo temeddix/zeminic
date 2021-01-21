@@ -14,7 +14,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   outline: none;
-  /* 클릭시 버튼에 테두리 나오는 효과 제거 */
+  /* 클릭시 버튼에 테두리 나오는 기본효과 제거 */
+  text-transform: none !important;
+  /* Vuetify 컴포넌트의 자동 대문자화 또는 소문자화 방지 */
 }
 
 html,
@@ -60,10 +62,9 @@ input::-webkit-inner-spin-button {
 }
 
 ::-webkit-scrollbar {
-  width: 12px;
+  width: 8px;
   /* 세로축 스크롤바 길이 */
-  height: 12px;
-
+  height: 8px;
   /* 가로축 스크롤바 길이 */
   /*스크롤바 모양 수정(webkit 기반 브라우저)*/
   /*http://jsfiddle.net/smutnyleszek/t4q7o36r*/
@@ -71,22 +72,24 @@ input::-webkit-inner-spin-button {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.04);
+  background: rgba(0, 0, 0, 0);
   border-radius: 0px;
 
   &:hover {
-    background-color: rgba(0,0,0,0.08);
+    background-color: rgba(0, 0, 0, 0.2);
   }
+
   /*스크롤바 움직임 영역 모양 수정(webkit 기반 브라우저)*/
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
   border-radius: 0px;
-  background: rgba(0, 0, 0, 0.12);
+  background: rgba(0, 0, 0, 0.2);
 
   &:hover {
-    background-color: rgba(0,0,0,0.24);
+    background-color: rgba(0, 0, 0, 0.4);
   }
+
   /*스크롤바 막대 모양 수정(webkit 기반 브라우저)*/
 }

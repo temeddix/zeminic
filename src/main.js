@@ -8,8 +8,8 @@ import vueTouchEvents from 'vue2-touch-events';
 import vueRouter from 'vue-router';
 import vuetify from 'vuetify/lib'; //Material Design 양식에 기반한 Vue UI 컴포넌트 라이브러리. https://vuetifyjs.com/en/getting-started/installation/ 여기가 사용법 안내.
 
-import './style.scss'; //CSS 파일은 import하는 것만으로도 전체에 반영돼. 웹팩 기능이야.
-import '@fortawesome/fontawesome-free/css/all.css' //Font awesome에서 제공한 아이콘 팩. vuetify에 사용하려는 목적이야
+import './styles/basic.scss'; //CSS 파일은 import하는 것만으로도 전체에 반영돼. 웹팩 기능이야.
+import '@mdi/font/css/materialdesignicons.css' //Material Design 아이콘 팩. vuetify가 사용함.
 
 
 
@@ -107,7 +107,6 @@ vue.directive('guide-alert', {
 ▶▶Vue 컴포넌트 등록 (전역으로 Global하게=어디에서든 쓸 수 있게)
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
-vue.component('hello-world', require('./components/hello-world.vue').default)
 vue.component('top-bar', require('./components/top-bar.vue').default)
 vue.component('elastic-button', require('./components/elastic-button.vue').default)
 vue.component('elastic-alert', require('./components/elastic-alert.vue').default)
@@ -152,7 +151,7 @@ new vue({
   }),
   vuetify: new vuetify({
     icons: {
-      iconfont: 'fa', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
+      iconfont: 'mdi', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
     },
   }),
   render: h => h(require('./app.vue').default),
