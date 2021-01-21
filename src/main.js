@@ -109,10 +109,7 @@ vue.directive('guide-alert', {
 vue.component('hello-world', require('./components/hello-world.vue').default)
 vue.component('top-bar', require('./components/top-bar.vue').default)
 vue.component('elastic-button', require('./components/elastic-button.vue').default)
-vue.component('elastic-textbox', require('./components/elastic-textbox.vue').default)
 vue.component('elastic-alert', require('./components/elastic-alert.vue').default)
-vue.component('divider', require('./components/divider.vue').default)
-vue.component('layout-block', require('./components/layout-block.vue').default)
 
 
 
