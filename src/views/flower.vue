@@ -13,33 +13,6 @@
         <v-pagination v-model="flowerId" :length="8" circle></v-pagination>
       </v-col>
     </v-row>
-
-    <v-divider class="ma-8"> </v-divider>
-
-    <v-row>
-      <v-col>
-        <router-link to="/">
-          <v-btn block class="white" rounded>홈으로 가기</v-btn>
-        </router-link>
-      </v-col>
-      <v-col>
-        <router-link to="/flower/1">
-          <v-btn block class="white" rounded>꽃 페이지로 가기</v-btn>
-        </router-link>
-      </v-col>
-      <v-col>
-        <router-link to="/grass">
-          <v-btn block class="white" rounded>풀 페이지로 가기</v-btn>
-        </router-link>
-      </v-col>
-      <v-col>
-        <router-link to="/tree">
-          <v-btn block class="white" rounded
-            >나무 페이지로 가기</v-btn
-          >
-        </router-link>
-      </v-col>
-    </v-row>
   </div>
 </template>
 

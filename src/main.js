@@ -9,13 +9,14 @@ import vueRouter from 'vue-router';
 import vuetify from 'vuetify/lib'; //Material Design 양식에 기반한 Vue UI 컴포넌트 라이브러리. https://vuetifyjs.com/en/getting-started/installation/ 여기가 사용법 안내.
 
 import './style.scss'; //CSS 파일은 import하는 것만으로도 전체에 반영돼. 웹팩 기능이야.
+import '@fortawesome/fontawesome-free/css/all.css' //Font awesome에서 제공한 아이콘 팩. vuetify에 사용하려는 목적이야
 
 
 
 
 
 /*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-▶▶모든 라이브러리를 전역변수로 등록
+▶▶모든 라이브러리 파일들을 불러와서 windows.xxx형식의 전역변수로 등록
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
 //이렇게 이름 없이 불러들이기만 하면 변수를 가져오진 않지만, 그 안에 있는 global 변수 등록 코드가 실행되어 라이브러리가 window.library라는 전역 변수가 되는 효과가 있음.
@@ -131,7 +132,7 @@ const routes = [
 
 
 /*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-▶▶Vue 기타 설정
+▶▶기타 설정
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
 vue.config.productionTip = false
@@ -149,6 +150,10 @@ new vue({
     routes: routes,
     mode: 'history',
   }),
-  vuetify: new vuetify(),
+  vuetify: new vuetify({
+    icons: {
+      iconfont: 'fa', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
+    },
+  }),
   render: h => h(require('./app.vue').default),
 }).$mount('#vueModelElement')
