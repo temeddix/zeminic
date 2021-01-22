@@ -163,28 +163,32 @@ const vuetifyOptions = {
   },
   theme: {
     dark: true,
+    options: {
+      customProperties: true, //각 컴포넌트의 <style> 영역에서 변수로 접근 가능해짐
+      variations: false,
+    },
     themes: {
       // 방법 참고 https://vuetifyjs.com/en/features/theme/
       // 색깔 참고 https://vuetifyjs.com/en/styles/colors/#material-colors
       light: {
-        primary: colors.grey.darken4,
-        secondary: colors.grey.darken2,
+        primary: colors.shades.black, // Highlight에 쓰임. 그러니까 함부로 부여하지 말기. =켜진 상태.
+        secondary: colors.grey.darken4, //강조하고 싶을 땐 이 속성을 쓰기. =돋보이는 것.
         accent: '#82B1FF',
         error: '#FF5252',
         info: '#2196F3',
         success: '#4CAF50',
         warning: '#FFC107',
-        'anti-primary': colors.shades.white, //custom value
+        background: "#f2f2f2", //custom
       },
       dark: {
-        primary: colors.grey.darken2,
-        secondary: colors.grey.darken3,
+        primary: colors.shades.white, // Highlight에 쓰임. 그러니까 함부로 부여하지 말기. =켜진 상태.
+        secondary: colors.grey.darken3, //강조하고 싶을 땐 이 속성을 쓰기. =돋보이는 것.
         accent: '#82B1FF',
         error: '#FF5252',
         info: '#2196F3',
         success: '#4CAF50',
         warning: '#FFC107',
-        'anti-primary': colors.shades.black, //custom value
+        background: "#151515", //custom
       },
     },
   },

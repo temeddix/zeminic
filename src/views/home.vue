@@ -2,7 +2,7 @@
   <div>
     <v-row>
       <v-col class="text-center">
-        <img alt="Vue logo" src="../assets/logo.png" class="logo" />
+        <img alt="Vue logo" src="../assets/logo.png" class="logo-image" />
       </v-col>
     </v-row>
     <v-row class="mt-4 mb-n6">
@@ -44,7 +44,7 @@
       <v-col class="d-flex justify-center">
         <v-bottom-sheet v-model="sheet">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn rounded class="primary" v-bind="attrs" v-on="on">
+            <v-btn rounded class="secondary" v-bind="attrs" v-on="on">
               Bottom sheet 열기
             </v-btn>
           </template>
@@ -114,7 +114,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.logo {
+.logo-image {
   border-radius: 12px;
 }
 .small-card {

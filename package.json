@@ -25,6 +25,7 @@
         "express": "^4.17.1",
         "express-session": "^1.17.1",
         "formidable": "^1.2.2",
+        "http-proxy-middleware": "^1.0.6",
         "iamporter": "^1.4.2",
         "mongoose": "^5.9.20",
         "multiparty": "^4.2.2",
@@ -83,9 +84,12 @@
             "parser": "babel-eslint"
         },
         "rules": {
-            "no-unused-vars": ["error", {
-                "args": "none"
-            }]
+            "no-unused-vars": [
+                "error",
+                {
+                    "args": "none"
+                }
+            ]
         }
     },
     "browserslist": [

@@ -1,13 +1,11 @@
 <template>
   <!-- v-app은 vuetify가 제공하는 helper class style을 사용하기 위해 꼭 필요한 최상단 요소 -->
   <v-app class="app" ref="app">
-    <v-app-bar
-      app
-      hide-on-scroll
-      class="elevation-4 pl-2"
-      scroll-threshold="200"
-    >
-      <v-toolbar-title>
+    <v-app-bar app hide-on-scroll class="elevation-4" scroll-threshold="200">
+      <router-link to="/">
+        <v-btn class="secondary ma-1 logo-button"> </v-btn>
+      </router-link>
+      <v-toolbar-title class="mx-4">
         {{ contentTitle == "" ? "Zeminem" : contentTitle }}
       </v-toolbar-title>
       <v-spacer></v-spacer>
@@ -20,17 +18,25 @@
         <v-card>
           <v-card-title class="d-flex">개발용 패널</v-card-title>
           <v-card-text style="height: 600px">
-            <router-link to="/" class="ma-1">
-              <v-btn rounded>홈으로 가기</v-btn>
+            <router-link to="/">
+              <v-btn class="secondary ma-1" rounded @click="devDialog = false"
+                >홈으로 가기</v-btn
+              >
             </router-link>
-            <router-link to="/flower/1" class="ma-1">
-              <v-btn rounded>꽃 페이지로 가기</v-btn>
+            <router-link to="/flower/1">
+              <v-btn class="secondary ma-1" rounded @click="devDialog = false"
+                >꽃 페이지로 가기</v-btn
+              >
             </router-link>
-            <router-link to="/grass" class="ma-1">
-              <v-btn rounded>풀 페이지로 가기</v-btn>
+            <router-link to="/grass">
+              <v-btn class="secondary ma-1" rounded @click="devDialog = false"
+                >풀 페이지로 가기</v-btn
+              >
             </router-link>
-            <router-link to="/tree" class="ma-1">
-              <v-btn rounded>나무 페이지로 가기</v-btn>
+            <router-link to="/tree">
+              <v-btn class="secondary ma-1" rounded @click="devDialog = false"
+                >나무 페이지로 가기</v-btn
+              >
             </router-link>
           </v-card-text>
           <v-card-actions>
@@ -39,13 +45,11 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-      <v-switch class="ma-1" v-model="darkMode" inset hide-details>
-        <template v-slot:label> </template>
-      </v-switch>
+      <v-switch class="ma-1" v-model="darkMode" inset hide-details> </v-switch>
       <!-- 로그인 패널 참고 https://vuetifyjs.com/en/components/dialogs/#form -->
       <v-dialog v-model="loginDialog" scrollable max-width="600px">
         <template v-slot:activator="{ on, attrs }">
-          <v-btn class="primary ma-1" v-bind="attrs" v-on="on"> 로그인 </v-btn>
+          <v-btn class="secondary ma-1" v-bind="attrs" v-on="on"> 로그인 </v-btn>
         </template>
         <v-card>
           <v-card-title class="d-flex"></v-card-title>
@@ -76,10 +80,10 @@
               </v-row>
             </v-container>
           </v-card-text>
-          <v-card-actions class="pb-10">
+          <v-card-actions class="pb-10 px-9">
             <v-spacer></v-spacer>
-            <v-btn color="primary" @click="devDialog = false"> 로그인 </v-btn>
-            <v-btn text @click="devDialog = false"> 닫기 </v-btn>
+            <v-btn text @click="loginDialog = false"> 닫기 </v-btn>
+            <v-btn color="secondary" @click="login"> 로그인 </v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -119,6 +123,8 @@
 </template>
 
 <script>
+const axios = window.axios;
+
 export default {
   data() {
     return {
@@ -140,7 +146,12 @@ export default {
       };
     },
   },
-  methods: {},
+  methods: {
+    async login() {
+      let response = await axios.post("/ajax/login", this.loginForm);
+      console.log(response);
+    },
+  },
   watch: {
     contentTitle(newValue) {
       // 콘텐츠 제목 변수 contentTitle 변경에 따라 웹 페이지 제목도 변경
@@ -164,7 +175,10 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.app {
+  background-color: var(--v-background-base);
+}
 .spacer {
   &-top {
     height: 84px;
@@ -173,8 +187,12 @@ export default {
     height: 180px;
   }
 }
-.logo {
-  border-radius: 12px;
+.logo-button {
+  min-width: 42px !important;
+  width: 42px !important;
+  height: 42px;
+  border-radius: 6px;
+  background-image: url("./assets/logo.png");
 }
 .fade-enter-active,
 .fade-leave-active {
