@@ -1,13 +1,7 @@
 <template>
-  <div>
-    <v-row>
-      <v-col class="text-center">
-        <img alt="Vue big-image" src="../assets/grass.jpg" class="big-image" />
-        <br />
-        <br />
-        여긴 풀 페이지야
-      </v-col>
-    </v-row>
+  <div class="view-root">
+    <p class="text-h1">404</p>
+    <p class="text-h4">이런! 그런 페이지는 없어요</p>
   </div>
 </template>
 
@@ -23,8 +17,7 @@ export default {
   methods: {},
   watch: {},
   created() {},
-  mounted() {
-    this.$root.contentTitle = "Grass";},
+  mounted() {},
   destroyed() {},
 };
 </script>
@@ -33,5 +26,12 @@ export default {
 .big-image {
   border-radius: 12px;
   width: 100%;
+}
+.view-root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 </style>

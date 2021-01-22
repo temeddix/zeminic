@@ -32,7 +32,11 @@ export default {
       this.$router.push({ path: "", params: { flowerId: newFlowerId } });
     },
   },
-  mounted() {},
+  created() {},
+  mounted() {
+    this.$root.contentTitle = "Flower";
+  },
+  destroyed() {},
 };
 </script>
 

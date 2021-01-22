@@ -16,10 +16,10 @@ import '@mdi/font/css/materialdesignicons.css' //Material Design 아이콘 팩. 
 
 
 /*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-▶▶모든 라이브러리 파일들을 불러와서 windows.xxx형식의 전역변수로 등록
+▶▶모든 라이브러리 파일들을 불러와서 브라우저의 windows.xxx형식의 전역변수로 등록되게 하기
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
-//이렇게 이름 없이 불러들이기만 하면 변수를 가져오진 않지만, 그 안에 있는 global 변수 등록 코드가 실행되어 라이브러리가 window.library라는 전역 변수가 되는 효과가 있음.
+//이렇게 이름 없이 불러들이기만 하면 딱히 변수로 등록되진 않지만, 그 안에 있는 global(=window) 변수 등록 코드가 실행되어 라이브러리가 브라우저의 window.xxx라는 전역 변수가 되는 효과가 있음.
 //*로 모든 파일을 로드하는 건 import-glob이라는 webpack preloader npm 덕분에 가능함
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#import_a_module_for_its_side_effects_only
 
@@ -77,6 +77,7 @@ vue.use(vuetify);
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
 // 전역 사용자 정의 디렉티브 v-guide-alert 등록
+// https://kr.vuejs.org/v2/guide/custom-directive.html
 vue.directive('guide-alert', {
   // 바인딩 된 엘리먼트가 DOM에 삽입되었을 때...
   inserted: function (el, binding, vnode) {
@@ -119,13 +120,32 @@ vue.component('elastic-alert', require('./components/elastic-alert.vue').default
 ▶▶주소에 따라 <router-view> 내용을 바꿔주는 vue-router 주소관계 설정
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
-const routes = [
-  { path: '/', component: require('./views/home.vue').default },
-  { path: '/flower/:flowerId', component: require('./views/flower.vue').default },
-  { path: '/grass', component: require('./views/grass.vue').default },
-  { path: '/tree', component: require('./views/tree.vue').default },
+const routes = [{
+    path: '/',
+    component: require('./views/home.vue').default
+  },
+  {
+    path: '/flower/:flowerId',
+    component: require('./views/flower.vue').default
+  },
+  {
+    path: '/grass',
+    component: require('./views/grass.vue').default
+  },
+  {
+    path: '/tree',
+    component: require('./views/tree.vue').default
+  },
+  {
+    path: '*',
+    component: require('./views/not-found.vue').default
+  }, //마지막으로 남은 모든 경우의 수에서는 not-found 페이지를 표시하라는 뜻
 ]
 
+const routerOpotions = {
+  routes: routes,
+  mode: 'history',
+};
 
 
 
@@ -136,6 +156,12 @@ const routes = [
 
 vue.config.productionTip = false
 
+const vuetifyOptions = {
+  icons: {
+    iconfont: 'mdi',
+  },
+};
+
 
 
 
@@ -144,15 +170,11 @@ vue.config.productionTip = false
 ▶▶뷰 인스턴스 생성(=HTML에 적용)
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
-new vue({
-  router: new vueRouter({
-    routes: routes,
-    mode: 'history',
-  }),
-  vuetify: new vuetify({
-    icons: {
-      iconfont: 'mdi', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
-    },
-  }),
-  render: h => h(require('./app.vue').default),
-}).$mount('#vueModelElement')
+import rootVueOptions from './app.vue';
+//rootVueOptions은 단순한 그냥 오브젝트임. console.log()를 해 보면 바로 알 수 있지.
+
+rootVueOptions.el = '#vueModelElement' //index.html의 해당 id를 가진 요소에 뷰 앱이 삽입됨
+rootVueOptions.router = new vueRouter(routerOpotions)
+rootVueOptions.vuetify = new vuetify(vuetifyOptions)
+
+new vue(rootVueOptions);

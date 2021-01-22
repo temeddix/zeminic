@@ -1,6 +1,6 @@
 <template>
   <!-- v-app은 vuetify가 제공하는 helper class style을 사용하기 위해 꼭 필요한 최상단 요소 -->
-  <v-app class="app">
+  <v-app class="app" ref="app">
     <v-app-bar
       app
       hide-on-scroll
@@ -22,14 +22,19 @@
     </v-app-bar>
 
     <v-main>
-      <v-container fluid class="pt-14 pb-16 view-container">
+      <v-container
+        fluid
+        class="pt-14 pb-16"
+        style="height: 100%"
+        :style="vContainerStyle"
+      >
         <transition name="fade" mode="out-in" appear>
           <router-view></router-view>
         </transition>
       </v-container>
     </v-main>
 
-    <v-footer app absolute v-bind="localAttrs" class="elevation-4" padless>
+    <v-footer app absolute class="elevation-4" padless>
       <v-card tile width="100%" class="grey lighten-5 text-center">
         <v-card-text>
           <v-btn v-for="icon in icons" :key="icon" class="mx-4" icon>
@@ -42,7 +47,7 @@
         <v-divider></v-divider>
 
         <v-card-text>
-          {{ new Date().getFullYear() }} — <strong>예쁜 제미넴</strong>
+          <strong>{{ new Date().getFullYear() }} — 예쁜 제미넴</strong>
         </v-card-text>
       </v-card>
     </v-footer>
@@ -53,17 +58,32 @@
 export default {
   data() {
     return {
-      localAttrs: {
-        absolute: false,
-        fixed: true,
-      }, //실험용
-      icons: ["mdi-home", "mdi-email", "mdi-calendar", "mdi-delete"], //실험용
+      icons: ["mdi-home", "mdi-email", "mdi-calendar", "mdi-delete"],
+      contentTitle: "Untitled",
     };
   },
-  computed: {},
+  computed: {
+    vContainerStyle() {
+      return {
+        maxWidth: "1280px",
+      };
+    },
+  },
   methods: {},
-  watch: {},
+  watch: {
+    contentTitle(newValue) {
+      // 콘텐츠 제목 변수 contentTitle 변경에 따라 웹 페이지 제목도 변경
+      console.log("콘텐츠 이름이 변경되었다");
+      if (newValue == "") {
+        document.title = "Zeminem";
+      } else {
+        document.title = newValue + " - Zeminem";
+      }
+    },
+  },
+  created() {},
   mounted() {},
+  destroyed() {},
 };
 </script>
 
@@ -89,8 +109,5 @@ export default {
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
-}
-.view-container {
-  max-width: 1280px;
 }
 </style>

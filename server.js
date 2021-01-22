@@ -54,9 +54,9 @@ server.use(express.static('dist'));
 //이 폴더들 속 파일에 클라이언트가 맘대로 접근 가능. 즉 개방됨.
 
 //덕 백엔드 @DEOK
-const Login = require("./server-modules/ajax/Login"); //로그인 api
-const UsersAPI = require('./server-modules/ajax/UsersAPI'); //회원 api
-const ComicsAPI = require("./server-modules/ajax/ComicsAPI"); //웹툰정보 api
+const Login = require("./backend/ajax/Login"); //로그인 api
+const UsersAPI = require('./backend/ajax/UsersAPI'); //회원 api
+const ComicsAPI = require("./backend/ajax/ComicsAPI"); //웹툰정보 api
 
 server.use(Login);
 server.use(UsersAPI);
@@ -65,7 +65,7 @@ server.use(function(req,res,next){
     console.log("디버깅용 : 로그인여부 ",req.isAuthenticated());
     next();
 });
-server.use("/test",express.static("server-modules\\test"));
+server.use("/test",express.static("backend\\test"));
 
 
 
@@ -76,7 +76,7 @@ server.use("/test",express.static("server-modules\\test"));
 ▶▶서버-데이터베이스 연결관계
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
-const MongoConnection = require("./server-modules/ajax/static/MongoConnection"); //덕이 쓰고 동현이 옮겨옴
+const MongoConnection = require("./backend/ajax/static/MongoConnection"); //덕이 쓰고 동현이 옮겨옴
 MongoConnection.connect(); //덕이 쓰고 동현이 옮겨옴
 
 

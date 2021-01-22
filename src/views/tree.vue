@@ -22,7 +22,10 @@ export default {
   computed: {},
   methods: {},
   watch: {},
-  mounted() {},
+  created() {},
+  mounted() {
+    this.$root.contentTitle = "Tree";},
+  destroyed() {},
 };
 </script>
 
