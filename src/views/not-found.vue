@@ -16,7 +16,8 @@ export default {
   computed: {},
   methods: {},
   watch: {},
-  created() {},
+  created() {
+    this.$root.contentTitle = "";},
   mounted() {},
   destroyed() {},
 };

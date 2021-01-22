@@ -44,7 +44,7 @@
       <v-col class="d-flex justify-center">
         <v-bottom-sheet v-model="sheet">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn class="grey darken-4" rounded dark v-bind="attrs" v-on="on">
+            <v-btn rounded class="primary" v-bind="attrs" v-on="on">
               Bottom sheet 열기
             </v-btn>
           </template>
@@ -105,10 +105,10 @@ export default {
   computed: {},
   methods: {},
   watch: {},
-  created() {},
-  mounted() {
+  created() {
     this.$root.contentTitle = "";
   },
+  mounted() {},
   destroyed() {},
 };
 </script>

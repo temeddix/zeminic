@@ -7,6 +7,7 @@ import vueScroll from 'vuescroll';
 import vueTouchEvents from 'vue2-touch-events';
 import vueRouter from 'vue-router';
 import vuetify from 'vuetify/lib'; //Material Design 양식에 기반한 Vue UI 컴포넌트 라이브러리. https://vuetifyjs.com/en/getting-started/installation/ 여기가 사용법 안내.
+import colors from 'vuetify/es5/util/colors'
 
 import './styles/basic.scss'; //CSS 파일은 import하는 것만으로도 전체에 반영돼. 웹팩 기능이야.
 import '@mdi/font/css/materialdesignicons.css' //Material Design 아이콘 팩. vuetify가 사용함.
@@ -159,6 +160,33 @@ vue.config.productionTip = false
 const vuetifyOptions = {
   icons: {
     iconfont: 'mdi',
+  },
+  theme: {
+    dark: true,
+    themes: {
+      // 방법 참고 https://vuetifyjs.com/en/features/theme/
+      // 색깔 참고 https://vuetifyjs.com/en/styles/colors/#material-colors
+      light: {
+        primary: colors.grey.darken4,
+        secondary: colors.grey.darken2,
+        accent: '#82B1FF',
+        error: '#FF5252',
+        info: '#2196F3',
+        success: '#4CAF50',
+        warning: '#FFC107',
+        'anti-primary': colors.shades.white, //custom value
+      },
+      dark: {
+        primary: colors.grey.darken2,
+        secondary: colors.grey.darken3,
+        accent: '#82B1FF',
+        error: '#FF5252',
+        info: '#2196F3',
+        success: '#4CAF50',
+        warning: '#FFC107',
+        'anti-primary': colors.shades.black, //custom value
+      },
+    },
   },
 };
 
