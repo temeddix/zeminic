@@ -74,19 +74,19 @@ vue.use(vuetify);
 
 
 /*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-▶▶Vue 지시문 등록
+▶▶Vue 지시문과 속성 등록
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
-// 전역 사용자 정의 디렉티브 v-guide-alert 등록
+// 전역 사용자 정의 디렉티브 v-elastic-alert 등록
 // https://kr.vuejs.org/v2/guide/custom-directive.html
-vue.directive('guide-alert', {
+vue.directive('elastic-alert', {
   // 바인딩 된 엘리먼트가 DOM에 삽입되었을 때...
   inserted: function (el, binding, vnode) {
     let showTimer;
 
     el.addEventListener('mouseover', function () {
       showTimer = setTimeout(function () {
-        vnode.context.$root.showElasticAlert(el, binding.value);
+        vnode.context.$elasticAlert(el, binding.value);
       }, 500)
     })
     el.addEventListener('mouseleave', function () {
@@ -100,6 +100,19 @@ vue.directive('guide-alert', {
     })
   }
 })
+
+//그 어떤 컴포넌트에서든 this.$elasticAlert로 사용할 수 있게 됨
+vue.prototype.$elasticAlert = function (target, alertText) {
+  let componentClass = vue.extend(require('./components/elastic-alert.vue').default);
+  let instance = new componentClass({
+    propsData: {
+      target: target,
+      alertText: alertText,
+    },
+  });
+  instance.$mount();
+  document.body.appendChild(instance.$el);
+}
 
 
 

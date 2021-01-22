@@ -3,7 +3,11 @@
   <v-app class="app" ref="app">
     <v-app-bar app hide-on-scroll class="elevation-4" scroll-threshold="200">
       <router-link to="/">
-        <v-btn class="secondary ma-1 logo-button"> </v-btn>
+        <v-btn
+          class="secondary ma-1 logo-button"
+          v-elastic-alert="'안녕하세요! 여기는 오픈 웹툰 플랫폼 제미넴입니다!'"
+        >
+        </v-btn>
       </router-link>
       <v-toolbar-title class="mx-4">
         {{ contentTitle == "" ? "Zeminem" : contentTitle }}
@@ -49,7 +53,7 @@
       <!-- 로그인 패널 참고 https://vuetifyjs.com/en/components/dialogs/#form -->
       <v-dialog v-model="loginDialog" scrollable max-width="600px">
         <template v-slot:activator="{ on, attrs }">
-          <v-btn class="secondary ma-1" v-bind="attrs" v-on="on">
+          <v-btn class="secondary ma-1" v-bind="attrs" v-on="on" v-elastic-alert="'로그인해서 나에게 딱 맞는 웹툰들을 감상해 보세요!'">
             로그인
           </v-btn>
         </template>
