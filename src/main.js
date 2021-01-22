@@ -162,7 +162,7 @@ const vuetifyOptions = {
     iconfont: 'mdi',
   },
   theme: {
-    dark: true,
+    dark: false,
     options: {
       customProperties: true, //각 컴포넌트의 <style> 영역에서 변수로 접근 가능해짐
       variations: false,
