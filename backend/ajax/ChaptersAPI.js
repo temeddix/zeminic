@@ -9,7 +9,7 @@ const mongoose = require("mongoose");
 const router = express.Router();
 
 //챕터 등록
-router.post("/ajax/create/chapter", async function(req,res){
+router.post("/ajax/chapters/create", async function(req,res){
 
     //Auth 체크
     if(!req.isAuthenticated()){
@@ -40,6 +40,36 @@ router.post("/ajax/create/chapter", async function(req,res){
         let price = Number(fields['price'][0]);
 
         let thumbnail = Base.filenameFromPath(files['thumbnail'][0]['path']);
+
+        let imagesList = []
+        for(let i in files['imagesList']){
+            Base.uploadBlob(files['imagesList'][i]['path']);
+            let filename = Base.filenameFromPath(files['imagesList'][i]['path']);
+            imagesList.push(filename);
+            Base.logInfo("blob upload request",files['imagesList'][i]);
+        }
+
+        let newChapter = new Chapters({
+            _id : Base.newObjectId(),
+            title : title,
+            thumbnail : thumbnail,
+            comicsId : comicID,
+            chargeMethod:chargeMethod,
+            releaseDate:releaseDate,
+            imagesList:imagesList,
+            price:price
+        });
+        //newUser._id.toString()
+        //var id = mongoose.Types.ObjectId(hashstring);
+
+        try {
+            let result = await newChapter.save();
+            Base.logInfo("회차등록 성공",result);
+            Base.resYes(res,"회차등록 성공",result);
+        } catch (err){
+            Base.logErr("회차등록 실패",err);
+            Base.resNo(res,"회차등록 실패",err);
+        }
     },1024*1024*10);
 
     

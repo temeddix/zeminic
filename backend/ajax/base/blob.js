@@ -39,7 +39,7 @@ function resize(imgPath,w,h, outImg, callback) { //callback : err, resizeImage
 
 //upload blob
 function uploadBlob(filepath) {
-	let fileNameToUpload = filepath.replace(/^.*[\\\/]/, '');
+	let fileNameToUpload = path.basename(filepath);
 	BLOBSVC.createBlockBlobFromLocalFile(CONTAINER_NAME, fileNameToUpload, filepath, (err,data)=>{
 		Log.logInfo("Blob upload result",[err,data]);
 	});

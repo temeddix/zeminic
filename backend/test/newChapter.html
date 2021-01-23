@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <title>New Comics</title>
+
+    </head>
+
+    <body>
+        <form method="post" action="/ajax/chapters/create" enctype="multipart/form-data">
+            Title : <input type="text" placeholder="회차 제목" name="title"><br>
+            Comic Title : <input type="text" placeholder="소속 웹툰" name="comicTitle"><br>
+            Charge Method : <input type="text" placeholder="결제 방식" name="chargeMethod"><br>
+            Thumbnail : <input type="file" name="thumbnail"><br>
+            Release Date (UnixTime) : <input type="number" name="releaseDate"><br>
+            Price : <input type="number" name="price"><br>
+            Images : <input type="file" name="imagesList" multiple><br>
+            <input type="submit" value="등록">
+
+        </form>
+    </body>
+</html>
