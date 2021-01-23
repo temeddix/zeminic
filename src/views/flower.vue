@@ -28,8 +28,8 @@ export default {
   computed: {},
   methods: {},
   watch: {
-    flowerId(newFlowerId) {
-      this.$router.push({ path: "", params: { flowerId: newFlowerId } });
+    flowerId(newValue) {
+      this.$router.push({ path: "", params: { flowerId: newValue } });
     },
   },
   created() {
