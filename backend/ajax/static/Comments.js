@@ -8,7 +8,7 @@ const userSchema = new Schema({
     likes : {type:Number,default:0},
     dislikes : {type:Number,default:0},
     text : {type:String, default:"undefined"},
-    registration : {type:Number, default:Date.now()},
+    registration : {type:Number, default:0},
     comicsId : {type:mongoose.Schema.Types.ObjectId, ref:"comics"},
     chaptersId : {type:mongoose.Schema.Types.ObjectId, ref:"chapters"}
 });

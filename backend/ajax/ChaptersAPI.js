@@ -1,8 +1,7 @@
-//미완. 아직 쓰지 마세효~
-
 const express = require('express');
 const Chapters = require("./static/Chapters");
 const Comics = require('./static/Comics');
+const Comments = require("./static/Comments");
 const Base = require("./base/base");
 const mongoose = require("mongoose");
 
