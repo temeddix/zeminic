@@ -19,7 +19,7 @@ router.post("/ajax/chapters/create", async function(req,res){
     }
 
     //이미지 업로드
-    Base.parseForm(req,async function(err,fileds,files){
+    Base.parseForm(req,async function(err,fields,files){
         if(err){
             Base.logErr("Error occured while parsing form",err);
             Base.resNo(res,"Error occured while parsing form");
@@ -28,25 +28,28 @@ router.post("/ajax/chapters/create", async function(req,res){
 
         let title = fields['title'][0];
         let comicTitle = fields['comicTitle'][0];
-            let comicID = await Comics.find({title:comicTitle});
-            if(!comicID){
-                Base.logInfo("failed to create chapter. Comics does not exist",comicTitle);
-                Base.resNo(res,"Comics doesn't exist",comicTitle);
-                return;
-            }
-            comicID = comicID._id;
+        let comicID = await Comics.findOne({title:comicTitle});
+        if(!comicID){
+            Base.logInfo("failed to create chapter. Comics does not exist",comicTitle);
+            Base.resNo(res,"Comics doesn't exist",comicTitle);
+            return;
+        }
+        Base.logInfo("Found Coimic info",comicID);
+        comicID = comicID['_id'];
+        Base.logInfo("comicsId",comicID);
         let chargeMethod = fields['chargeMethod'][0];
         let releaseDate = Number(fields['releaseDate'][0]);
         let price = Number(fields['price'][0]);
 
         let thumbnail = Base.filenameFromPath(files['thumbnail'][0]['path']);
+        Base.uploadBlob(files['thumbnail'][0]['path']);
 
         let imagesList = []
         for(let i in files['imagesList']){
             Base.uploadBlob(files['imagesList'][i]['path']);
             let filename = Base.filenameFromPath(files['imagesList'][i]['path']);
             imagesList.push(filename);
-            Base.logInfo("blob upload request",files['imagesList'][i]);
+            //Base.logInfo("blob upload request",files['imagesList'][i]);
         }
 
         let newChapter = new Chapters({
@@ -59,8 +62,9 @@ router.post("/ajax/chapters/create", async function(req,res){
             imagesList:imagesList,
             price:price
         });
-        //newUser._id.toString()
-        //var id = mongoose.Types.ObjectId(hashstring);
+
+        
+        Base.logInfo("new chapter",newChapter);
 
         try {
             let result = await newChapter.save();
@@ -72,42 +76,63 @@ router.post("/ajax/chapters/create", async function(req,res){
         }
     },1024*1024*10);
 
-    
-    // let newChapter = new Chapters({
-    //     title : title,
-    //     thumbnail : thumbnail,
-    //     comic : comicID,
-    //     chargeMethod:chargeMethod,
-    //     releaseDate:releaseDate,
-    //     price:price
-    // });
-    // //newUser._id.toString()
-    // //var id = mongoose.Types.ObjectId(hashstring);
-
-    // try {
-    //     let result = await newChapter.save();
-    //     Base.logInfo("회차등록 성공",result);
-    //     Base.resYes(res,"회차등록 성공",result);
-    // } catch (err){
-    //     Base.logErr("회차등록 실패",err);
-    //     Base.resNo(res,"회차등록 실패",err);
-    // }
 } );
 
 //챕터 삭제
-router.post("/ajax/delete/Chapter", async function(req,res){
-    //TODO : req
-    let _id = req.body.chapterID;
-    _id = mongoose.Types.ObjectId(_id);
-    //TODO : Auth
+router.post("/ajax/chapters/delete", async function(req,res){
+    
+    if(!req.isAuthenticated()){
+        Base.logInfo("Failed to delete Chapter! not logined..");
+        Base.resNo(res,"Login first");
+        return;
+    }
 
+    let comicTitle = req.body.comicTitle;
+    let chapTitle = req.body.chapTitle;
+
+    //find Comics
+    let comic = await Comics.findOne({title:comicTitle});
+    if(!comic){
+        Base.logInfo("Failed to delete Chapter! cannot find comics named "+comicTitle);
+        Base.resNo(res,"Cannot find comics named "+comicTitle);
+        return;
+    }
+    Base.logInfo("Found "+comicTitle,comic);
+
+    //Check if user==writer
+    if(req.user._id.toString() != comic.writerId.toString()){
+        Base.logInfo("Failed to delete chapter! id does not match",req.user._id);
+        Base.resNo(res,"Writer ID does not match");
+        return;
+    }
+
+    //find chapter
+    let chapter = await Chapters.findOne({comicsId:comic._id,title:chapTitle});
+    if(!chapter){
+        Base.logInfo("Failed to delete Chapter! cannot find chapters named "+chapTitle+" in comics "+comicTitle);
+        Base.resNo(res,"Cannot find chapters named "+chapTitle);
+        return;
+    }
+    Base.logInfo("Found "+chapTitle,chapter);
+
+    //try to delete chapter
     try{
-        let result = await Chapters.deleteOne({_id:_id});
-        Base.resYes(res,"회차삭제가 성공적으로 처리되었습니다",result);
+        let result = await Chapters.deleteOne({_id:chapter._id});
+        Base.resYes(res,"회차삭제가 성공적으로 처리되었습니다",chapter.title);
         Base.logInfo("회차삭제 성공",result);
     } catch(err) {
-        Base.resNo(res,"회차삭제 실패 : 비밀번호가 다릅니다.",err);
+        Base.resNo(res,"회차삭제 실패 : 비밀번호가 다릅니다.");
         Base.logInfo("회차삭제 실패 : 비밀번호가 다릅니다",err);
+    }
+
+    //delete chapters thumbnail and images
+    let thumbnail = chapter.thumbnail;
+    let imagesList = chapter.imagesList;
+    Base.logInfo("Trying to delete images",{thumbnail:thumbnail,imgList:imagesList});
+
+    Base.deleteBlob(thumbnail);
+    for(let i in imagesList){
+        Base.deleteBlob(imagesList[i]);
     }
 });
 

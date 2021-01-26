@@ -11,7 +11,7 @@ const compression = require('compression');
 const historyFallback = require('connect-history-api-fallback');
 // single-page-app을 만들기 위해 주소를 기본값인 /로 속여서 index.html을 응답하는 역할
 
-
+const path = require('path');
 
 /*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 ▶▶서버-클라이언트 연결관계
@@ -68,7 +68,7 @@ server.get
 (
     '/*',
     function(req, res){
-        res.sendFile('./dist/index.html');
+        res.sendFile(path.join(__dirname,"dist/index.html"));
     }
 );
 
