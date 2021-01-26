@@ -78,6 +78,37 @@ router.post("/ajax/chapters/create", async function(req,res){
 
 } );
 
+//챕터 조회
+router.post("/ajax/chapters/search",async function(req,res,next){
+    let comicTitle = req.body.comicTitle;
+    let chapTitle = req.body.chapTitle;
+
+    try{
+        let comic = await Comics.findOne({title:comicTitle});
+
+        if(!comic){
+            Base.logInfo("No comic found");
+            Base.resNo(res,"No comic found");
+            return;
+        }
+        Base.logInfo("Found comic "+comicTitle,comic);
+
+        let chapter =await Chapters.findOne({title:chapTitle,comicsId:comic._id});
+        if(!chapter){
+            Base.logInfo("No chapter found");
+            Base.resNo(res,"Comic exists but no chapter found");
+            return;
+        }
+        Base.logInfo("Found chapter "+chapTitle,chapter);
+        Base.resYes(res,"Found chapter "+chapTitle,chapter);
+    
+    } catch(err){
+        Base.logErr("ajax/chapters/search error occured",err);
+        Base.resNo(res,"ajax/chapters/search error occured");
+    }
+    
+});
+
 //챕터 삭제
 router.post("/ajax/chapters/delete", async function(req,res){
     

@@ -12,9 +12,9 @@ const userSchema = new Schema({
     title : {type:String,default:"notitle"},
     imagesList : [String],
     comicsId : {type:mongoose.Schema.Types.ObjectId, ref:"comics", default:null},
-    registration : {type:Number, default:Date.now()},
+    registration : {type:Number, default:0},
     chargeMethod : {type:String,default:"무료"},
-    releaseDate : {type:Number,default:Date.now()+1000*60*60*24*7},
+    releaseDate : {type:Number,default:0},
     price : {type:Number,default:0}
 });
 

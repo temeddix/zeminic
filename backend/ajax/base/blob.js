@@ -1,7 +1,7 @@
-const Key1 = "H7hAYCYaifLeL2arLA7uO4MiqXTsmOzb0BQWo4J4yWOQDo6NuISP0SDiUWeNVu3xfsdNClRYYH3a5Y2+bEXqtQ==";
-const ConString1 = "DefaultEndpointsProtocol=https;AccountName=kddsa;AccountKey=H7hAYCYaifLeL2arLA7uO4MiqXTsmOzb0BQWo4J4yWOQDo6NuISP0SDiUWeNVu3xfsdNClRYYH3a5Y2+bEXqtQ==;EndpointSuffix=core.windows.net";
-const Key2 = "PC3VFxU6l+QbPCOlhne2mt53i+fo3En5xiWyshZNi1ow4dBkj1M+gfXHNnvD1rXzEvIFxteXp0OBWvnqN25o9A==";
-const ConString2 = "DefaultEndpointsProtocol=https;AccountName=kddsa;AccountKey=PC3VFxU6l+QbPCOlhne2mt53i+fo3En5xiWyshZNi1ow4dBkj1M+gfXHNnvD1rXzEvIFxteXp0OBWvnqN25o9A==;EndpointSuffix=core.windows.net";
+const Key1 = "b2vwLRTxP8eAkVXVppvzWAH9wt4nXkb/U4ikQsfg9HySGBuytk+TZAyaO62ck1l0lUvTg9SJ1O6Xwd5cUoBWzQ==";
+const ConString1 = "DefaultEndpointsProtocol=https;AccountName=kddsa;AccountKey=b2vwLRTxP8eAkVXVppvzWAH9wt4nXkb/U4ikQsfg9HySGBuytk+TZAyaO62ck1l0lUvTg9SJ1O6Xwd5cUoBWzQ==;EndpointSuffix=core.windows.net";
+const Key2 = "nEmq50tH65+gcQX03Gr18rEGW8ojEx+WyYAAQVwtvSUukCDBR+pi/bkJC/cTPIYs6pdiL65Q80tGXDXch3rQTA==";
+const ConString2 = "DefaultEndpointsProtocol=https;AccountName=kddsa;AccountKey=nEmq50tH65+gcQX03Gr18rEGW8ojEx+WyYAAQVwtvSUukCDBR+pi/bkJC/cTPIYs6pdiL65Q80tGXDXch3rQTA==;EndpointSuffix=core.windows.net";
 
 const Azure = require("azure-storage");
 const Log = require("./log");
