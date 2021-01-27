@@ -39,8 +39,6 @@
 </template>
 
 <script>
-// const axios = window.axios;
-
 export default {
   components: {
     appBarItems: require("./forms/app-bar-items.vue").default,

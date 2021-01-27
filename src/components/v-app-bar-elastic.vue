@@ -1,6 +1,6 @@
 <script>
 export default {
-  extends: require("vuetify/lib").VAppBar, // 이 컴포넌트는 Vuetify의 v-dialog 컴포넌트를 확장한 것
+  extends: require("vuetify/lib").VAppBar, // 이 컴포넌트는 Vuetify 컴포넌트를 확장한 것. template이 없는 이유도 그것.
   data() {
     return {};
   },

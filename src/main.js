@@ -9,8 +9,9 @@ import vueRouter from 'vue-router';
 import vuetify from 'vuetify/lib'; //Material Design 양식에 기반한 Vue UI 컴포넌트 라이브러리. https://vuetifyjs.com/en/getting-started/installation/ 여기가 사용법 안내.
 import colors from 'vuetify/es5/util/colors'
 
-import './styles/basic.scss'; //CSS 파일은 import하는 것만으로도 전체에 반영돼. 웹팩 기능이야.
 import '@mdi/font/css/materialdesignicons.css' //Material Design 아이콘 팩. vuetify가 사용함. https://materialdesignicons.com/ 여기가 아이콘 목록.
+
+import './style.scss'; //CSS 파일은 import하는 것만으로도 전체에 반영돼. 웹팩 기능이야.
 
 
 
@@ -87,8 +88,6 @@ vue.directive('alert-elastic', {
     let showTimer;
 
     el.addEventListener('mouseover', function () {
-      console.log("들어옴");
-      console.log(el);
       showTimer = setTimeout(function () {
         vnode.context.$root.$alertElastic(el, binding.value);
       }, 700) //700밀리초 동안 마우스를 올리고 있으면 실행한다는 뜻
@@ -172,10 +171,8 @@ const routerOpotions = {
 
 
 /*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-▶▶기타 설정
+▶▶Vuetify 기본값 수정하기
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
-
-vue.config.productionTip = false
 
 const vuetifyOptions = {
   icons: {
@@ -213,6 +210,22 @@ const vuetifyOptions = {
     },
   },
 };
+
+require("vuetify/lib").VOverlay.options.props.color.default = "#000000";
+
+
+
+
+
+/*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+▶▶기타 설정
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
+
+vue.config.productionTip = false;
+
+
+
+
 
 
 /*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■

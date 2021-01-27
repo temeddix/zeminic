@@ -8,7 +8,7 @@
 </template>
 
 <script>
-const gsap = window.gsap;
+/*global gsap*/
 
 export default {
   data: function () {

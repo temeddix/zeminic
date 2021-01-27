@@ -105,7 +105,7 @@
       </template>
       <v-card>
         <v-card-title class="d-flex pt-8 px-9">로그인하세요!</v-card-title>
-        <v-card-text class="py-2">
+        <v-card-text>
           <v-container>
             <v-row>
               <v-col>
@@ -133,7 +133,7 @@
           </v-container>
         </v-card-text>
         <v-card-actions class="pb-10 px-9">
-          <v-dialog v-model="signupDialog" scrollable max-width="500px">
+          <v-dialog-elastic v-model="signupDialog" scrollable max-width="500px">
             <template v-slot:activator="{ on, attrs }">
               <v-btn text v-bind="attrs" v-on="on"> 회원가입 </v-btn>
             </template>
@@ -186,7 +186,7 @@
                 </v-btn></v-card-actions
               >
             </v-card>
-          </v-dialog>
+          </v-dialog-elastic>
           <v-spacer></v-spacer>
           <v-btn text @click="loginDialog = false"> 닫기 </v-btn>
           <v-btn color="secondary" @click="login"> 로그인 </v-btn>
@@ -197,7 +197,7 @@
 </template>
 
 <script>
-const axios = window.gsap;
+/* global axios */
 
 export default {
   data() {

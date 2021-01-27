@@ -1,12 +1,22 @@
+/*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+▶▶기본 중의 기본 세팅
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 @viewport {
   width: device-width;
   user-zoom: fixed
 }
 
-;
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap');
 
-/* ■■■■■■ 태그별 전역(Global) 기본 스타일 ■■■■■ */
+
+
+
+
+
+
+/*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+▶▶태그별 전역(Global) 기본 스타일
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
 * {
   font-family: 'Noto Sans KR';
@@ -16,6 +26,7 @@
   outline: none; //클릭시 버튼에 테두리 나오는 기본효과 제거
   text-transform: none !important; //Vuetify 컴포넌트의 자동 대문자화 또는 소문자화 방지
   background-size: cover; // 이미지가 요소(Element)를 꽉 채우도록
+  box-sizing: border-box;
 }
 
 html,
@@ -36,8 +47,17 @@ img {
 }
 
 
-/* ■■■■■■ 여기서부턴 웹브라우저별로 다르고 쓸데없게 존재하는 잡다한 UI 통일하고 제거하는 역할 ■■■■■ */
 
+
+
+
+
+
+
+
+/*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+▶▶여기서부턴 웹브라우저별로 다르고 쓸데없게 존재하는 잡다한 UI 통일하고 제거하는 역할
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
 ::selection {
   background: rgba(0, 0, 0, 0.5);
@@ -90,4 +110,25 @@ input::-webkit-inner-spin-button {
   }
 
   /*스크롤바 막대 모양 수정(webkit 기반 브라우저)*/
+}
+
+
+
+
+
+
+
+
+
+
+/*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+▶▶여기서부턴 Vuetify 기본 스타일 바꾸기
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
+
+
+.v-overlay{
+  top: -400px;
+  bottom: -400px;
+  left: -400px;
+  right: -400px;
 }
