@@ -15,7 +15,7 @@ const userSchema = new Schema({
     recentlyViewed:[{type:mongoose.Schema.Types.ObjectId, ref:"comics"}],
     liked:[{type:mongoose.Schema.Types.ObjectId, ref:"comics"}],
     disliked:[{type:mongoose.Schema.Types.ObjectId, ref:"comics"}],
-    registration:{type:Number, default:Date.now()},
+    registration:{type:Number, default:0},
     searchHistroy:[String]
 });
 

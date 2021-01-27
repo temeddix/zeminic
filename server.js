@@ -11,7 +11,7 @@ const compression = require('compression');
 const historyFallback = require('connect-history-api-fallback');
 // single-page-app을 만들기 위해 주소를 기본값인 /로 속여서 index.html을 응답하는 역할
 
-
+const path = require('path');
 
 /*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 ▶▶서버-클라이언트 연결관계
@@ -23,7 +23,7 @@ server.use(bodyParser.urlencoded({ extended: false }));// HTTP 요청(request) �
 server.use(bodyParser.json());// HTTP 요청(request) 중 내용 형식(type)이 'application/json'인 것들에게 request.body를 만들어 줌.
 server.use(bodyParser.text());// HTTP 요청(request) 중 내용 형식(type)이 'text/plain'인 것들에게 request.body를 만들어 줌.
 server.use(compression());//응답(response)을 보낼 때 압축해서 보내서 빨라짐.
-server.use(historyFallback())//잘못된 주소를 모두 static 폴더로 안내해 줌. 즉 잘못된 주소로는 모두 index.html이 응답됨. 404는 없는 셈.
+server.use(historyFallback());//잘못된 주소를 모두 static 폴더로 안내해 줌. 즉 잘못된 주소로는 모두 index.html이 응답됨. 404는 없는 셈.
 server.use(express.static('dist'));//이 폴더들 속 파일에 클라이언트가 맘대로 접근 가능. 즉 개방됨.
 
 //덕 백엔드 @DEOK
@@ -31,11 +31,13 @@ const Login = require("./backend/ajax/Login"); //로그인 api
 const UsersAPI = require('./backend/ajax/UsersAPI'); //회원 api
 const ComicsAPI = require("./backend/ajax/ComicsAPI"); //웹툰정보 api
 const ChaptersAPI = require("./backend/ajax/ChaptersAPI");
+const CommentsAPI = require("./backend/ajax/CommentsAPI");
 
 server.use(Login);
 server.use(UsersAPI);
 server.use(ComicsAPI);
 server.use(ChaptersAPI);
+server.use(CommentsAPI);
 server.use(function(req,res,next){
     console.log("디버깅용 : 로그인여부 ",req.isAuthenticated());
     next();
@@ -68,7 +70,7 @@ server.get
 (
     '/*',
     function(req, res){
-        res.sendFile('./dist/index.html');
+        res.sendFile(path.join(__dirname,"dist/index.html"));
     }
 );
 

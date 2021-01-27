@@ -10,14 +10,14 @@ const userSchema = new Schema({
     thumbnail : {type:String,default:"undefined"},
     poster : {type:String,default:"undefined"},
     writerId : {type:mongoose.Schema.Types.ObjectId, ref:"users"},
-    chapterList : [{type:mongoose.Schema.Types.ObjectId, ref:"chapters"}],
+    //chapterList : [{type:mongoose.Schema.Types.ObjectId, ref:"chapters"}],
     likes : {type:Number,default:0},
     dislikes : {type:Number,default:0},
     numOfSubscribers : {type:Number,default:0},
     episodeClassificationEnabled : {type:Boolean, default:false},
     posterPerEpisodes : [String],
-    episodesList : [[{type:mongoose.Schema.Types.ObjectId, ref:"chapters"}]],
-    registration : {type:Number, default:Date.now()},
+    //episodesList : [[{type:mongoose.Schema.Types.ObjectId, ref:"chapters"}]],
+    registration : {type:Number, default:0},
     ads5secsEnabled : {type:Boolean, default:false},
     adsEdgebannerEnabled : {type:Boolean, default:false}
 });

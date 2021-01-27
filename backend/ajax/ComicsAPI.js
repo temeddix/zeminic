@@ -146,10 +146,23 @@ router.post("/ajax/comics/delete", async function(req,res,next){
         } else {
             Base.resNo(res,"Comic "+title+" not deleted",result);
         }
+
+        Base.deleteBlob(found.thumbnail);
+        Base.deleteBlob(found.poster);
+
+        let chapters = Chapters.find({comicsId:found._id});
+        for(let i in chapters){
+            let thumbnail = chapters[i].thumbnail;
+            let imgList = chapters[i].imagesList;
+            Base.deleteBlob(thumbnail);
+            for(let j in imgList){
+                Base.deleteBlob(imgList[j]);
+            }
+        }
     
     } catch(err){
-        Base.logErr("error occured while searching comics",err);
-        Base.resNo(res,"error occured while searching comics",err);
+        Base.logErr("error occured",err);
+        Base.resNo(res,"error occured");
     }
 });
 

@@ -11,10 +11,11 @@ const userSchema = new Schema({
     thumbnail : {type:String,default:"undefined"},
     title : {type:String,default:"notitle"},
     imagesList : [String],
-    comicsId : {type:mongoose.Schema.Types.ObjectId, ref:"comics"},
-    registration : {type:Number, default:Date.now()},
+    comicsId : {type:mongoose.Schema.Types.ObjectId, ref:"comics", default:null},
+    episodeTitle : {type:String, default:null},
+    registration : {type:Number, default:0},
     chargeMethod : {type:String,default:"무료"},
-    releaseDate : {type:Number,default:Date.now()+1000*60*60*24*7},
+    releaseDate : {type:Number,default:0},
     price : {type:Number,default:0}
 });
 

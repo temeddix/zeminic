@@ -11,9 +11,7 @@ module.exports = {
         return Date.now();
     },
 
-    newObjectId : function(){
-        return mongoose.Types.ObjectId();
-    },
+    newObjectId : mongoose.Types.ObjectId,
 
     logInfo : Log.logInfo,
 
