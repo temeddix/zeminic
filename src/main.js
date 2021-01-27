@@ -87,11 +87,16 @@ vue.directive('alert-elastic', {
     let showTimer;
 
     el.addEventListener('mouseover', function () {
+      console.log("들어옴");
+      console.log(el);
       showTimer = setTimeout(function () {
-        vnode.context.$alertElastic(el, binding.value);
+        vnode.context.$root.$alertElastic(el, binding.value);
       }, 700) //700밀리초 동안 마우스를 올리고 있으면 실행한다는 뜻
     })
     el.addEventListener('mouseleave', function () {
+      clearTimeout(showTimer);
+    })
+    el.addEventListener('mouseout', function () {
       clearTimeout(showTimer);
     })
     el.addEventListener('mousedown', function () {
