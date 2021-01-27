@@ -1,5 +1,5 @@
 <template>
-  <div :style="balloonStyle" class="alertBalloon">
+  <div :style="balloonStyle" class="secondary alertBalloon">
     <svg width="12" height="8" :style="pokeStyle">
       <polygon points="0,0 12,0 6,8" style="fill: var(--v-secondary-base)" />
     </svg>
@@ -180,7 +180,6 @@ export default {
   position: fixed;
   z-index: 150;
   border-radius: 6px;
-  background-color: var(--v-secondary-base);
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6);
   pointer-events: none;
   padding: 18px;

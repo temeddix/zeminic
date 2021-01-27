@@ -1,11 +1,11 @@
 <template>
   <!-- v-app은 vuetify가 제공하는 helper class style을 사용하기 위해 꼭 필요한 최상단 요소 -->
-  <v-app class="app" ref="app">
-    <v-app-bar-elastic class="white rounded-pill ma-3 elevation-4" app hide-on-scroll>
+  <v-app ref="app">
+    <v-app-bar-elastic class="stuff rounded-pill ma-3 elevation-4" app hide-on-scroll>
       <app-bar-items></app-bar-items>
     </v-app-bar-elastic>
 
-    <v-main>
+    <v-main class="backdrop">
       <v-container
         fluid
         class="pt-14 pb-16"
@@ -84,9 +84,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.app {
-  background-color: var(--v-background-base);
-}
 .spacer {
   &-top {
     height: 84px;

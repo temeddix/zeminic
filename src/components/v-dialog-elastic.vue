@@ -41,7 +41,6 @@ export default {
             this.anotherOverlay.$el,
             document.getElementById("app").firstChild
           );
-          console.log('켜짐')
         setTimeout(() => {
           this.anotherOverlay.value = true;
         }, this.transitionDuration * 1000);

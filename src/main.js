@@ -8,6 +8,7 @@ import vueTouchEvents from 'vue2-touch-events';
 import vueRouter from 'vue-router';
 import vuetify from 'vuetify/lib'; //Material Design 양식에 기반한 Vue UI 컴포넌트 라이브러리. https://vuetifyjs.com/en/getting-started/installation/ 여기가 사용법 안내.
 import colors from 'vuetify/es5/util/colors'
+import cssVarsPonyfill from 'css-vars-ponyfill';
 
 import '@mdi/font/css/materialdesignicons.css' //Material Design 아이콘 팩. vuetify가 사용함. https://materialdesignicons.com/ 여기가 아이콘 목록.
 
@@ -24,6 +25,7 @@ import './style.scss'; //CSS 파일은 import하는 것만으로도 전체에 �
 //이렇게 이름 없이 불러들이기만 하면 딱히 변수로 등록되진 않지만, 그 안에 있는 global(=window) 변수 등록 코드가 실행되어 라이브러리가 브라우저의 window.xxx라는 전역 변수가 되는 효과가 있음.
 //*로 모든 파일을 로드하는 건 import-glob이라는 webpack preloader npm 덕분에 가능함
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#import_a_module_for_its_side_effects_only
+//단, 파일이 추가되거나 제거되면 웹팩 빌드를 다시 실행시켜야 반영됨. 그 때 폴더 파일목록을 다시 뒤지기 때문에...
 
 import "./libraries/npm/*.js";
 import "./libraries/cdn/*.js";
@@ -195,7 +197,8 @@ const vuetifyOptions = {
         info: '#2196F3',
         success: '#4CAF50',
         warning: '#FFC107',
-        background: "#f2f2f2", //custom
+        backdrop: "#f2f2f2", //custom
+        stuff: "#ffffff", //custom
       },
       dark: {
         primary: colors.shades.white, // Highlight에 쓰임. 그러니까 함부로 부여하지 말기. =켜진 상태.
@@ -205,7 +208,8 @@ const vuetifyOptions = {
         info: '#2196F3',
         success: '#4CAF50',
         warning: '#FFC107',
-        background: "#151515", //custom
+        backdrop: "#151515", //custom
+        stuff: "#222222", //custom
       },
     },
   },
@@ -223,6 +227,27 @@ require("vuetify/lib").VOverlay.options.props.color.default = "#000000";
 
 vue.config.productionTip = false;
 
+// 이건 IE11에서 CSS var가 가능하게 해 주는 Ponyfill(호환성 확보)
+// https://jhildenbiddle.github.io/css-vars-ponyfill/#/
+cssVarsPonyfill({
+  // Targets
+  rootElement: document,
+  shadowDOM: true,
+
+  // Sources
+  include: 'link[rel=stylesheet],style',
+  exclude: '',
+  variables: {},
+
+  // Options
+  onlyLegacy: true,
+  preserveStatic: true,
+  preserveVars: true,
+  silent: false,
+  updateDOM: true,
+  updateURLs: true,
+  watch: true,
+});
 
 
 
