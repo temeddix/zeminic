@@ -1,7 +1,9 @@
 <template>
   <!-- v-app은 vuetify가 제공하는 helper class style을 사용하기 위해 꼭 필요한 최상단 요소 -->
   <v-app class="app" ref="app">
-    <top-bar app> </top-bar>
+    <v-app-bar-elastic class="rounded-pill ma-3 elevation-4" app hide-on-scroll>
+      <app-bar-items></app-bar-items>
+    </v-app-bar-elastic>
 
     <v-main>
       <v-container
@@ -40,6 +42,9 @@
 // const axios = window.axios;
 
 export default {
+  components: {
+    appBarItems: require("./forms/app-bar-items.vue").default,
+  },
   data() {
     return {
       icons: ["mdi-home", "mdi-email", "mdi-calendar", "mdi-delete"],
@@ -66,7 +71,7 @@ export default {
         document.title = newValue + " - Zeminem";
       }
     },
-    darkMode(newValue) {
+    "settings.darkMode"(newValue) {
       if (newValue == true) {
         this.$vuetify.theme.dark = true;
       } else {

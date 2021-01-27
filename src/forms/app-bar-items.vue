@@ -1,5 +1,6 @@
+@@ -1,204 +0,0 @@
 <template>
-  <v-sheet class="elevation-8 rounded-pill ma-4 pa-1 d-flex align-center">
+  <div class="d-flex wrapper align-center">
     <router-link to="/">
       <v-btn
         class="secondary ma-1 logo-button"
@@ -13,9 +14,19 @@
       {{ $root.contentTitle == "" ? "Zeminem" : $root.contentTitle }}
     </v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-dialog v-model="devDialog" scrollable max-width="600px">
+    <v-dialog-elastic v-model="devDialog" scrollable max-width="600px">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn text v-bind="attrs" v-on="on" class="ma-1"> 개발용 패널 </v-btn>
+        <v-btn
+          text
+          fab
+          small
+          v-bind="attrs"
+          v-on="on"
+          class="ma-1"
+          v-alert-elastic="'개발용 패널'"
+        >
+          <v-icon>mdi-dev-to</v-icon>
+        </v-btn>
       </template>
       <v-card>
         <v-card-title class="d-flex">개발용 패널</v-card-title>
@@ -46,14 +57,40 @@
           <v-btn text @click="devDialog = false"> 닫기 </v-btn>
         </v-card-actions>
       </v-card>
-    </v-dialog>
-    <v-switch class="ma-1" v-model="$root.settings.darkMode" inset hide-details>
-    </v-switch>
+    </v-dialog-elastic>
+    <v-dialog-elastic v-model="settingsDialog" scrollable max-width="600px">
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          fab
+          small
+          v-bind="attrs"
+          v-on="on"
+          class="secondary ma-1"
+          v-alert-elastic="'설정'"
+        >
+          <v-icon>mdi-cog</v-icon>
+        </v-btn>
+      </template>
+      <v-card>
+        <v-card-title class="d-flex">설정</v-card-title>
+        <v-card-text style="height: 600px">
+          <v-switch
+            class="ma-1"
+            v-model="$root.settings.darkMode"
+            inset
+            hide-details
+            label="어두운 모드"
+          >
+          </v-switch>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn text @click="devDialog = false"> 닫기 </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog-elastic>
     <!-- 로그인 패널 참고 https://vuetifyjs.com/en/components/dialogs/#form -->
-    <v-dialog-elastic
-      v-model="loginDialog"
-      scrollable
-    >
+    <v-dialog-elastic v-model="loginDialog" scrollable>
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           fab
@@ -61,7 +98,7 @@
           class="secondary ma-1"
           v-bind="attrs"
           v-on="on"
-          v-alert-elastic="'로그인해서 나에게 딱 맞는 웹툰들을 감상해 보세요!'"
+          v-alert-elastic="'로그인과 로그아웃 등 회원 관련 기능'"
         >
           <v-icon>mdi-account</v-icon>
         </v-btn>
@@ -156,7 +193,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog-elastic>
-  </v-sheet>
+  </div>
 </template>
 
 <script>
@@ -166,6 +203,7 @@ export default {
   data() {
     return {
       devDialog: false,
+      settingsDialog: false,
       loginDialog: false,
       signupDialog: false,
       loginForm: {
@@ -198,6 +236,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.wrapper {
+  width: 100%;
+}
 .logo-button {
   background-image: url("../assets/logo.png");
 }

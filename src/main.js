@@ -10,7 +10,7 @@ import vuetify from 'vuetify/lib'; //Material Design 양식에 기반한 Vue UI 
 import colors from 'vuetify/es5/util/colors'
 
 import './styles/basic.scss'; //CSS 파일은 import하는 것만으로도 전체에 반영돼. 웹팩 기능이야.
-import '@mdi/font/css/materialdesignicons.css' //Material Design 아이콘 팩. vuetify가 사용함.
+import '@mdi/font/css/materialdesignicons.css' //Material Design 아이콘 팩. vuetify가 사용함. https://materialdesignicons.com/ 여기가 아이콘 목록.
 
 
 
@@ -89,7 +89,7 @@ vue.directive('alert-elastic', {
     el.addEventListener('mouseover', function () {
       showTimer = setTimeout(function () {
         vnode.context.$alertElastic(el, binding.value);
-      }, 1000)
+      }, 700) //700밀리초 동안 마우스를 올리고 있으면 실행한다는 뜻
     })
     el.addEventListener('mouseleave', function () {
       clearTimeout(showTimer);
@@ -126,45 +126,9 @@ vue.prototype.$alertElastic = function (target, alertText) {
 ▶▶Vue 컴포넌트 등록 (전역으로 Global하게=어디에서든 쓸 수 있게)
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
-vue.component('top-bar', require('./components/top-bar.vue').default)
+vue.component('v-app-bar-elastic', require('./components/v-app-bar-elastic.vue').default)
 vue.component('alert-elastic', require('./components/alert-elastic.vue').default)
-vue.component('v-dialog-elastic', {
-  extends: require('vuetify/lib').VDialog,
-  data() {
-    return {}
-  },
-  computed: {},
-  methods: {},
-  props: {
-    maxWidth: {
-      type: String,
-      default: "600px",
-    },
-    transitionDuration: {
-      type: Number,
-      default: 0.4,
-    },
-    transition: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  watch: {
-    async value(newValue, oldValue) {
-      let activator = await this.$children[0].$el; //HTML element
-      let dialog = await this.$children[1].$el.children[0]; //HTML element
-      if (newValue == true) {
-        window.becomeNew(activator, dialog, this.transitionDuration);
-      } else {
-        window.becomeNew(dialog, activator, this.transitionDuration);
-
-      }
-    }
-  },
-  created() {},
-  mounted() {},
-  destroyed() {},
-})
+vue.component('v-dialog-elastic', require('./components/v-dialog-elastic.vue').default)
 
 
 

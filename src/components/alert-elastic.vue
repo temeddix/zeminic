@@ -188,6 +188,7 @@ export default {
 .alertTextClass {
   color: #ffffff;
   margin: 0px !important;
+  text-align: center;
 }
 .roundHighlight {
   background: radial-gradient(
