@@ -24,7 +24,9 @@ import '@mdi/font/css/materialdesignicons.css' //Material Design 아이콘 팩. 
 //*로 모든 파일을 로드하는 건 import-glob이라는 webpack preloader npm 덕분에 가능함
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#import_a_module_for_its_side_effects_only
 
-import "./libraries/**/*.js";
+import "./libraries/npm/*.js";
+import "./libraries/cdn/*.js";
+import "./libraries/custom/*.js";
 
 
 
@@ -79,15 +81,15 @@ vue.use(vuetify);
 
 // 전역 사용자 정의 디렉티브 v-elastic-alert 등록
 // https://kr.vuejs.org/v2/guide/custom-directive.html
-vue.directive('elastic-alert', {
-  // 바인딩 된 엘리먼트가 DOM에 삽입되었을 때...
-  inserted: function (el, binding, vnode) {
+vue.directive('alert-elastic', {
+  bind(el, binding, vnode) {},
+  inserted(el, binding, vnode) {
     let showTimer;
 
     el.addEventListener('mouseover', function () {
       showTimer = setTimeout(function () {
-        vnode.context.$elasticAlert(el, binding.value);
-      }, 500)
+        vnode.context.$alertElastic(el, binding.value);
+      }, 1000)
     })
     el.addEventListener('mouseleave', function () {
       clearTimeout(showTimer);
@@ -98,12 +100,15 @@ vue.directive('elastic-alert', {
     el.addEventListener('click', function () {
       clearTimeout(showTimer);
     })
-  }
+  },
+  update(el, binding, vnode) {},
+  componentUpdated(el, binding, vnode) {},
+  unbind(el, binding, vnode) {},
 })
 
 //그 어떤 컴포넌트에서든 this.$elasticAlert로 사용할 수 있게 됨
-vue.prototype.$elasticAlert = function (target, alertText) {
-  let componentClass = vue.extend(require('./components/elastic-alert.vue').default);
+vue.prototype.$alertElastic = function (target, alertText) {
+  let componentClass = vue.extend(require('./components/alert-elastic.vue').default);
   let instance = new componentClass({
     propsData: {
       target: target,
@@ -111,9 +116,8 @@ vue.prototype.$elasticAlert = function (target, alertText) {
     },
   });
   instance.$mount();
-  document.body.appendChild(instance.$el);
+  document.getElementById("app").appendChild(instance.$el);
 }
-
 
 
 
@@ -123,10 +127,44 @@ vue.prototype.$elasticAlert = function (target, alertText) {
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
 vue.component('top-bar', require('./components/top-bar.vue').default)
-vue.component('elastic-button', require('./components/elastic-button.vue').default)
-vue.component('elastic-alert', require('./components/elastic-alert.vue').default)
+vue.component('alert-elastic', require('./components/alert-elastic.vue').default)
+vue.component('v-dialog-elastic', {
+  extends: require('vuetify/lib').VDialog,
+  data() {
+    return {}
+  },
+  computed: {},
+  methods: {},
+  props: {
+    maxWidth: {
+      type: String,
+      default: "600px",
+    },
+    transitionDuration: {
+      type: Number,
+      default: 0.4,
+    },
+    transition: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  watch: {
+    async value(newValue, oldValue) {
+      let activator = await this.$children[0].$el; //HTML element
+      let dialog = await this.$children[1].$el.children[0]; //HTML element
+      if (newValue == true) {
+        window.becomeNew(activator, dialog, this.transitionDuration);
+      } else {
+        window.becomeNew(dialog, activator, this.transitionDuration);
 
-
+      }
+    }
+  },
+  created() {},
+  mounted() {},
+  destroyed() {},
+})
 
 
 
@@ -208,15 +246,12 @@ const vuetifyOptions = {
 };
 
 
-
-
-
 /*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 ▶▶뷰 인스턴스 생성(=HTML에 적용)
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
 import rootVueOptions from './app.vue';
-//rootVueOptions은 단순한 그냥 오브젝트임. console.log()를 해 보면 바로 알 수 있지.
+//rootVueOptions은 단순한 자바스크립트 오브젝트임. console.log()를 해 보면 바로 알 수 있지.
 
 rootVueOptions.el = '#vueModelElement' //index.html의 해당 id를 가진 요소에 뷰 앱이 삽입됨
 rootVueOptions.router = new vueRouter(routerOpotions)

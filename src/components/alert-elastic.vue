@@ -94,7 +94,7 @@ export default {
       });
     },
   },
-  created: function () {
+  created() {
     let self = this;
 
     if (typeof self.target == "string") {
@@ -163,6 +163,8 @@ export default {
       self.close();
     }, 3500);
   },
+  mounted() {},
+  destroyed() {},
 };
 </script>
 
@@ -185,6 +187,7 @@ export default {
 }
 .alertTextClass {
   color: #ffffff;
+  margin: 0px !important;
 }
 .roundHighlight {
   background: radial-gradient(

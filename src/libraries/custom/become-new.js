@@ -1,24 +1,20 @@
 const gsap = window.gsap
 
-const customEase = window.CustomEase
+window.becomeNew = function (fromElement, toElement, duration) {
+  gsap.set([fromElement, toElement], {
+    display: "",
+    opacity: 1,
+  });
 
-window.becomeNew = function (fromElement, toElement, duration, smoothShadow) {
+  let clone = toElement.cloneNode(true);
+  clone.querySelectorAll('*').forEach(n => n.removeAttribute('id'));
+  clone.innerHTML="";
+
   let fromPosition = fromElement.getBoundingClientRect();
   let toPosition = toElement.getBoundingClientRect();
 
-  let clone = toElement.cloneNode(true);
-
-  /*
-  if(isMobile==true){
-      for(let i=0; i<clone.children.length; i++){
-          clone.removeChild(clone.children[i])
-      }
-  }
-  */
-
   let initialState = {
     position: 'fixed',
-    display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
@@ -27,10 +23,11 @@ window.becomeNew = function (fromElement, toElement, duration, smoothShadow) {
     width: fromPosition.width,
     height: fromPosition.height,
     margin: 0,
-    zIndex: 100,
+    zIndex: 202,
     transform: '',
     overflow: 'hidden',
-    visibility: 'visible',
+    opacity: 1,
+    display: '',
     //여기까지가 강제 설정, 밑으로는 실제 형태 존중
     boxShadow: window.getComputedStyle(fromElement).boxShadow,
     borderRadius: Math.min(
@@ -50,7 +47,7 @@ window.becomeNew = function (fromElement, toElement, duration, smoothShadow) {
   };
 
   let transitionPlan = {
-    ease: 'power4',
+    ease: 'power4.out',
     duration: duration,
     autoRound: true,
     onComplete: onCompleteFunction,
@@ -76,21 +73,26 @@ window.becomeNew = function (fromElement, toElement, duration, smoothShadow) {
     lineHeight: window.getComputedStyle(toElement).lineHeight,
   };
 
-  let shadowTransitionPlan = {
-    ease: smoothShadow ? 'power4.inOut'
-      : customEase.create("custom", "M0,0,C0,0.484,0.034,0.726,0.16,0.852,0.292,0.984,0.504,1,1,1"),
-    boxShadow: window.getComputedStyle(toElement).boxShadow,
-  }; //그림자는 성능상 가장 무겁기 때문에 마지막에 커짐. 안 그러면 프레임드랍 심함.
-
   clone.className = '';
-  document.body.appendChild(clone);
-  gsap.set([fromElement, toElement], { visibility: "hidden" });
+  document.getElementById("app").appendChild(clone);
+
+  gsap.set([fromElement, toElement], {
+    display: "",
+    opacity: 0,
+  });
+
   gsap.set(clone, initialState);
   gsap.to(clone, transitionPlan);
-  gsap.to(clone, shadowTransitionPlan);
 
   function onCompleteFunction() {
-    gsap.set(toElement, { visibility: "inherit" });
-    document.body.removeChild(clone);
+    gsap.set(toElement, {
+      display: "",
+      opacity: 1,
+    });
+    gsap.set(fromElement, {
+      display: "",
+      opacity: 0,
+    });
+    document.getElementById("app").removeChild(clone);
   }
 }
