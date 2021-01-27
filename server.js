@@ -31,11 +31,13 @@ const Login = require("./backend/ajax/Login"); //로그인 api
 const UsersAPI = require('./backend/ajax/UsersAPI'); //회원 api
 const ComicsAPI = require("./backend/ajax/ComicsAPI"); //웹툰정보 api
 const ChaptersAPI = require("./backend/ajax/ChaptersAPI");
+const CommentsAPI = require("./backend/ajax/CommentsAPI");
 
 server.use(Login);
 server.use(UsersAPI);
 server.use(ComicsAPI);
 server.use(ChaptersAPI);
+server.use(CommentsAPI);
 server.use(function(req,res,next){
     console.log("디버깅용 : 로그인여부 ",req.isAuthenticated());
     next();

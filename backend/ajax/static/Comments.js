@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const collectionName = "comments";
 const userSchema = new Schema({
     _id : mongoose.Schema.Types.ObjectId,
-    writerId : {type:mongoose.Schema.Types.ObjectId, ref:"users",default:"undefined"},
+    writerId : {type:mongoose.Schema.Types.ObjectId, ref:"users"},
     likes : {type:Number,default:0},
     dislikes : {type:Number,default:0},
     text : {type:String, default:"undefined"},
