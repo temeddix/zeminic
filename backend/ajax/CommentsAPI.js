@@ -15,7 +15,7 @@ router.post("/ajax/comments/create", async function(req,res){
         return;
     }
 
-    //try {
+    try {
         let comicTitle = req.body.comicTitle;
         let chapTitle = req.body.chapTitle;
         let text = req.body.text;
@@ -51,11 +51,11 @@ router.post("/ajax/comments/create", async function(req,res){
         Base.logInfo("/comments/create result",result);
         Base.resYes(res,"comment created",text);
 
-    // } catch(err){
-    //     Base.logInfo("/comments/create error",err);
-    //     Base.resNo(res,"/comments/create error");
-    //     return;
-    // }
+     } catch(err){
+         Base.logInfo("/comments/create error",err);
+         Base.resNo(res,"/comments/create error");
+         return;
+     }
 
 });
 
@@ -66,7 +66,31 @@ router.post("/ajax/comments/list",async function(req,res,next){
 
 //댓글 삭제
 router.post("/ajax/comments/delete", async function(req,res){
-    
+    if(!req.isAuthenticated()){
+        Base.resNo(res,"Login first");
+        return;
+    }
+
+    try {
+        let commentId = Base.newObjectId(req.body.commentId);
+
+        let result = await Comments.deleteOne({_id:commentId});
+        Base.logInfo("Comment id to delete",commentId);
+
+        if(!result.deletedCount){
+            Base.logInfo("No comment deleted",result);
+            Base.resNo(res,"No comment deleted",result);
+            return;
+        }
+
+        Base.logInfo("/comments/delete succeeded",result);
+        Base.resYes(res,"comment deleted");
+
+     } catch(err){
+         Base.logInfo("/comments/delete error",err);
+         Base.resNo(res,"/comments/delete error");
+         return;
+     }
 });
 
 module.exports = router;
