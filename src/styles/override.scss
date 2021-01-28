@@ -1,3 +1,14 @@
-.v-card__actions{
+*{
+  text-transform: none !important; //Vuetify 컴포넌트의 자동 대문자화 또는 소문자화 방지
+}
+
+.v-card__actions {
   padding: 8px 16px 16px !important;
+}
+
+.v-overlay {
+  top: -400px;
+  bottom: -400px;
+  left: -400px;
+  right: -400px;
 }
