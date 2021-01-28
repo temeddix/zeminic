@@ -84,7 +84,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text @click="devDialog = false"> 닫기 </v-btn>
+          <v-btn text @click="settingsDialog = false"> 닫기 </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog-elastic>
@@ -97,7 +97,7 @@
           class="secondary ma-1"
           v-bind="attrs"
           v-on="on"
-          v-alert-elastic="'로그인과 로그아웃 등 회원 관련 기능'"
+          v-alert-elastic="'회원 정보'"
         >
           <v-icon>mdi-account</v-icon>
         </v-btn>

@@ -141,6 +141,8 @@ vue.prototype.$alertElastic = function (target, alertText) {
   document.getElementById("app").appendChild(instance.$el);
 }
 
+vue.prototype.$alertElasticActive = [];
+
 
 
 

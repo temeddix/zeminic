@@ -1,9 +1,12 @@
 <template>
-  <div :style="balloonStyle" class="secondary alertBalloon">
+  <div
+    :style="[balloonStyle, balloonStyleAnimated]"
+    class="secondary balloon elevation-8 rounded"
+  >
     <svg width="12" height="8" :style="pokeStyle">
       <polygon points="0,0 12,0 6,8" style="fill: var(--v-secondary-base)" />
     </svg>
-    <p class="alertTextClass">{{ alertText }}</p>
+    <p class="white--text ma-0">{{ alertText }}</p>
   </div>
 </template>
 
@@ -11,20 +14,25 @@
 /*global gsap*/
 
 export default {
-  data: function () {
+  data() {
     return {
-      targetActivation: 0,
-      tweenedActivation: 0,
-      showUpward: false,
+      duration: 3.5,
+      transitionDuration: 0.3,
       xCorrection: 0,
-      balloonWidth: 240,
-      elementPosition: {
-        top: 0,
-        left: 0,
-        width: 0,
-        height: 0,
-      },
+      showUpward: false,
+      targetActivation: 0,
+      tweenedActivation: 1,
       targetElement: null,
+      balloonStyle: {
+        top: `-1000px`,
+        left: `${window.innerWidth / 2}px`,
+        transform: `translate(-50%,-50%)`,
+        transformOrigin: `top left`,
+      },
+      pokeStyle: {
+        position: `absolute`,
+        transformOrigin: `top left`,
+      },
     };
   },
   props: {
@@ -32,14 +40,8 @@ export default {
     alertText: { type: String, default: "알림 내용" },
   },
   computed: {
-    balloonStyle() {
+    balloonStyleAnimated() {
       return {
-        width: this.balloonWidth + "px",
-        top:
-          this.elementPosition.top +
-          (this.showUpward ? 0 : this.elementPosition.height) +
-          "px",
-        left: this.elementPosition.left + this.elementPosition.width / 2 + "px",
         transform:
           "scale(" +
           Math.sqrt(this.tweenedActivation) +
@@ -49,151 +51,141 @@ export default {
           "px)" +
           (this.showUpward ? " translateY(-120%)" : " translateY(20%)"),
         opacity: this.tweenedActivation,
-        transformOrigin: "0% 0%",
-      };
-    },
-    pokeStyle() {
-      return {
-        position: "absolute",
-        top: this.showUpward ? "100%" : "0%",
-        left: "calc(50% - " + this.xCorrection + "px)",
-        transform:
-          (this.showUpward ? "" : " rotate(180deg)") + "translateX(-50%)",
-        transformOrigin: "0% 0%",
       };
     },
   },
   methods: {
     close() {
-      let self = this;
+      this.targetActivation = 0;
 
-      self.targetActivation = 0;
-
-      setTimeout(function () {
+      setTimeout(() => {
         // remove the element from the DOM
         try {
-          self.$el.remove();
+          this.$el.remove();
         } catch (error) {
-          self.$el.parentNode.removeChild(self.$el); //IE는 element.remove() 지원을 안 하기 때문에 추가
+          this.$el.parentNode.removeChild(this.$el); //IE는 element.remove() 지원을 안 하기 때문에 추가
         }
 
-        if (self.targetElement.attachedElasticAlert == self) {
-          self.targetElement.attachedElasticAlert = null; //뒷정리
+        if (this.targetElement.attachedElasticAlert == this) {
+          this.targetElement.attachedElasticAlert = null; //뒷정리
         }
         // destroy the vue listeners, etc
-        self.$destroy();
-      }, 400);
+        this.$destroy();
+      }, this.transitionDuration*1000);
+    },
+    setTarget() {
+      if (typeof this.target == "string") {
+        this.targetElement = document.getElementById(this.target);
+      } else {
+        this.targetElement = this.target;
+      }
+    },
+    setPosition() {
+      let balloonWidth = this.$el.getBoundingClientRect().width;
+      let elementRect = this.targetElement.getBoundingClientRect();
+      let elementPosition = {
+        top: elementRect.top, //상단 여백
+        left: elementRect.left, //좌측 여백
+        right: window.innerWidth - elementRect.right, //우측 여백
+        bottom: window.innerWidth - elementRect.bottom, //하단 여백
+        height: elementRect.height, //세로 길이
+        width: elementRect.width, //가로 길이
+        x: elementRect.left + elementRect.width / 2, //중심점의 좌표
+        y: elementRect.top + elementRect.height / 2, //중심점의 좌표
+      };
+
+      if (elementPosition.top > elementPosition.bottom) {
+        // 대상 Element가 화면 중간 높이보다 낮게 있다면
+        // 말풍선은 아래가 아닌 위로 나타나게
+        this.showUpward = true;
+      }
+
+      let balloonRightEnd = elementPosition.x + balloonWidth / 2;
+      let balloonleftEnd = elementPosition.x - balloonWidth / 2;
+
+      if (window.innerWidth - 12 < balloonRightEnd) {
+        this.xCorrection = window.innerWidth - balloonRightEnd - 12;
+      } else if (balloonleftEnd < 12) {
+        this.xCorrection = 12 - balloonleftEnd;
+      }
+
+      this.pokeStyle.top = this.showUpward ? `100%` : `0%`;
+      this.pokeStyle.left = `calc(50% - ${this.xCorrection}px)`;
+      this.pokeStyle.transform = `${
+        this.showUpward ? "" : "rotate(180deg)"
+      } translateX(-50%)`;
+
+      this.balloonStyle.top =
+        elementPosition.top +
+        (this.showUpward ? 0 : elementPosition.height) +
+        "px";
+      this.balloonStyle.left = elementPosition.x + "px";
+      this.balloonStyle.width = balloonWidth + "px";
+    },
+    hideIntersects() {
+      this.$alertElasticActive.forEach((component) => {
+        if (this == component) {
+          return; //자기 자신일 땐 취소
+        }
+
+        let rect1 = this.$el.getBoundingClientRect();
+        let rect2 = component.$el.getBoundingClientRect();
+
+        let doesOverlap = !(
+          rect1.right < rect2.left ||
+          rect1.left > rect2.right ||
+          rect1.bottom < rect2.top ||
+          rect1.top > rect2.bottom
+        );
+
+        let index1 = this.$alertElasticActive.indexOf(this); //이 컴포넌트가 배열에서 몇 번째인지 알아내고
+        let index2 = this.$alertElasticActive.indexOf(component); //그 컴포넌트가 배열에서 몇 번째인지 알아내고
+        let isYounger = index2 < index1; //이 컴포넌트가 그 컴포넌트보다 더 최신인지 확인
+
+        if (doesOverlap && isYounger) {
+          component.close(); // 상대 컴포넌트를 닫고
+          this.$alertElasticActive.splice(index2, 1); // 그 컴포넌트를 배열 목록에서 제거
+        }
+      });
     },
   },
   watch: {
     targetActivation(newValue) {
       gsap.to(this.$data, {
-        duration: 0.3,
+        duration: this.transitionDuration,
         ease: "power4",
         tweenedActivation: newValue,
       });
     },
+    tweenedActivation(newValue) {
+      this.hideIntersects();
+    },
   },
   created() {
-    let self = this;
-
-    if (typeof self.target == "string") {
-      self.targetElement = document.getElementById(self.target);
-    } else {
-      self.targetElement = self.target;
-    }
-
-    if (self.targetElement.attachedElasticAlert != null) {
-      self.targetElement.attachedElasticAlert.close(); //뭐야 넌? 비켜! (중복알림 방지)
-    }
-
-    self.targetElement.attachedElasticAlert = self; //이젠 내가 이 Element 쫄깃알림 지위를 차지한다
-
-    let elementDomRect = self.targetElement.getBoundingClientRect();
-
-    self.elementPosition.top = elementDomRect.top;
-    self.elementPosition.left = elementDomRect.left;
-    self.elementPosition.width = elementDomRect.width;
-    self.elementPosition.height = elementDomRect.height;
-
-    if (self.elementPosition.top < -self.elementPosition.height) {
-      self.elementPosition.top = -self.elementPosition.height;
-    } else if (window.innerHeight < self.elementPosition.top) {
-      self.elementPosition.top = window.innerHeight;
-    }
-
-    if (
-      self.elementPosition.top >
-      window.innerHeight -
-        self.elementPosition.top -
-        self.elementPosition.height
-    ) {
-      self.showUpward = true;
-    }
-
-    if (
-      this.elementPosition.left +
-        this.elementPosition.width / 2 -
-        this.balloonWidth / 2 <
-      12
-    ) {
-      self.xCorrection =
-        12 -
-        (this.elementPosition.left +
-          this.elementPosition.width / 2 -
-          this.balloonWidth / 2);
-    } else if (
-      window.innerWidth -
-        this.elementPosition.left -
-        this.elementPosition.width / 2 -
-        this.balloonWidth / 2 <
-      12
-    ) {
-      self.xCorrection =
-        window.innerWidth -
-        this.elementPosition.left -
-        this.elementPosition.width / 2 -
-        this.balloonWidth / 2 -
-        12;
-    }
-
-    self.targetActivation = 1;
-
-    setTimeout(function () {
-      self.close();
-    }, 3500);
+    this.$alertElasticActive.push(this);
+    this.setTarget();
   },
-  mounted() {},
+  mounted() {
+    setTimeout(() => {
+      this.setPosition();
+      this.tweenedActivation = 0;
+      this.targetActivation = 1;
+    }, 200);
+
+    setTimeout(() => {
+      this.close();
+    }, this.duration*1000);
+  },
   destroyed() {},
 };
 </script>
 
 <style lang="scss" scoped>
-.allCenterContainer {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  flex-direction: column;
-}
-.alertBalloon {
+.balloon {
   position: fixed;
   z-index: 150;
-  border-radius: 6px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6);
   pointer-events: none;
   padding: 18px;
-}
-.alertTextClass {
-  color: #ffffff;
-  margin: 0px !important;
-  text-align: center;
-}
-.roundHighlight {
-  background: radial-gradient(
-    circle at 50% 20%,
-    rgba(255, 255, 255, 0.2),
-    rgba(255, 255, 255, 0)
-  );
+  max-width: 280px;
 }
 </style>
