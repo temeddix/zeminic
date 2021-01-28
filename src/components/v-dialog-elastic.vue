@@ -1,5 +1,5 @@
 <script>
-/*global becomeNew vue*/
+/*global gsap*/
 
 export default {
   extends: require("vuetify/lib").VDialog, // 이 컴포넌트는 Vuetify 컴포넌트를 확장한 것. template이 없는 이유도 그것.
@@ -9,7 +9,66 @@ export default {
     };
   },
   computed: {},
-  methods: {},
+  methods: {
+    becomeNew(fromElement, toElement, duration) {
+      gsap.set([fromElement, toElement], {
+        display: "", //vuetify 컴포넌트의 display:none을 제거해야 제대로 된 크기를 구할 수 있음
+        transitionDuration: "0s", //vuetify 컴포넌트의 CSS 애니메이션을 제거해야 함
+        transitionProperty: "", //vuetify 컴포넌트의 CSS 애니메이션을 제거해야 함
+      });
+
+      let fromPosition = fromElement.getBoundingClientRect();
+      let toPosition = toElement.getBoundingClientRect();
+      let fromBorderRadius = parseInt(
+        getComputedStyle(fromElement).borderRadius
+      );
+      let toBorderRadius = parseInt(getComputedStyle(toElement).borderRadius);
+      let toBoxShadow = getComputedStyle(toElement).boxShadow;
+
+      let difference = {
+        x: fromPosition.x - toPosition.x,
+        y: fromPosition.y - toPosition.y,
+        xScale: fromPosition.width / toPosition.width,
+        yScale: fromPosition.height / toPosition.height,
+      };
+
+      gsap.set(fromElement, {
+        opacity: "0",
+        visibility: "hidden",
+      });
+
+      gsap.set(toElement, {
+        zIndex: 202,
+        overflow: "hidden",
+        transformOrigin: "top left",
+        transform: `translate(${difference.x}px,${difference.y}px) scale( ${difference.xScale}, ${difference.yScale})`,
+        boxShadow: "none",
+        borderRadius: (toElement.style.borderRadius = `${
+          fromBorderRadius / Math.min(difference.xScale, difference.yScale)
+        }px`),
+        opacity: "",
+        visibility: "visible",
+      });
+
+      gsap.to(toElement, {
+        ease: "power4.out",
+        duration: duration,
+        //여기까지가 gsap 애니메이션 설정
+        transform: "",
+        borderRadius: `${toBorderRadius}px`,
+        clearProps:
+          "zIndex, transformOrigin, transform, borderRadius, overflow", //https://greensock.com/docs/v3/GSAP/CorePlugins/CSSPlugin#h3-clearprops 그리고 camelCase로 적어야 함
+      });
+
+      gsap.to(toElement, {
+        ease: "power4.in",
+        duration: duration,
+        //여기까지가 gsap 애니메이션 설정
+        boxShadow: toBoxShadow,
+        clearProps: "boxShadow",
+      });
+    },
+  },
   props: {
     maxWidth: {
       type: [String, Number],
@@ -25,7 +84,7 @@ export default {
     },
     hideOverlay: {
       type: Boolean,
-      default: true,
+      default: false,
     },
   },
   watch: {
@@ -34,48 +93,14 @@ export default {
       let dialog = await this.$children[1].$el.children[0]; //HTML element
 
       if (newValue == true) {
-        becomeNew(activator, dialog, this.transitionDuration);
-        document
-          .getElementById("app")
-          .insertBefore(
-            this.anotherOverlay.$el,
-            document.getElementById("app").firstChild
-          );
-        setTimeout(() => {
-          this.anotherOverlay.value = true;
-        }, this.transitionDuration * 1000);
+        this.becomeNew(activator, dialog, this.transitionDuration);
       } else {
-        becomeNew(dialog, activator, this.transitionDuration);
-        setTimeout(() => {
-          this.anotherOverlay.value = false;
-        }, this.transitionDuration * 1000);
-        setTimeout(() => {
-          try {
-            this.anotherOverlay.$el.remove();
-          } catch (error) {
-            this.anotherOverlay.$el.parentNode.removeChild(self.$el); //IE는 element.remove() 지원을 안 하기 때문에 추가
-          }
-        }, this.transitionDuration * 1000 + 400);
+        this.becomeNew(dialog, activator, this.transitionDuration);
       }
     },
   },
   created() {},
-  mounted() {
-    let componentClass = vue.extend(require("vuetify/lib").VOverlay);
-    this.anotherOverlay = new componentClass({
-      propsData: {
-        value: false,
-        zIndex: 201,
-      },
-    });
-    this.anotherOverlay.$mount();
-    document
-      .getElementById("app")
-      .insertBefore(
-        this.anotherOverlay.$el,
-        document.getElementById("app").firstChild
-      );
-  },
+  mounted() {},
   destroyed() {},
 };
 </script>

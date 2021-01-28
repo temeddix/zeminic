@@ -23,14 +23,26 @@ import './styles/override.scss';
 ▶▶모든 라이브러리 파일들을 불러와서 브라우저의 windows.xxx형식의 전역변수로 등록되게 하기
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
-//이렇게 이름 없이 불러들이기만 하면 딱히 변수로 등록되진 않지만, 그 안에 있는 global(=window) 변수 등록 코드가 실행되어 라이브러리가 브라우저의 window.xxx라는 전역 변수가 되는 효과가 있음.
 //*로 모든 파일을 로드하는 건 import-glob이라는 webpack preloader npm 덕분에 가능함
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#import_a_module_for_its_side_effects_only
-//단, 파일이 추가되거나 제거되면 웹팩 빌드를 다시 실행시켜야 반영됨. 그 때 폴더 파일목록을 다시 뒤지기 때문에...
 
-import "./libraries/npm/*.js";
-import "./libraries/cdn/*.js";
-import "./libraries/custom/*.js";
+//NPM 기반 라이브러리들
+window.vue = require('vue').default;
+window.axios = require('axios').default;
+window.gsap = require('gsap').default;
+
+//CDN 기반 라이브러리들
+//이렇게 이름 없이 불러들이기만 하면, 그 안에 있는 모든 코드가 실행됨
+//즉 라이브러리에 내장된 global(=window) 변수 등록 코드가 실행되어 라이브러리가 브라우저의 window.xxx라는 전역 변수가 되는 효과가 있음.
+import "./libraries/cdn/gsap-custom-ease.js";
+import "./libraries/cdn/iamport.js";
+import "./libraries/cdn/jquery.js";
+
+//직접 만든 라이브러리들
+import "./libraries/custom/calculate-position.js";
+import "./libraries/custom/hex-to-rgb.js";
+import "./libraries/custom/rgb-to-hex.js";
+import "./libraries/custom/simple-pay.js";
 
 
 
