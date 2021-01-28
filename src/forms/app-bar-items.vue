@@ -29,25 +29,25 @@
         </v-btn>
       </template>
       <v-card>
-        <v-card-title class="d-flex">개발용 패널</v-card-title>
+        <v-card-title>개발용 패널</v-card-title>
         <v-card-text style="height: 600px">
           <router-link to="/">
-            <v-btn class="secondary ma-1" rounded @click="devDialog = false"
+            <v-btn class="secondary ma-1" @click="devDialog = false"
               >홈으로 가기</v-btn
             >
           </router-link>
           <router-link to="/flower/1">
-            <v-btn class="secondary ma-1" rounded @click="devDialog = false"
+            <v-btn class="secondary ma-1" @click="devDialog = false"
               >꽃 페이지로 가기</v-btn
             >
           </router-link>
           <router-link to="/grass">
-            <v-btn class="secondary ma-1" rounded @click="devDialog = false"
+            <v-btn class="secondary ma-1" @click="devDialog = false"
               >풀 페이지로 가기</v-btn
             >
           </router-link>
           <router-link to="/tree">
-            <v-btn class="secondary ma-1" rounded @click="devDialog = false"
+            <v-btn class="secondary ma-1" @click="devDialog = false"
               >나무 페이지로 가기</v-btn
             >
           </router-link>
@@ -72,13 +72,12 @@
         </v-btn>
       </template>
       <v-card>
-        <v-card-title class="d-flex">설정</v-card-title>
+        <v-card-title>설정</v-card-title>
         <v-card-text style="height: 600px">
           <v-switch
             class="ma-1"
             v-model="$root.settings.darkMode"
             inset
-            hide-details
             label="어두운 모드"
           >
           </v-switch>
@@ -104,17 +103,15 @@
         </v-btn>
       </template>
       <v-card>
-        <v-card-title class="d-flex pt-8 px-9">로그인하세요!</v-card-title>
+        <v-card-title>로그인하세요!</v-card-title>
         <v-card-text>
           <v-container>
             <v-row>
               <v-col>
                 <v-text-field
                   v-model="loginForm.email"
-                  outlined
                   label="이메일"
                   required
-                  hide-details="auto"
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -122,17 +119,15 @@
               <v-col>
                 <v-text-field
                   v-model="loginForm.pw"
-                  outlined
                   label="암호"
                   type="password"
-                  hide-details="auto"
                   required
                 ></v-text-field>
               </v-col>
             </v-row>
           </v-container>
         </v-card-text>
-        <v-card-actions class="pb-10 px-9">
+        <v-card-actions>
           <v-dialog-elastic v-model="signupDialog" scrollable max-width="500px">
             <template v-slot:activator="{ on, attrs }">
               <v-btn text v-bind="attrs" v-on="on"> 회원가입 </v-btn>
@@ -147,10 +142,8 @@
                     <v-col>
                       <v-text-field
                         v-model="signinForm.email"
-                        outlined
                         label="이메일"
                         required
-                        hide-details="auto"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -158,10 +151,8 @@
                     <v-col>
                       <v-text-field
                         v-model="signinForm.nickname"
-                        outlined
                         label="별명"
                         required
-                        hide-details="auto"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -169,22 +160,18 @@
                     <v-col>
                       <v-text-field
                         v-model="signinForm.pw"
-                        outlined
                         label="암호"
                         type="password"
-                        hide-details="auto"
                         required
                       ></v-text-field>
                     </v-col>
                   </v-row> </v-container
               ></v-card-text>
-              <v-card-actions class="pb-10 px-9">
+              <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn text @click="signupDialog = false"> 취소 </v-btn>
-                <v-btn color="secondary" @click="signup">
-                  회원가입
-                </v-btn></v-card-actions
-              >
+                <v-btn color="secondary" @click="signup"> 회원가입 </v-btn>
+              </v-card-actions>
             </v-card>
           </v-dialog-elastic>
           <v-spacer></v-spacer>

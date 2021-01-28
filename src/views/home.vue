@@ -44,7 +44,7 @@
       <v-col class="d-flex justify-center">
         <v-bottom-sheet v-model="sheet">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn rounded class="secondary" v-bind="attrs" v-on="on">
+            <v-btn class="secondary" v-bind="attrs" v-on="on">
               Bottom sheet 열기
             </v-btn>
           </template>

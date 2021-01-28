@@ -12,7 +12,8 @@ import cssVarsPonyfill from 'css-vars-ponyfill';
 
 import '@mdi/font/css/materialdesignicons.css' //Material Design 아이콘 팩. vuetify가 사용함. https://materialdesignicons.com/ 여기가 아이콘 목록.
 
-import './style.scss'; //CSS 파일은 import하는 것만으로도 전체에 반영돼. 웹팩 기능이야.
+import './styles/basic.scss'; //CSS 파일은 import하는 것만으로도 전체에 반영돼. 웹팩 기능이야.
+import './styles/override.scss';
 
 
 
@@ -216,6 +217,11 @@ const vuetifyOptions = {
 };
 
 require("vuetify/lib").VOverlay.options.props.color.default = "#000000";
+require("vuetify/lib").VTextField.options.props.rounded.default = true;
+require("vuetify/lib").VTextField.options.props.hideDetails.default = true;
+require("vuetify/lib").VTextField.options.props.filled.default = true;
+require("vuetify/lib").VSwitch.options.props.hideDetails.default = true;
+require("vuetify/lib").VBtn.options.props.rounded.default = true;
 
 
 

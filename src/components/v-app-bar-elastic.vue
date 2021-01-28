@@ -9,19 +9,25 @@ export default {
       return this.isActive ? 0 : -80;
     },
     computedContentHeight() {
-      return 56
+      return 56;
     },
   },
   methods: {},
   props: {},
   watch: {},
-  created() {},
+  created() {
+    document.addEventListener("mousemove", (event) => {
+      if (event.clientY <= 10) {
+        this.isActive = true; //마우스를 화면 상단에 갖다 대면 활성화되도록
+      }
+    });
+  },
   mounted() {},
   destroyed() {},
 };
 </script>
 <style scoped>
-.v-toolbar__content{
+.v-toolbar__content {
   padding: 4px;
 }
 </style>
