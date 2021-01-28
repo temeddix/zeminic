@@ -150,6 +150,9 @@ router.post("/ajax/chapters/delete", async function(req,res){
         let result = await Chapters.deleteOne({_id:chapter._id});
         Base.resYes(res,"회차삭제가 성공적으로 처리되었습니다",chapter.title);
         Base.logInfo("회차삭제 성공",result);
+
+        result = await Comments.deleteMany({chaptersId:chapter._id});
+        Base.logInfo("회차 댓글 삭제 결과",result);
     } catch(err) {
         Base.resNo(res,"회차삭제 실패 : 비밀번호가 다릅니다.");
         Base.logInfo("회차삭제 실패 : 비밀번호가 다릅니다",err);

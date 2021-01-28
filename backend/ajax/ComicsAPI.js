@@ -158,6 +158,11 @@ router.post("/ajax/comics/delete", async function(req,res,next){
             for(let j in imgList){
                 Base.deleteBlob(imgList[j]);
             }
+            Comments.deleteMany({_id:chapters[i]._id},(err)=>{
+                if(err){
+                    Base.logErr("Error occured while deleting comments",{error:err,chapterId:chapters[i]._id});
+                }
+            });
         }
     
     } catch(err){

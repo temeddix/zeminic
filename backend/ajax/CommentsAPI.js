@@ -61,7 +61,22 @@ router.post("/ajax/comments/create", async function(req,res){
 
 //댓글 리스팅
 router.post("/ajax/comments/list",async function(req,res,next){
-  
+    let chapterId = req.body.chapterId;
+
+    chapterId = Base.newObjectId(chapterId);
+
+    let chapter = await Chapters.findOne({_id:chapterId});
+
+    if(!chapter){
+        Base.resNo(res,"No such chapter");
+        return;
+    }
+    Base.logInfo("Found chapter",chapter);
+
+    let comments = await Comments.find({chaptersId:chapterId});
+    Base.logInfo("Found comments", comments.length);
+    Base.resYes(res,"found comments",comments);
+
 });
 
 //댓글 삭제
