@@ -108,7 +108,7 @@ vue.directive('alert-elastic', {
     el.addEventListener('mouseover', function () {
       showTimer = setTimeout(function () {
         vnode.context.$root.$alertElastic(el, binding.value);
-      }, 700) //700밀리초 동안 마우스를 올리고 있으면 실행한다는 뜻
+      }, 500) //500밀리초 동안 마우스를 올리고 있으면 실행한다는 뜻
     })
     el.addEventListener('mouseleave', function () {
       clearTimeout(showTimer);
@@ -207,27 +207,30 @@ const vuetifyOptions = {
     themes: {
       // 방법 참고 https://vuetifyjs.com/en/features/theme/
       // 색깔 참고 https://vuetifyjs.com/en/styles/colors/#material-colors
+      // 기본 7가지 색상은 텍스트 색상이 안 바뀐다. Custom 색상을 만들어 쓰기.
       light: {
-        primary: colors.shades.black, // Highlight에 쓰임. 그러니까 함부로 부여하지 말기. =켜진 상태.
-        secondary: colors.grey.darken4, //강조하고 싶을 땐 이 속성을 쓰기. =돋보이는 것.
+        primary: colors.shades.black, // Highlight에 쓰임. 그러니까 함부로 부여하지도 쓰지도 말기. =켜진 상태.
+        secondary: colors.shades.darken3, //함부로 부여하지도 쓰지도 말기. 텍스트 컬러는 바뀌지도 않음.
         accent: '#82B1FF',
         error: '#FF5252',
         info: '#2196F3',
         success: '#4CAF50',
         warning: '#FFC107',
         backdrop: "#f2f2f2", //custom
+        area: "#f8f8f8", //custom
         stuff: "#ffffff", //custom
       },
       dark: {
         primary: colors.shades.white, // Highlight에 쓰임. 그러니까 함부로 부여하지 말기. =켜진 상태.
-        secondary: colors.grey.darken3, //강조하고 싶을 땐 이 속성을 쓰기. =돋보이는 것.
+        secondary: colors.grey.lighten3, //함부로 부여하지도 쓰지도 말기. 텍스트 컬러는 바뀌지도 않음.
         accent: '#82B1FF',
         error: '#FF5252',
         info: '#2196F3',
         success: '#4CAF50',
         warning: '#FFC107',
         backdrop: "#151515", //custom
-        stuff: "#222222", //custom
+        area: "#1b1b1b", //custom
+        stuff: "#333333", //custom
       },
     },
   },

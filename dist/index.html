@@ -1,8 +1,10 @@
 <!DOCTYPE html><head><title>Zeminem</title><meta name="viewport" content="width=device-width,user-scalable=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><style type="text/css">/* 여기 스타일 클래스를 직접 적은 이유는 웹팩으로 컴파일된 스크립트 파일이 로드되기도 전에 보여지는 로딩화면이어야 하기 때문에 */
-        .start-body{
+        .start-body {
             overflow: hidden;
+            background-color: var(--v-backdrop-base);
         }
-        .loading-screen{
+
+        .loading-screen {
             position: fixed;
             top: -200px;
             bottom: -200px;
@@ -12,21 +14,24 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #f1f1f1;
+            background-color: #151515;
+            /* 밝은 모드에서는 #f2f2f2 */
         }
-        .progress-bar-shell{
+
+        .progress-bar-shell {
             display: inline-flex;
             justify-content: left;
             align-items: center;
             width: 240px;
             border-radius: 1000px;
             height: 12px;
-            background-color: rgba(0,0,0,0.1);
+            background-color: rgba(255, 255, 255, 0.1);
             padding: 3px;
             box-sizing: border-box;
             overflow: hidden;
         }
-        .progress-bar-rounder{
+
+        .progress-bar-rounder {
             display: inline-flex;
             justify-content: left;
             align-items: center;
@@ -36,52 +41,72 @@
             box-sizing: border-box;
             overflow: hidden;
         }
-        .progress-bar-fill{
+
+        .progress-bar-fill {
             display: inline-block;
             border-radius: 1000px;
             width: 0%;
             height: 100%;
-            background-color: rgba(0,0,0,0.4);
+            background-color: rgba(255, 255, 255, 0.8);
             box-sizing: border-box;
-        }</style><link href="/css/app.76de7bc7.css" rel="preload" as="style"><link href="/css/chunk-vendors.528e15a2.css" rel="preload" as="style"><link href="/js/app.fa10be49.js" rel="preload" as="script"><link href="/js/chunk-vendors.8eb3d029.js" rel="preload" as="script"><link href="/css/chunk-vendors.528e15a2.css" rel="stylesheet"><link href="/css/app.76de7bc7.css" rel="stylesheet"></head><body class="start-body"><div id="loading-screen" class="loading-screen"><div class="progress-bar-shell"><div class="progress-bar-rounder"><div class="progress-bar-fill" id="progressBarFill"></div></div></div></div><div id="vueModelElement"></div><script>var isDocumentReady = false;
-        var allElementsCount = 0;
-        var loadedElementsCount = 0;
-        var targetPercentage = 0
-        var tweenedPercentage = 0;
+        }</style><link href="/css/app.8f0521a7.css" rel="preload" as="style"><link href="/css/chunk-vendors.5959c522.css" rel="preload" as="style"><link href="/js/app.89337208.js" rel="preload" as="script"><link href="/js/chunk-vendors.8eb3d029.js" rel="preload" as="script"><link href="/css/chunk-vendors.5959c522.css" rel="stylesheet"><link href="/css/app.8f0521a7.css" rel="stylesheet"></head><body class="start-body"><div class="loading-screen"><div class="progress-bar-shell"><div class="progress-bar-rounder"><div class="progress-bar-fill" id="progressBarFill"></div></div></div></div><div id="vueModelElement"></div><script>(function () {
+            var isDocumentReady = false;
+            var allElementsCount = 0;
+            var loadedElementsCount = 0;
+            var targetPercentage = 0
+            var tweenedPercentage = 0;
 
-        var tweenTimer = setInterval( function(){
-
-            tweenedPercentage = tweenedPercentage + (targetPercentage-tweenedPercentage)*0.2;
-            document.getElementById("progressBarFill").style.width = tweenedPercentage+'%';
-
-            if(99<tweenedPercentage)
-            {
-                document.getElementById('loading-screen').style.visibility = 'hidden';
-                document.body.className='';
-                clearInterval(tweenTimer);
+            var getCookie = function (cname) {
+                var name = cname + "=";
+                var ca = document.cookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) == ' ') {
+                        c = c.substring(1);
+                    }
+                    if (c.indexOf(name) == 0) {
+                        return c.substring(name.length, c.length);
+                    }
+                }
+                return "";
             }
 
-        }, 10); 
+            if (getCookie("bright-mode") == "true") {
+                console.log("밝다!");
+                //쿠키에 밝은 모드가 설정되어 있으면 로딩 색깔을 밝게
+                document.getElementsByClassName('loading-screen')[0].style.backgroundColor = "#f2f2f2";
+                document.getElementsByClassName('progress-bar-shell')[0].style.backgroundColor = "rgba(0,0,0,0.1)";
+                document.getElementsByClassName('progress-bar-fill')[0].style.backgroundColor = "rgba(0,0,0,0.8)";
+            }
 
-        document.onreadystatechange = function(event)
-        {
-            if(document.readyState=='interactive')
-            {
-                var allElements = document.body.getElementsByTagName('*');
-                allElementsCount = allElements.length;
+            var tweenTimer = setInterval(function () {
 
-                for (var i=0; i < allElements.length ; i++) 
-                {
-                    allElements[i].addEventListener('load', function(){
-                        loadedElementsCount++;
-                        if(isDocumentReady==false){
-                            targetPercentage = loadedElementsCount*100 / allElementsCount;
-                        }
-                    })
+                tweenedPercentage = tweenedPercentage + (targetPercentage - tweenedPercentage) * 0.2;
+                document.getElementById("progressBarFill").style.width = tweenedPercentage + '%';
+
+                if (99 < tweenedPercentage) {
+                    document.getElementsByClassName('loading-screen')[0].style.visibility = 'hidden';
+                    clearInterval(tweenTimer);
+                }
+
+            }, 10);
+
+            document.onreadystatechange = function (event) {
+                if (document.readyState == 'interactive') {
+                    var allElements = document.body.getElementsByTagName('*');
+                    allElementsCount = allElements.length;
+
+                    for (var i = 0; i < allElements.length; i++) {
+                        allElements[i].addEventListener('load', function () {
+                            loadedElementsCount++;
+                            if (isDocumentReady == false) {
+                                targetPercentage = loadedElementsCount * 100 / allElementsCount;
+                            }
+                        })
+                    }
+                } else if (document.readyState == 'complete') {
+                    isDocumentReady = true;
+                    targetPercentage = 100;
                 }
             }
-            else if(document.readyState=='complete'){
-                isDocumentReady = true;
-                targetPercentage = 100;
-            }
-        }</script><script src="/js/chunk-vendors.8eb3d029.js"></script><script src="/js/app.fa10be49.js"></script></body>
+        })()</script><script src="/js/chunk-vendors.8eb3d029.js"></script><script src="/js/app.89337208.js"></script></body>

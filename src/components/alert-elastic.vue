@@ -1,12 +1,12 @@
 <template>
   <div
     :style="[balloonStyle, balloonStyleAnimated]"
-    class="secondary balloon elevation-8 rounded"
+    class="rounded stuff balloon elevation-8"
   >
     <svg width="12" height="8" :style="pokeStyle">
-      <polygon points="0,0 12,0 6,8" style="fill: var(--v-secondary-base)" />
+      <polygon points="0,0 12,0 6,8" style="fill: var(--v-stuff-base)" />
     </svg>
-    <p class="white--text ma-0">{{ alertText }}</p>
+    <p class="ma-0 pa-0">{{ alertText }}</p>
   </div>
 </template>
 

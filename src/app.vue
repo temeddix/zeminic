@@ -2,7 +2,7 @@
   <!-- v-app은 vuetify가 제공하는 helper class style을 사용하기 위해 꼭 필요한 최상단 요소 -->
   <v-app ref="app">
     <v-app-bar-elastic
-      class="stuff rounded-pill ma-3 elevation-8"
+      class="area rounded-pill ma-3 elevation-8"
       app
       hide-on-scroll
     >
@@ -23,7 +23,7 @@
     </v-main>
 
     <v-footer app absolute class="elevation-8" padless>
-      <v-card tile width="100%" class="text-center">
+      <v-card tile width="100%" class="area text-center">
         <v-card-text>
           <v-btn v-for="icon in icons" :key="icon" class="mx-4" icon>
             <v-icon size="24px">
