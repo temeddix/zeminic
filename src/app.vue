@@ -1,7 +1,11 @@
 <template>
   <!-- v-app은 vuetify가 제공하는 helper class style을 사용하기 위해 꼭 필요한 최상단 요소 -->
   <v-app ref="app">
-    <v-app-bar-elastic class="stuff rounded-pill ma-3 elevation-8" app hide-on-scroll>
+    <v-app-bar-elastic
+      class="stuff rounded-pill ma-3 elevation-8"
+      app
+      hide-on-scroll
+    >
       <app-bar-items></app-bar-items>
     </v-app-bar-elastic>
 
@@ -39,6 +43,8 @@
 </template>
 
 <script>
+/* global setCookie getCookie */
+
 export default {
   components: {
     appBarItems: require("./forms/app-bar-items.vue").default,
@@ -48,7 +54,7 @@ export default {
       icons: ["mdi-home", "mdi-email", "mdi-calendar", "mdi-delete"],
       contentTitle: "Untitled",
       settings: {
-        darkMode: false,
+        brightMode: false,
       },
     };
   },
@@ -69,15 +75,15 @@ export default {
         document.title = newValue + " - Zeminem";
       }
     },
-    "settings.darkMode"(newValue) {
-      if (newValue == true) {
-        this.$vuetify.theme.dark = true;
-      } else {
-        this.$vuetify.theme.dark = false;
-      }
+    "settings.brightMode"(newValue) {
+      this.$vuetify.theme.dark = !newValue;
+      setCookie("bright-mode", newValue, 365);
     },
   },
-  created() {},
+  created() {
+    //쿠키를 읽어서 기본설정에 반영
+    this.settings.brightMode = getCookie("bright-mode") == "true"; //쿠키값은 항상 String
+  },
   mounted() {},
   destroyed() {},
 };

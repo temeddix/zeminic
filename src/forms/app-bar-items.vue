@@ -76,9 +76,9 @@
         <v-card-text style="height: 600px">
           <v-switch
             class="ma-1"
-            v-model="$root.settings.darkMode"
+            v-model="$root.settings.brightMode"
             inset
-            label="어두운 모드"
+            label="밝은 모드"
           >
           </v-switch>
         </v-card-text>

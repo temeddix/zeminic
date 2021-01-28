@@ -43,6 +43,9 @@ import "./libraries/custom/calculate-position.js";
 import "./libraries/custom/hex-to-rgb.js";
 import "./libraries/custom/rgb-to-hex.js";
 import "./libraries/custom/simple-pay.js";
+import "./libraries/custom/set-cookie.js";
+import "./libraries/custom/get-cookie.js";
+import "./libraries/custom/delete-cookie.js";
 
 
 
@@ -194,7 +197,7 @@ const vuetifyOptions = {
     iconfont: 'mdi',
   },
   theme: {
-    dark: false,
+    dark: true,
     options: {
       customProperties: true, //각 컴포넌트의 <style> 영역에서 변수로 접근 가능해짐
       variations: false,
