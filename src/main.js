@@ -216,7 +216,7 @@ const vuetifyOptions = {
         info: '#2196F3',
         success: '#4CAF50',
         warning: '#FFC107',
-        backdrop: "#f2f2f2", //custom
+        backdrop: "#ececec", //custom
         area: "#f8f8f8", //custom
         stuff: "#ffffff", //custom
       },

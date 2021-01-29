@@ -1,12 +1,18 @@
-*{
-  text-transform: none !important; //Vuetify 컴포넌트의 자동 대문자화 또는 소문자화 방지
+//#app을 붙임으로써 <div id="app"> 최상단 Element의 빽을 업고 우선권이 최고가 됨.
+
+#app *{
+  text-transform: none; //Vuetify 컴포넌트의 자동 대문자화 또는 소문자화 방지
 }
 
-.v-card__actions {
-  padding: 8px 16px 16px !important;
+#app .v-card__actions {
+  padding: 8px 16px 16px;
 }
 
-.v-overlay {
+#app .v-card {
+  background-color: var(--v-area-base);
+}
+
+#app .v-overlay {
   top: -400px;
   bottom: -400px;
   left: -400px;

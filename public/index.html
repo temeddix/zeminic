@@ -131,6 +131,13 @@
                     targetPercentage = 100;
                 }
             }
+
+            window.oncontextmenu = function (event) {
+                //우클릭 상황 메뉴(Context Menu) 방지. PC든 모바일이든 다 적용됨.
+                event.preventDefault();
+                event.stopPropagation();
+                return false;
+            };
         })()
     </script>
 </body>

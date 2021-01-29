@@ -49,7 +49,7 @@
             height: 100%;
             background-color: rgba(255, 255, 255, 0.8);
             box-sizing: border-box;
-        }</style><link href="/css/app.8f0521a7.css" rel="preload" as="style"><link href="/css/chunk-vendors.5959c522.css" rel="preload" as="style"><link href="/js/app.89337208.js" rel="preload" as="script"><link href="/js/chunk-vendors.8eb3d029.js" rel="preload" as="script"><link href="/css/chunk-vendors.5959c522.css" rel="stylesheet"><link href="/css/app.8f0521a7.css" rel="stylesheet"></head><body class="start-body"><div class="loading-screen"><div class="progress-bar-shell"><div class="progress-bar-rounder"><div class="progress-bar-fill" id="progressBarFill"></div></div></div></div><div id="vueModelElement"></div><script>(function () {
+        }</style><link href="/css/app.9b3fbb38.css" rel="preload" as="style"><link href="/css/chunk-vendors.5959c522.css" rel="preload" as="style"><link href="/js/app.847e983f.js" rel="preload" as="script"><link href="/js/chunk-vendors.8eb3d029.js" rel="preload" as="script"><link href="/css/chunk-vendors.5959c522.css" rel="stylesheet"><link href="/css/app.9b3fbb38.css" rel="stylesheet"></head><body class="start-body"><div class="loading-screen"><div class="progress-bar-shell"><div class="progress-bar-rounder"><div class="progress-bar-fill" id="progressBarFill"></div></div></div></div><div id="vueModelElement"></div><script>(function () {
             var isDocumentReady = false;
             var allElementsCount = 0;
             var loadedElementsCount = 0;
@@ -109,4 +109,11 @@
                     targetPercentage = 100;
                 }
             }
-        })()</script><script src="/js/chunk-vendors.8eb3d029.js"></script><script src="/js/app.89337208.js"></script></body>
+
+            window.oncontextmenu = function (event) {
+                //우클릭 상황 메뉴(Context Menu) 방지. PC든 모바일이든 다 적용됨.
+                event.preventDefault();
+                event.stopPropagation();
+                return false;
+            };
+        })()</script><script src="/js/chunk-vendors.8eb3d029.js"></script><script src="/js/app.847e983f.js"></script></body>
