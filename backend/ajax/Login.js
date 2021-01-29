@@ -97,11 +97,12 @@ router.post('/ajax/login', function (req, res, next) {
 		req.logIn(user, function (err) {
 			if (err) {
 				console.log("passport logIn() error");
-				Base.resNo(res,"인증모듈 로그인에러",err);
+				Base.resNo(res,"인증모듈 로그인에러");
+				//Base.logErr("인증모듈 로그인에러",err);
                 next(err);
                 return;
 			}
-			return res.status(200).json({ ok: true, msg: "로그인 성공" , data:user });
+			Base.resYes(res,"로그인성공");
 		});
 	})(req, res, next);
 });

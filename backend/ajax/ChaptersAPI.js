@@ -108,6 +108,15 @@ router.post("/ajax/chapters/search",async function(req,res,next){
     
 });
 
+//챕터 리스팅 by comics
+router.post("/ajax/chapters/list",async function(req,res,next){
+    let comicsId = req.body.comicsId;
+    comicsId = Base.newObjectId(comicsId);
+
+    let chapters = await Chapters.find({comicsId:comicsId});
+    Base.resYes(res,"found",chapters);
+});
+
 //챕터 삭제
 router.post("/ajax/chapters/delete", async function(req,res){
     
@@ -117,17 +126,25 @@ router.post("/ajax/chapters/delete", async function(req,res){
         return;
     }
 
-    let comicTitle = req.body.comicTitle;
-    let chapTitle = req.body.chapTitle;
+    let chaptersId = Base.newObjectId(req.body.chaptersId);
 
-    //find Comics
-    let comic = await Comics.findOne({title:comicTitle});
-    if(!comic){
-        Base.logInfo("Failed to delete Chapter! cannot find comics named "+comicTitle);
-        Base.resNo(res,"Cannot find comics named "+comicTitle);
+    //find Chapter
+    let chapter = await Chapters.findOne({_id:chaptersId});
+    if(!chapter){
+        Base.logInfo("cannot find Chapter!");
+        Base.resNo(res,"Cannot find chapter");
         return;
     }
-    Base.logInfo("Found "+comicTitle,comic);
+    Base.logInfo("Found",chapter);
+
+    //fidn comics
+    let comic = await Comics.findOne({_id:chapter.comicsId});
+    if(!comic){
+        Base.logInfo("cannot find comic");
+        Base.resNo(res,"Cannot find comic");
+        return;
+    }
+    Base.logInfo("Found",comic);
 
     //Check if user==writer
     if(req.user._id.toString() != comic.writerId.toString()){
@@ -135,15 +152,6 @@ router.post("/ajax/chapters/delete", async function(req,res){
         Base.resNo(res,"Writer ID does not match");
         return;
     }
-
-    //find chapter
-    let chapter = await Chapters.findOne({comicsId:comic._id,title:chapTitle});
-    if(!chapter){
-        Base.logInfo("Failed to delete Chapter! cannot find chapters named "+chapTitle+" in comics "+comicTitle);
-        Base.resNo(res,"Cannot find chapters named "+chapTitle);
-        return;
-    }
-    Base.logInfo("Found "+chapTitle,chapter);
 
     //try to delete chapter
     try{

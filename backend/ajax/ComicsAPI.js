@@ -114,7 +114,8 @@ router.post("/ajax/comics/search",async function(req,res,next){
 
 //Comics 삭제
 router.post("/ajax/comics/delete", async function(req,res,next){
-    let title = req.body.title;
+    let comicsId = req.body.comicsId;
+    comicsId = Base.newObjectId(comicsId);
 
     if(!req.isAuthenticated()){
         Base.resNo(res,"Login first");
@@ -122,7 +123,8 @@ router.post("/ajax/comics/delete", async function(req,res,next){
     }
 
     try{
-        let found = await Comics.findOne({title:title});
+        let found = await Comics.findOne({_id:comicsId});
+        let title = found.title;
 
         if(!found){
             Base.logInfo("No comic found");

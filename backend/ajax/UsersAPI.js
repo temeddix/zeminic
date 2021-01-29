@@ -58,7 +58,7 @@ router.post("/ajax/signup", async function (req, res) {
 		Base.resNo(res, "Nickname already exists!", nicknameAlready.nickname);
 		return;
 	}
-	notVerified_token[email] = Base.randomToken();
+	notVerified_token[email] = Base.randomToken().slice(0,6);
 	try {
 		Base.sendMail(email, "인증 토큰 : " + notVerified_token[email]);
 		pw = Crypto.createHash("sha512").update(pw).digest("base64");
