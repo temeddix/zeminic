@@ -43,7 +43,7 @@
 </template>
 
 <script>
-/* global setCookie getCookie */
+/* global cookies cssVarsPonyfill*/
 
 export default {
   components: {
@@ -75,14 +75,41 @@ export default {
         document.title = newValue + " - Zeminem";
       }
     },
-    "settings.brightMode"(newValue) {
-      this.$vuetify.theme.dark = !newValue;
-      setCookie("bright-mode", newValue, 365);
+    settings: {
+      // This will let Vue know to look inside the array
+      deep: true,
+      handler(newValue, oldValue) {
+        this.$vuetify.theme.dark = !newValue.brightMode;
+        cookies.set("settings", newValue, { expires: 365 });
+
+        // 이건 IE11에서 CSS var가 가능하게 해 주는 Ponyfill(호환성 확보)
+        //CSS var가 봐뀌어도 IE11은 탐지를 못 함. 그래서 직접 값을 변경해주는 라이브러리임.
+        // https://jhildenbiddle.github.io/css-vars-ponyfill/#/
+        cssVarsPonyfill({
+          // Targets
+          rootElement: document,
+          shadowDOM: true,
+
+          // Sources
+          include: "link[rel=stylesheet],style",
+          exclude: "",
+          variables: {},
+
+          // Options
+          onlyLegacy: true,
+          preserveStatic: true,
+          preserveVars: false,
+          silent: false,
+          updateDOM: true,
+          updateURLs: false,
+          watch: false,
+        });
+      },
     },
   },
   created() {
-    //쿠키를 읽어서 기본설정에 반영
-    this.settings.brightMode = getCookie("bright-mode") == "true"; //쿠키값은 항상 String
+    //저장된 쿠키를 읽어서 반영
+    Object.assign(this.settings, cookies.getJSON("settings"));
   },
   mounted() {},
   destroyed() {},

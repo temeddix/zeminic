@@ -8,7 +8,6 @@ import vueTouchEvents from 'vue2-touch-events';
 import vueRouter from 'vue-router';
 import vuetify from 'vuetify/lib'; //Material Design 양식에 기반한 Vue UI 컴포넌트 라이브러리. https://vuetifyjs.com/en/getting-started/installation/ 여기가 사용법 안내.
 import colors from 'vuetify/es5/util/colors'
-import cssVarsPonyfill from 'css-vars-ponyfill';
 
 import '@mdi/font/css/materialdesignicons.css' //Material Design 아이콘 팩. vuetify가 사용함. https://materialdesignicons.com/ 여기가 아이콘 목록.
 
@@ -30,6 +29,8 @@ import './styles/override.scss';
 window.vue = require('vue').default;
 window.axios = require('axios').default;
 window.gsap = require('gsap').default;
+window.cookies = require('js-cookie');
+window.cssVarsPonyfill = require('css-vars-ponyfill').default; //IE11을 위한 CSS var기능 관련 Polyfill 호환성 확보 라이브러리
 
 //CDN 기반 라이브러리들
 //이렇게 이름 없이 불러들이기만 하면, 그 안에 있는 모든 코드가 실행됨
@@ -43,9 +44,6 @@ import "./libraries/custom/calculate-position.js";
 import "./libraries/custom/hex-to-rgb.js";
 import "./libraries/custom/rgb-to-hex.js";
 import "./libraries/custom/simple-pay.js";
-import "./libraries/custom/set-cookie.js";
-import "./libraries/custom/get-cookie.js";
-import "./libraries/custom/delete-cookie.js";
 
 
 
@@ -252,28 +250,6 @@ require("vuetify/lib").VBtn.options.props.rounded.default = true;
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
 vue.config.productionTip = false;
-
-// 이건 IE11에서 CSS var가 가능하게 해 주는 Ponyfill(호환성 확보)
-// https://jhildenbiddle.github.io/css-vars-ponyfill/#/
-cssVarsPonyfill({
-  // Targets
-  rootElement: document,
-  shadowDOM: true,
-
-  // Sources
-  include: 'link[rel=stylesheet],style',
-  exclude: '',
-  variables: {},
-
-  // Options
-  onlyLegacy: true,
-  preserveStatic: true,
-  preserveVars: true,
-  silent: false,
-  updateDOM: true,
-  updateURLs: true,
-  watch: true,
-});
 
 
 
