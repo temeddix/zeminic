@@ -36,6 +36,7 @@
         "passport-local": "^1.0.0",
         "path": "^0.12.7",
         "sharp": "^0.26.1",
+        "smtp-server": "^3.8.0",
         "util": "^0.12.3",
         "vue": "^2.6.11",
         "vue-router": "^3.4.9",

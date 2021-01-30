@@ -21,6 +21,8 @@ const userSchema = new Schema({
     ads5secsEnabled : {type:Boolean, default:false},
     adsEdgebannerEnabled : {type:Boolean, default:false}
 });
+//userSchema.index({"$**":"text"});
+userSchema.index({title:"text"});
 
 let mongomodel = mongoose.model(collectionName, userSchema, collectionName);
 

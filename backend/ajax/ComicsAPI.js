@@ -94,7 +94,7 @@ router.post("/ajax/comics/search",async function(req,res,next){
     let title = req.body.title;
 
     try{
-        let found = await Comics.findOne({title:title});
+        let found = await Comics.find({$text:{$search:title}}, {score:{$meta:"textScore"}}).sort({score: { $meta: "textScore"} });
 
         if(!found){
             Base.logInfo("No comic found");
@@ -102,8 +102,8 @@ router.post("/ajax/comics/search",async function(req,res,next){
             return;
         }
 
-        Base.logInfo("Found Comic "+title,found);
-        Base.resYes(res,"found "+title,found);
+        Base.logInfo("Search result",found);
+        Base.resYes(res,"search result",found);
     
     } catch(err){
         Base.logErr("error occured while searching comics",err);
