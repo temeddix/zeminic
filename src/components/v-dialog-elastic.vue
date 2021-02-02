@@ -94,51 +94,12 @@ export default {
 
       if (newValue == true) {
         this.becomeNew(activator, dialog, this.transitionDuration);
-        if (this.isHistoryModified == true) {
-          this.isHistoryModified = false;
-        } else {
-          let state = { lastActivatedPopupUid: this._uid };
-          history.pushState(state, null, null);
-        }
       } else {
         this.becomeNew(dialog, activator, this.transitionDuration);
-        if (this.isHistoryModified == true) {
-          this.isHistoryModified = false;
-        } else {
-          this.isHistoryModified = true;
-          history.back();
-        }
       }
     },
   },
-  created() {
-    window.addEventListener("popstate", (event) => {
-      if (this.isHistoryModified == true) {
-        this.isHistoryModified = false;
-        return;
-      }
-
-      let shouldActivate = null;
-      let shouldDeactivate = null;
-
-      try {
-        shouldDeactivate =
-          event.state == null ||
-          event.state.lastActivatedPopupUid == this.$parent._uid;
-        shouldActivate = event.state.lastActivatedPopupUid == this._uid;
-      } catch (error) {
-        //할 게 없음
-      }
-
-      if (shouldDeactivate == true && this.value == true) {
-        this.isHistoryModified = true;
-        this.$emit("input", false);
-      } else if (shouldActivate == true && this.value == false) {
-        this.isHistoryModified = true;
-        this.$emit("input", true);
-      }
-    });
-  },
+  created() {},
   mounted() {},
   destroyed() {},
 };

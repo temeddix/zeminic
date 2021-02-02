@@ -22,3 +22,10 @@
 #app .v-toolbar__content {
   padding: 4px;
 }
+
+#app .v-stepper__wrapper {
+  padding-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

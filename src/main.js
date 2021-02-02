@@ -158,6 +158,7 @@ vue.component('app-bar-items', require('./forms/app-bar-items.vue').default)
 vue.component('login-inputs', require('./forms/login-inputs.vue').default)
 vue.component('settings-inputs', require('./forms/settings-inputs.vue').default)
 vue.component('dev-items', require('./forms/dev-items.vue').default)
+vue.component('signup-inputs', require('./forms/signup-inputs.vue').default)
 
 
 

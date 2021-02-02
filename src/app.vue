@@ -53,6 +53,11 @@ export default {
       settings: {
         brightMode: false,
       },
+      popups:{
+        devDialog: false,
+        settingsDialog: false,
+        loginDialog: false,
+      },
     };
   },
   computed: {
