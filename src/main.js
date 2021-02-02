@@ -148,9 +148,16 @@ vue.prototype.$alertElasticActive = [];
 ▶▶Vue 컴포넌트 등록 (전역으로 Global하게=어디에서든 쓸 수 있게)
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
+//components
 vue.component('v-app-bar-elastic', require('./components/v-app-bar-elastic.vue').default)
 vue.component('alert-elastic', require('./components/alert-elastic.vue').default)
 vue.component('v-dialog-elastic', require('./components/v-dialog-elastic.vue').default)
+
+//forms
+vue.component('app-bar-items', require('./forms/app-bar-items.vue').default)
+vue.component('login-inputs', require('./forms/login-inputs.vue').default)
+vue.component('settings-inputs', require('./forms/settings-inputs.vue').default)
+vue.component('dev-items', require('./forms/dev-items.vue').default)
 
 
 

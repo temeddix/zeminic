@@ -5,7 +5,7 @@ export default {
   extends: require("vuetify/lib").VDialog, // 이 컴포넌트는 Vuetify 컴포넌트를 확장한 것. template이 없는 이유도 그것.
   data() {
     return {
-      anotherOverlay: null,
+      isHistoryModified: false,
     };
   },
   computed: {},
@@ -92,15 +92,53 @@ export default {
       let activator = await this.$children[0].$el; //HTML element
       let dialog = await this.$children[1].$el.children[0]; //HTML element
 
+      console.log("앗 변수 바뀌었다");
+
       if (newValue == true) {
         this.becomeNew(activator, dialog, this.transitionDuration);
+        if (this.isHistoryModified == true) {
+          this.isHistoryModified = false;
+        } else {
+          let state = { lastActivatedPopupUid: this._uid };
+          history.pushState(state, null, null);
+        }
       } else {
         this.becomeNew(dialog, activator, this.transitionDuration);
+        if (this.isHistoryModified == true) {
+          this.isHistoryModified = false;
+        } else {
+          this.isHistoryModified = true;
+          history.back();
+        }
       }
     },
   },
-  created() {},
+  created() {
+    console.log("상태가 바뀌었군");
+    window.addEventListener("popstate", (event) => {
+      if (this.isHistoryModified == true) {
+        this.isHistoryModified = false;
+        return;
+      }
+
+      this.isHistoryModified = true;
+
+      if (event.state == null || event.state.lastActivatedPopupUid == null) {
+        this.$emit("input", false);
+        console.log(null);
+      } else if (event.state.lastActivatedPopupUid == this._uid) {
+        this.$emit("input", true);
+        console.log(this._uid);
+      } else if (event.state.lastActivatedPopupUid == this.$parent._uid) {
+        this.$emit("input", false);
+        console.log(this.$parent._uid);
+      }
+    });
+  },
   mounted() {},
   destroyed() {},
 };
 </script>
+
+<style lang="scss" scoped>
+</style>

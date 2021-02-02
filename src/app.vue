@@ -46,9 +46,6 @@
 /* global cookies cssVarsPonyfill*/
 
 export default {
-  components: {
-    appBarItems: require("./forms/app-bar-items.vue").default,
-  },
   data() {
     return {
       icons: ["mdi-home", "mdi-email", "mdi-calendar", "mdi-delete"],
