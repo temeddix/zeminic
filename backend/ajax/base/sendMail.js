@@ -2,18 +2,17 @@ const Nodemailer = require('nodemailer');
 async function sendMail(email,htmltext){
     try {
         const mailConfig = {
-            service : "Gmail",
-            host : "smtp.gmail.com",
+            host : "smtp.sendgrid.net",
             port : 587,
             auth : {
-                user : "kundukdong@gmail.com",
-                pass : "3workingtogether"
+                user : "apikey",
+                pass : "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"
             },
             requireTLS : true
         };
 
         let message = {
-            from : "kundukdong@gmail.com",
+            from : "no-replay@zeminem.com",
             to : email,
             subject : "인증 요청 메일",
             html : htmltext
