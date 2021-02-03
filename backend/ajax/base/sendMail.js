@@ -1,5 +1,5 @@
 const Nodemailer = require('nodemailer');
-async function sendMail(email,htmltext){
+function sendMail(email,htmltext){
     try {
         const mailConfig = {
             host : "smtp.sendgrid.net",
