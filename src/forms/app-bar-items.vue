@@ -13,7 +13,11 @@
       {{ $root.contentTitle == "" ? "Zeminem" : $root.contentTitle }}
     </v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-dialog-elastic v-model="$root.popups.devDialog" scrollable max-width="600px">
+    <v-dialog-elastic
+      v-model="devDialog"
+      scrollable
+      max-width="600px"
+    >
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           text
@@ -28,7 +32,11 @@
       </template>
       <dev-items></dev-items>
     </v-dialog-elastic>
-    <v-dialog-elastic v-model="$root.popups.settingsDialog" scrollable max-width="600px">
+    <v-dialog-elastic
+      v-model="settingsDialog"
+      scrollable
+      max-width="600px"
+    >
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           fab
@@ -43,7 +51,7 @@
       <settings-inputs></settings-inputs>
     </v-dialog-elastic>
     <!-- 로그인 패널 참고 https://vuetifyjs.com/en/components/dialogs/#form -->
-    <v-dialog-elastic v-model="$root.popups.loginDialog" scrollable>
+    <v-dialog-elastic v-model="loginDialog" scrollable>
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           fab
@@ -64,6 +72,9 @@
 export default {
   data() {
     return {
+      devDialog: false,
+      settingsDialog: false,
+      loginDialog: false,
     };
   },
   computed: {},
