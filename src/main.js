@@ -3,10 +3,10 @@
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
 import vue from 'vue';
-import vueScroll from 'vuescroll';
 import vueTouchEvents from 'vue2-touch-events';
 import vueRouter from 'vue-router';
 import vuetify from 'vuetify/lib'; //Material Design 양식에 기반한 Vue UI 컴포넌트 라이브러리. https://vuetifyjs.com/en/getting-started/installation/ 여기가 사용법 안내.
+import uniqueId from 'vue-unique-id';
 import colors from 'vuetify/es5/util/colors'
 
 import '@mdi/font/css/materialdesignicons.css' //Material Design 아이콘 팩. vuetify가 사용함. https://materialdesignicons.com/ 여기가 아이콘 목록.
@@ -31,6 +31,7 @@ window.axios = require('axios').default;
 window.gsap = require('gsap').default;
 window.cookies = require('js-cookie');
 window.cssVarsPonyfill = require('css-vars-ponyfill').default; //IE11을 위한 CSS var기능 관련 Polyfill 호환성 확보 라이브러리
+window.deepmerge = require('deepmerge');
 
 //CDN 기반 라이브러리들
 //이렇게 이름 없이 불러들이기만 하면, 그 안에 있는 모든 코드가 실행됨
@@ -55,38 +56,10 @@ import "./libraries/custom/simple-pay.js";
 ▶▶Vue 플러그인 적용
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
-vue.use(vueRouter)
+vue.use(vueRouter);
 vue.use(vueTouchEvents);
-vue.use(vueScroll, {
-  ops: {
-    vuescroll: {
-      mode: 'native',
-      sizeStrategy: 'percent',
-      detectResize: true,
-      wheelScrollDuration: 100,
-      wheelDirectionReverse: false
-    },
-    scrollPanel: {
-      scrollingX: false,
-      scrollingY: true,
-    },
-    rail: {},
-    bar: {
-      showDelay: 1000,
-      onlyShowBarOnScroll: true,
-      keepShow: false,
-      background: '#000000',
-      opacity: 0.2,
-      hoverStyle: false,
-      specifyBorderRadius: false,
-      minSize: 0,
-      size: '6px',
-      disable: false
-    }
-  },
-  name: 'vue-scroll'
-});
 vue.use(vuetify);
+vue.use(uniqueId); //https://www.npmjs.com/package/vue-unique-id
 
 
 
@@ -259,6 +232,14 @@ require("vuetify/lib").VBtn.options.props.rounded.default = true;
 
 vue.config.productionTip = false;
 
+let startHistoryState = history.state || {}
+history.replaceState(startHistoryState, null, null);
+
+/*
+setInterval(() => {
+  console.log(history.state);
+}, 200);
+*/
 
 
 
@@ -274,4 +255,4 @@ rootVueOptions.el = '#vueModelElement' //index.html의 해당 id를 가진 요�
 rootVueOptions.router = new vueRouter(routerOpotions)
 rootVueOptions.vuetify = new vuetify(vuetifyOptions)
 
-new vue(rootVueOptions);
+window.vueModel = new vue(rootVueOptions);

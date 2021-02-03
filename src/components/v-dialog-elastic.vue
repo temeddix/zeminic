@@ -1,11 +1,11 @@
 <script>
-/*global gsap*/
+/*global gsap deepmerge*/
 
 export default {
   extends: require("vuetify/lib").VDialog, // 이 컴포넌트는 Vuetify 컴포넌트를 확장한 것. template이 없는 이유도 그것.
   data() {
     return {
-      isHistoryModified: false,
+      hasTimeTravelled: false,
     };
   },
   computed: {},
@@ -68,6 +68,16 @@ export default {
         clearProps: "boxShadow",
       });
     },
+    addHistory() {
+      let original = history.state;
+      let addition = {
+        dialogActivation: {
+          [this.uid]: this.value,
+        },
+      };
+      let state = deepmerge(original, addition);
+      history.pushState(state, null, null);
+    },
   },
   props: {
     maxWidth: {
@@ -97,9 +107,33 @@ export default {
       } else {
         this.becomeNew(dialog, activator, this.transitionDuration);
       }
+
+      if (this.hasTimeTravelled == false) {
+        this.addHistory();
+      } else {
+        this.hasTimeTravelled = false;
+      }
     },
   },
-  created() {},
+  created() {
+    window.addEventListener("popstate", (event) => {
+      try {
+        //history.state에 뭔가 정보가 있을 때
+        //key는 있지만 value가 null인 경우도 고려함
+        let restoreValue = event.state.dialogActivation[this.uid] || false;
+        if (restoreValue != this.value) {
+          this.hasTimeTravelled = true;
+          this.$emit("input", restoreValue);
+        }
+      } catch (error) {
+        //history.state에 정보가 없을 때
+        if (this.value == true) {
+          this.hasTimeTravelled = true;
+          this.$emit("input", false);
+        }
+      }
+    });
+  },
   mounted() {},
   destroyed() {},
 };
