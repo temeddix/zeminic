@@ -5,7 +5,7 @@ export default {
   extends: require("vuetify/lib").VDialog, // 이 컴포넌트는 Vuetify 컴포넌트를 확장한 것. template이 없는 이유도 그것.
   data() {
     return {
-      anotherOverlay: null,
+      isHistoryModified: false,
     };
   },
   computed: {},
@@ -104,3 +104,6 @@ export default {
   destroyed() {},
 };
 </script>
+
+<style lang="scss" scoped>
+</style>

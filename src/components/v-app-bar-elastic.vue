@@ -9,7 +9,7 @@ export default {
       return this.isActive ? 0 : -80;
     },
     computedContentHeight() {
-      return 56;
+      return 60;
     },
   },
   methods: {},
@@ -26,8 +26,6 @@ export default {
   destroyed() {},
 };
 </script>
-<style scoped>
-.v-toolbar__content {
-  padding: 4px;
-}
+
+<style lang="scss" scoped>
 </style>
