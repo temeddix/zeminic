@@ -1,31 +1,25 @@
 const Nodemailer = require('nodemailer');
-async function sendMail(email,htmltext){
-    try {
-        const mailConfig = {
-            service : "Gmail",
-            host : "smtp.gmail.com",
-            port : 587,
-            auth : {
-                user : "kundukdong@gmail.com",
-                pass : "3workingtogether"
-            },
-            requireTLS : true
-        };
+function sendMail(email,htmltext){
+    const mailConfig = {
+        host : "smtp.sendgrid.net",
+        port : 465,
+        secure : true,
+        auth : {
+            user : "apikey",
+            pass : "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"
+        }
+    };
 
-        let message = {
-            from : "kundukdong@gmail.com",
-            to : email,
-            subject : "인증 요청 메일",
-            html : htmltext
-        };
+    let message = {
+        from : "no-reply@zeminem.com",
+        to : email,
+        subject : "Verification Code",
+        html : htmltext
+    };
 
-        let transporter = Nodemailer.createTransport(mailConfig);
-        transporter.sendMail(message);
+    let transporter = Nodemailer.createTransport(mailConfig);
+    transporter.sendMail(message);
 
-    } catch(error){
-        console.log(error);
-        return false;
-    }
 }
 
 module.exports = sendMail;
