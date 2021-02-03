@@ -42,7 +42,7 @@
 
     <v-row class="mb-10">
       <v-col class="d-flex justify-center">
-        <v-bottom-sheet v-model="sheet">
+        <v-bottom-sheet-elastic v-model="sheet">
           <template v-slot:activator="{ on, attrs }">
             <v-btn class="stuff" v-bind="attrs" v-on="on">
               Bottom sheet 열기
@@ -72,7 +72,7 @@
               bottom sheet This is a bottom sheet
             </div>
           </v-sheet>
-        </v-bottom-sheet>
+        </v-bottom-sheet-elastic>
       </v-col>
     </v-row>
 

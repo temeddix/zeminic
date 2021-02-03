@@ -26,12 +26,12 @@
       </v-container>
     </v-card-text>
     <v-card-actions>
-      <v-bottom-sheet v-model="signupSheet" inset>
+      <v-bottom-sheet-elastic v-model="signupSheet">
         <template v-slot:activator="{ on, attrs }">
           <v-btn v-bind="attrs" v-on="on" text> 회원가입 </v-btn>
         </template>
         <signup-inputs></signup-inputs>
-      </v-bottom-sheet>
+      </v-bottom-sheet-elastic>
       <v-spacer></v-spacer>
       <v-btn color="stuff" @click="login"> 로그인 </v-btn>
     </v-card-actions>

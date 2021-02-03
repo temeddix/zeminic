@@ -71,7 +71,7 @@ export default {
     addHistory() {
       let original = history.state;
       let addition = {
-        dialogActivation: {
+        popupActivation: {
           [this.uid]: this.value,
         },
       };
@@ -120,7 +120,7 @@ export default {
       try {
         //history.state에 뭔가 정보가 있을 때
         //key는 있지만 value가 null인 경우도 고려함
-        let restoreValue = event.state.dialogActivation[this.uid] || false;
+        let restoreValue = event.state.popupActivation[this.uid] || false;
         if (restoreValue != this.value) {
           this.hasTimeTravelled = true;
           this.$emit("input", restoreValue);

@@ -125,6 +125,7 @@ vue.prototype.$alertElasticActive = [];
 vue.component('v-app-bar-elastic', require('./components/v-app-bar-elastic.vue').default)
 vue.component('alert-elastic', require('./components/alert-elastic.vue').default)
 vue.component('v-dialog-elastic', require('./components/v-dialog-elastic.vue').default)
+vue.component('v-bottom-sheet-elastic', require('./components/v-bottom-sheet-elastic.vue').default)
 
 //forms
 vue.component('app-bar-items', require('./forms/app-bar-items.vue').default)
