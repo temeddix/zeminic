@@ -72,13 +72,13 @@ router.post("/ajax/signup", async function (req, res) {
 			regi: Base.getTime(),
         };
         notVerified_info[notVerified_token[email]] = newUser;
-        Base.logInfo("인증 요청된 유저와 토큰",[email,notVerified_token[email]]);
+        Base.logInfo("Veification request",[email,notVerified_token[email]]);
 
-		Base.logInfo("회원가입 요청 성공 (이메일 인증대기중)", newUser.email);
+		Base.logInfo("Request succeeded", newUser.email);
 		Base.resYes(res, "회원가입 요청 성공(이메일 인증대기중)", newUser.email);
 
 	} catch (err) {
-		Base.logErr("회원가입 요청 실패", err);
+		Base.logErr("Signup request failed", err);
 		Base.resNo(res, "회원가입 요청 실패", err);
 		return;
 	}
@@ -87,7 +87,7 @@ router.post("/ajax/verify", async function (req, res, next) {
     let token = req.body.token;
 
     if(!notVerified_info[token]){
-        Base.logInfo("토큰이 존재하지 않습니다",token);
+        Base.logInfo("No token",token);
         Base.resNo(res,"회원가입 요청을 먼저 진행해주십시오.",null);
         return;
     }
@@ -97,11 +97,11 @@ router.post("/ajax/verify", async function (req, res, next) {
         let newUser = new Users(userobj);
         await newUser.save();
         delete userobj.pw;
-        Base.logInfo("회원가입 성공",userobj);
+        Base.logInfo("Signup success",userobj);
         Base.resYes(res,"회원가입 성공",userobj);
         delete notVerified_info[token];
     } catch (err){
-        Base.logErr("회원가입 실패",err);
+        Base.logErr("Signup failure",err);
         Base.resNo(res,"회원가입 실패",err);
     }
 });

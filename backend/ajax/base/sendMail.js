@@ -12,9 +12,9 @@ async function sendMail(email,htmltext){
         };
 
         let message = {
-            from : "no-replay@zeminem.com",
+            from : "no-reply@zeminem.com",
             to : email,
-            subject : "인증 요청 메일",
+            subject : "Verification Code",
             html : htmltext
         };
 
@@ -22,7 +22,7 @@ async function sendMail(email,htmltext){
         transporter.sendMail(message);
 
     } catch(error){
-        console.log(error);
+        console.log("Sendmail error",error);
         return false;
     }
 }
