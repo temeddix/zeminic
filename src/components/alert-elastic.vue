@@ -123,7 +123,7 @@ export default {
       this.balloonStyle.width = balloonWidth + "px";
     },
     hideIntersects() {
-      this.$alertElasticActive.forEach((component) => {
+      window.alertElasticActive.forEach((component) => {
         if (this == component) {
           return; //자기 자신일 땐 취소
         }
@@ -138,13 +138,13 @@ export default {
           rect1.top > rect2.bottom
         );
 
-        let index1 = this.$alertElasticActive.indexOf(this); //이 컴포넌트가 배열에서 몇 번째인지 알아내고
-        let index2 = this.$alertElasticActive.indexOf(component); //그 컴포넌트가 배열에서 몇 번째인지 알아내고
+        let index1 = window.alertElasticActive.indexOf(this); //이 컴포넌트가 배열에서 몇 번째인지 알아내고
+        let index2 = window.alertElasticActive.indexOf(component); //그 컴포넌트가 배열에서 몇 번째인지 알아내고
         let isYounger = index2 < index1; //이 컴포넌트가 그 컴포넌트보다 더 최신인지 확인
 
         if (doesOverlap && isYounger) {
           component.close(); // 상대 컴포넌트를 닫고
-          this.$alertElasticActive.splice(index2, 1); // 그 컴포넌트를 배열 목록에서 제거
+          window.alertElasticActive.splice(index2, 1); // 그 컴포넌트를 배열 목록에서 제거
         }
       });
     },
@@ -162,7 +162,7 @@ export default {
     },
   },
   created() {
-    this.$alertElasticActive.push(this);
+    window.alertElasticActive.push(this);
     this.setTarget();
   },
   mounted() {

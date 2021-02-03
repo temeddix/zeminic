@@ -99,8 +99,11 @@ export default {
       }
     },
   },
-  created() {},
-  mounted() {},
+  created() {
+    this.$setHistoricVariable(this, "value");
+  },
+  mounted() {
+  },
   destroyed() {},
 };
 </script>

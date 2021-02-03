@@ -4,6 +4,7 @@
     <router-link to="/">
       <v-btn
         class="stuff ma-1 logo-button"
+        id="logoButton"
         fab
         v-alert-elastic="'안녕하세요! 여기는 오픈 웹툰 플랫폼 제미넴입니다!'"
       >

@@ -25,7 +25,7 @@
     <v-footer app absolute class="elevation-8" padless>
       <v-card tile width="100%" class="area text-center">
         <v-card-text>
-          <v-btn v-for="icon in icons" :key="icon" class="mx-4" icon>
+          <v-btn v-for="icon in bottomIcons" :key="icon" class="mx-4" icon>
             <v-icon size="24px">
               {{ icon }}
             </v-icon>
@@ -48,7 +48,7 @@
 export default {
   data() {
     return {
-      icons: ["mdi-home", "mdi-email", "mdi-calendar", "mdi-delete"],
+      bottomIcons: ["mdi-home", "mdi-email", "mdi-calendar", "mdi-delete"],
       contentTitle: "Untitled",
       settings: {
         brightMode: false,
@@ -64,7 +64,7 @@ export default {
   },
   methods: {},
   watch: {
-    contentTitle(newValue) {
+    contentTitle(newValue, oldValue) {
       // 콘텐츠 제목 변수 contentTitle 변경에 따라 웹 페이지 제목도 변경
       if (newValue == "") {
         document.title = "Zeminem";

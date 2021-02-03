@@ -7,7 +7,7 @@ import vueScroll from 'vuescroll';
 import vueTouchEvents from 'vue2-touch-events';
 import vueRouter from 'vue-router';
 import vuetify from 'vuetify/lib'; //Material Design 양식에 기반한 Vue UI 컴포넌트 라이브러리. https://vuetifyjs.com/en/getting-started/installation/ 여기가 사용법 안내.
-import colors from 'vuetify/es5/util/colors'
+import colors from 'vuetify/es5/util/colors';
 
 import '@mdi/font/css/materialdesignicons.css' //Material Design 아이콘 팩. vuetify가 사용함. https://materialdesignicons.com/ 여기가 아이콘 목록.
 
@@ -93,7 +93,7 @@ vue.use(vuetify);
 
 
 /*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-▶▶Vue 지시문과 속성 등록
+▶▶Alert-Elastic 사용 가능하도록
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
 // 전역 사용자 정의 디렉티브 v-elastic-alert 등록
@@ -105,7 +105,7 @@ vue.directive('alert-elastic', {
 
     el.addEventListener('mouseover', function () {
       showTimer = setTimeout(function () {
-        vnode.context.$root.$alertElastic(el, binding.value);
+        vnode.context.$alertElastic(el, binding.value);
       }, 500) //500밀리초 동안 마우스를 올리고 있으면 실행한다는 뜻
     })
     el.addEventListener('mouseleave', function () {
@@ -127,6 +127,7 @@ vue.directive('alert-elastic', {
 })
 
 //그 어떤 컴포넌트에서든 this.$elasticAlert로 사용할 수 있게 됨
+window.alertElasticActive = [];
 vue.prototype.$alertElastic = function (target, alertText) {
   let componentClass = vue.extend(require('./components/alert-elastic.vue').default);
   let instance = new componentClass({
@@ -139,7 +140,111 @@ vue.prototype.$alertElastic = function (target, alertText) {
   document.getElementById("app").appendChild(instance.$el);
 }
 
-vue.prototype.$alertElasticActive = [];
+
+
+
+
+/*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+▶▶시기변수(Historic Variables) 사용 가능하도록
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
+
+window.timeTravelled = false;
+window.historicVariables = []; // 순서는 절대 변하지 않음. historicVariables[N]이 가리키는 대상은 항상 똑같음
+
+vue.prototype.$setHistoricVariable = function (parentObject, propertyName) {
+  let doesExist = false
+
+  //가리키는 대상이 같은 자료가 이미 존재한다면 "이미 있는가?"에 대한 대답은 true
+  window.historicVariables.forEach(targetInfo => {
+    if (targetInfo.parentObject == parentObject && targetInfo.propertyName == propertyName) {
+      doesExist = true;
+    }
+  })
+
+  //가리키는 대상이 같은 자료가 없다면 추가
+  if (doesExist == false) {
+    window.historicVariables.push({
+      parentObject,
+      propertyName,
+      value: parentObject[propertyName],
+    });
+  }
+};
+
+setInterval(() => {
+
+  //혹시라도 history.state가 null일 때에는 채워넣기
+  if (history.state == null) {
+    console.log("첫 state");
+    history.replaceState({}, null, null);
+  }
+
+
+  //시간여행을 했다면 바뀌어야 하는 건 history.state가 아니라 historic variables(거꾸로)
+  if (window.timeTravelled == true) {
+    let index = 0;
+    let values = history.state.reducedHistoricVariables
+
+    window.historicVariables.forEach(targetInfo => {
+      targetInfo.parentObject[targetInfo.propertyName] = values[index].value;
+      targetInfo.value = values[index].value;
+      index += 1;
+    })
+
+    window.timeTravelled = false;
+    return;
+  }
+
+  //시기변수가 바뀌었는지 판별하는 변수
+  let isValueChanged = false;
+
+  //시기변수들 중 하나라도 값이 바뀌었다면 "변했는가?"에 대한 답은 true
+  window.historicVariables.forEach(targetInfo => {
+    if (targetInfo.parentObject == null) {
+      //그 자바스크립트 오브젝트가 불미스러운 일로 제거되었다면 무시
+      return;
+    }
+    let calculated = targetInfo.parentObject[targetInfo.propertyName];
+    if (targetInfo.value != calculated) {
+      targetInfo.value = calculated;
+      isValueChanged = true;
+    }
+  })
+
+  let reducedHistoricVariables = [];
+  let newState = {};
+
+  //history.state에 담을 오브젝트 제작
+  window.historicVariables.forEach(targetInfo => {
+    reducedHistoricVariables.push({
+      propertyName: targetInfo.propertyName,
+      value: targetInfo.value
+    });
+  })
+
+  newState = Object.assign(history.state, {
+    reducedHistoricVariables
+  });
+
+  history.replaceState(newState, null, null);
+
+  if (isValueChanged == true) {
+    //"변했는가?"가 true면 새로운 시기 추가
+    console.log("바뀌어서 다음 시기 등록");
+    history.pushState(history.state, null, null);
+  }
+
+  console.log(history.state);
+}, 20)
+
+window.addEventListener("popstate", event => {
+  console.log("POPSTATE");
+  window.timeTravelled = true;
+})
+
+
+
+
 
 
 
@@ -274,4 +379,4 @@ rootVueOptions.el = '#vueModelElement' //index.html의 해당 id를 가진 요�
 rootVueOptions.router = new vueRouter(routerOpotions)
 rootVueOptions.vuetify = new vuetify(vuetifyOptions)
 
-new vue(rootVueOptions);
+window.vueModel = new vue(rootVueOptions);
