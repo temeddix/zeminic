@@ -2,12 +2,12 @@ const Nodemailer = require('nodemailer');
 function sendMail(email,htmltext){
     const mailConfig = {
         host : "smtp.sendgrid.net",
-        port : 587,
+        port : 465,
+        secure : true,
         auth : {
             user : "apikey",
-            pass : "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"
-        },
-        requireTLS : true
+            pass : "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"
+        }
     };
 
     let message = {
