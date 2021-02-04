@@ -16,14 +16,10 @@ const { Iamporter, IamporterError } = require('iamporter');
 
 const iamporter = new Iamporter();
 
-//결제 알림
-router.use("/payment/notification",function(req,res,next){
+//훅
+router.post("/payment/notification",function(req,res){
 	Base.logInfo("Payment Hooked",req.body);
 	res.end("OK");
-
-	//TODO : LOG
-
-	next();
 });
 
 //로그인 검사
