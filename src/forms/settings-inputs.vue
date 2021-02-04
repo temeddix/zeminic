@@ -1,6 +1,6 @@
 @@ -1,204 +0,0 @@
 <template>
-  <v-card>
+  <v-card class="backdrop">
     <v-card-title class="text-h4 justify-center my-2">설정</v-card-title>
     <v-card-text style="height: 600px">
       <v-switch

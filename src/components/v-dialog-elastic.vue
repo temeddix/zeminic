@@ -76,7 +76,7 @@ export default {
         },
       };
       let state = deepmerge(original, addition);
-      history.pushState(state, null, null);
+      history.pushState(state, document.title, null);
     },
   },
   props: {

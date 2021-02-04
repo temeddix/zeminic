@@ -32,6 +32,7 @@ window.gsap = require('gsap').default;
 window.cookies = require('js-cookie');
 window.cssVarsPonyfill = require('css-vars-ponyfill').default; //IE11을 위한 CSS var기능 관련 Polyfill 호환성 확보 라이브러리
 window.deepmerge = require('deepmerge');
+window.colorConvert = require('color-convert'); //https://www.npmjs.com/package/color-convert
 
 //CDN 기반 라이브러리들
 //이렇게 이름 없이 불러들이기만 하면, 그 안에 있는 모든 코드가 실행됨
@@ -42,8 +43,6 @@ import "./libraries/cdn/jquery.js";
 
 //직접 만든 라이브러리들
 import "./libraries/custom/calculate-position.js";
-import "./libraries/custom/hex-to-rgb.js";
-import "./libraries/custom/rgb-to-hex.js";
 import "./libraries/custom/simple-pay.js";
 
 
@@ -113,6 +112,35 @@ vue.prototype.$alertElastic = function (target, alertText) {
 }
 
 vue.prototype.$alertElasticActive = [];
+
+vue.prototype.$setThemeTextColor = function () {
+  let root = document.body;
+  let themeProperties = [
+    "primary",
+    "secondary",
+    "anchor",
+    "accent",
+    "error",
+    "info",
+    "success",
+    "warning",
+    "backdrop",
+    "area",
+    "stuff",
+  ];
+  themeProperties.forEach((property) => {
+    let backColor = getComputedStyle(root).getPropertyValue(
+      `--v-${property}-base`
+    );
+    let rgb = window.colorConvert.hex.rgb(backColor);
+    let brightness = (0.21 * rgb[0] + 0.72 * rgb[1] + 0.07 * rgb[2]) / 255;
+    if (brightness < 0.65) {
+      root.style.setProperty(`--v-${property}-text`, "#ffffff");
+    } else {
+      root.style.setProperty(`--v-${property}-text`, "#000000");
+    }
+  });
+}
 
 
 
@@ -190,27 +218,29 @@ const vuetifyOptions = {
       // 기본 7가지 색상은 텍스트 색상이 안 바뀐다. Custom 색상을 만들어 쓰기.
       light: {
         primary: colors.shades.black, // Highlight에 쓰임. 그러니까 함부로 부여하지도 쓰지도 말기. =켜진 상태.
-        secondary: colors.shades.darken3, //함부로 부여하지도 쓰지도 말기. 텍스트 컬러는 바뀌지도 않음.
+        secondary: colors.grey.darken3, //함부로 부여하지도 쓰지도 말기. 텍스트 컬러는 바뀌지도 않음.
+        anchor: '#000000',
         accent: '#82B1FF',
         error: '#FF5252',
         info: '#2196F3',
         success: '#4CAF50',
         warning: '#FFC107',
-        backdrop: "#ececec", //custom
-        area: "#f8f8f8", //custom
-        stuff: "#ffffff", //custom
+        backdrop: "#ececec", //custom 큰 것들
+        area: "#f8f8f8", //custom 중간 것들
+        stuff: "#ffffff", //custom 작은 것들
       },
       dark: {
         primary: colors.shades.white, // Highlight에 쓰임. 그러니까 함부로 부여하지 말기. =켜진 상태.
         secondary: colors.grey.lighten3, //함부로 부여하지도 쓰지도 말기. 텍스트 컬러는 바뀌지도 않음.
+        anchor: '#ffffff',
         accent: '#82B1FF',
         error: '#FF5252',
         info: '#2196F3',
         success: '#4CAF50',
         warning: '#FFC107',
-        backdrop: "#151515", //custom
-        area: "#1b1b1b", //custom
-        stuff: "#333333", //custom
+        backdrop: "#1b1b1b", //custom 큰 것들
+        area: "#212121", //custom 중간 것들
+        stuff: "#333333", //custom 작은 것들
       },
     },
   },

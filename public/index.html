@@ -7,11 +7,6 @@
     <meta name="mobile-web-app-capable" content="yes">
     <style type='text/css'>
         /* 여기 스타일 클래스를 직접 적은 이유는 웹팩으로 컴파일된 스크립트 파일이 로드되기도 전에 보여지는 로딩화면이어야 하기 때문에 */
-        .start-body {
-            overflow: hidden;
-            background-color: var(--v-backdrop-base);
-        }
-
         .loading-screen {
             position: fixed;
             top: -200px;
@@ -61,7 +56,7 @@
     </style>
 </head>
 
-<body class='start-body'>
+<body>
     <div class='loading-screen'>
         <div class='progress-bar-shell'>
             <div class='progress-bar-rounder'>

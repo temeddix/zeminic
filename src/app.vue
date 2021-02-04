@@ -43,7 +43,7 @@
 </template>
 
 <script>
-/* global cookies cssVarsPonyfill*/
+/* global cookies cssVarsPonyfill */
 
 export default {
   data() {
@@ -62,7 +62,8 @@ export default {
       };
     },
   },
-  methods: {},
+  methods: {
+  },
   watch: {
     contentTitle(newValue) {
       // 콘텐츠 제목 변수 contentTitle 변경에 따라 웹 페이지 제목도 변경
@@ -78,6 +79,7 @@ export default {
       handler(newValue, oldValue) {
         this.$vuetify.theme.dark = !newValue.brightMode;
         cookies.set("settings", newValue, { expires: 365 });
+        this.$setThemeTextColor();
 
         // 이건 IE11에서 CSS var가 가능하게 해 주는 Ponyfill(호환성 확보)
         //CSS var가 봐뀌어도 IE11은 탐지를 못 함. 그래서 직접 값을 변경해주는 라이브러리임.
@@ -107,6 +109,7 @@ export default {
   created() {
     //저장된 쿠키를 읽어서 반영
     Object.assign(this.settings, cookies.getJSON("settings"));
+    this.$setThemeTextColor();
   },
   mounted() {},
   destroyed() {},
