@@ -112,8 +112,11 @@ router.post('/ajax/logout', function (req, res) {
 
 	if (req.isAuthenticated()) {
 		console.log(req.user.email + " logout!");
-		Base.resYes(res,"로그아웃 성공",req.user.email);
 		req.logout();
+		//req.session.save(function(){
+			Base.resYes(res,"로그아웃 성공");
+		  //});
+		
 		return;
 	} else{
 		Base.resNo(res,"로그인 되어 있지 않습니다",null);
