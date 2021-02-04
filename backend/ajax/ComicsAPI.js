@@ -67,7 +67,8 @@ router.post("/ajax/comics/create",function(req,res,next){
                     genre : genre,
                     poster : poster,
                     thumbnail : thumbnail,
-                    writerId : req.user._id
+                    writerId : req.user._id,
+                    registration:Base.getTime()
                 });
     
                 result = await comics.save();

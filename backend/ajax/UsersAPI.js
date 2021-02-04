@@ -69,13 +69,13 @@ router.post("/ajax/signup", async function (req, res) {
 			email: email,
 			pw: pw,
 			nickname: nickname,
-			regi: Base.getTime(),
+			registration: Base.getTime(),
         };
         notVerified_info[notVerified_token[email]] = newUser;
         Base.logInfo("Veification request",[email,notVerified_token[email]]);
 
 		Base.logInfo("Request succeeded", newUser.email);
-		Base.resYes(res, "회원가입 요청 성공(이메일 인증대기중)", newUser.email);
+		Base.resYes(res, "회원가입 요청 성공(이메일 인증대기중)", newUser.registration);
 
 	} catch (err) {
 		Base.logErr("Signup request failed", err);
@@ -93,7 +93,15 @@ router.post("/ajax/verify", async function (req, res, next) {
     }
 
     try {
-        let userobj = notVerified_info[token];
+		let userobj = notVerified_info[token];
+		
+		if(Base.getTime()>userobj.registration+1000*60*3){
+			Base.logInfo("Timeout",{cur:Base.getTime(), registration:userobj.registration});
+			Base.resNo(res,"Timeout(3min)",{cur:Base.getTime(), registration:userobj.registration});
+			delete notVerified_info[token];
+			return;
+		}
+
         let newUser = new Users(userobj);
         await newUser.save();
         delete userobj.pw;

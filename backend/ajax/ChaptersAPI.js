@@ -59,7 +59,8 @@ router.post("/ajax/chapters/create", async function(req,res){
             chargeMethod:chargeMethod,
             releaseDate:releaseDate,
             imagesList:imagesList,
-            price:price
+            price:price,
+            registration:Base.getTime()
         });
 
         
