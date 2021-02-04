@@ -12,7 +12,7 @@
     <v-main class="backdrop">
       <v-container
         fluid
-        class="pt-14 pb-16"
+        class="pt-14 pb-16 superContainer"
         style="height: 100%"
         :style="vContainerStyle"
       >
@@ -25,17 +25,24 @@
     <v-footer app absolute class="elevation-8" padless>
       <v-card tile width="100%" class="area text-center">
         <v-card-text>
-          <v-btn v-for="icon in icons" :key="icon" class="mx-4" icon>
-            <v-icon size="24px">
-              {{ icon }}
-            </v-icon>
+          <v-btn class="mx-4" fab text>
+            <v-icon size="24px"> mdi-home </v-icon>
+          </v-btn>
+          <v-btn class="mx-4" fab text>
+            <v-icon size="24px"> mdi-email </v-icon>
+          </v-btn>
+          <v-btn class="mx-4" fab text>
+            <v-icon size="24px"> mdi-calendar </v-icon>
+          </v-btn>
+          <v-btn class="mx-4" fab text>
+            <v-icon size="24px"> mdi-delete </v-icon>
           </v-btn>
         </v-card-text>
 
         <v-divider></v-divider>
 
-        <v-card-text>
-          <strong>{{ new Date().getFullYear() }} — 예쁜 제미넴</strong>
+        <v-card-text class="text-body-2">
+          {{ new Date().getFullYear() }} — 예쁜 제미넴
         </v-card-text>
       </v-card>
     </v-footer>
@@ -48,22 +55,14 @@
 export default {
   data() {
     return {
-      icons: ["mdi-home", "mdi-email", "mdi-calendar", "mdi-delete"],
       contentTitle: "Untitled",
       settings: {
         brightMode: false,
       },
     };
   },
-  computed: {
-    vContainerStyle() {
-      return {
-        maxWidth: "1280px",
-      };
-    },
-  },
-  methods: {
-  },
+  computed: {},
+  methods: {},
   watch: {
     contentTitle(newValue) {
       // 콘텐츠 제목 변수 contentTitle 변경에 따라 웹 페이지 제목도 변경
@@ -132,5 +131,8 @@ export default {
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
+}
+.superContainer {
+  max-width: 1280px;
 }
 </style>

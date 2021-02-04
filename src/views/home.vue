@@ -86,7 +86,7 @@
 
     <v-row v-for="n in 7" :key="n" class="px-2">
       <v-col v-for="k in n + 1" :key="k" class="px-1">
-        <v-card class="d-flex justify-center align-center small-card">
+        <v-card class="area d-flex justify-center align-center small-card" height="200px">
           {{ k }} of {{ n + 1 }}
         </v-card>
       </v-col>

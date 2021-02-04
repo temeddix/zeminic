@@ -24,6 +24,7 @@ $themeProperties: (
 ▶▶자잘자잘한 공통요소에 적용하기
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 //#app을 붙임으로써 <div id="app"> 최상단 Element의 빽을 업고 우선권이 최고가 됨.
+//그래도 우선권이 !important 붙인 경우보다는 낮음
 
 #app .v-icon {
   color: inherit;
@@ -75,5 +76,9 @@ $themeProperties: (
 
 #app .v-label--active {
   transform: translateY(-8px) scale(0.75);
+}
+
+#app .v-expansion-panel-header {
+  font-size: 1rem;
 }
 
