@@ -16,7 +16,7 @@
     <v-row>
       <v-col>
         <v-expansion-panels>
-          <v-expansion-panel v-for="(item, i) in 5" :key="i">
+          <v-expansion-panel class="area" v-for="(item, i) in 5" :key="i">
             <v-expansion-panel-header> Item </v-expansion-panel-header>
             <v-expansion-panel-content>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
