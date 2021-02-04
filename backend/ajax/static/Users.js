@@ -7,7 +7,7 @@ const userSchema = new Schema({
     email:{type:String,unique:true},
     pw:String,
     nickname:{type:String,unique:true},
-    billingKey:{type:String, default:"undefined"},
+    billingKey:[String],
     bankAccount:{type:String, default:"undefined"},
     uploads:[{type:mongoose.Schema.Types.ObjectId, ref:"comics"}],
     purchased:[{type:mongoose.Schema.Types.ObjectId, ref:"comics"}],
