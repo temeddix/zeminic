@@ -1,22 +1,24 @@
 @@ -1,204 +0,0 @@
 <template>
   <v-sheet class="pa-4 rounded-t backdrop">
-    <p ref="title" class="text-h4 text-center topText mb-1 mt-4">회원가입</p>
+    <p ref="title" class="text-h4 text-center topText mb-1 mt-4">
+      회원 탈퇴하기
+    </p>
     <v-stepper v-model="currentStep" class="transparentArea" alt-labels>
       <v-stepper-header class="elevation-0">
         <v-stepper-step :complete="currentStep > 1" step="1">
-          양식 입력
+          마지막 안내
         </v-stepper-step>
 
         <v-divider></v-divider>
 
         <v-stepper-step :complete="currentStep > 2" step="2">
-          이메일 인증
+          본인 확인
         </v-stepper-step>
 
         <v-divider></v-divider>
 
-        <v-stepper-step step="3"> 마지막 확인 </v-stepper-step>
+        <v-stepper-step step="3"> 인사 </v-stepper-step>
       </v-stepper-header>
 
       <v-stepper-items>
@@ -25,34 +27,14 @@
             <v-container>
               <v-row>
                 <v-col>
-                  <v-text-field
-                    v-model="signinForm.email"
-                    label="이메일"
-                    class="textField"
-                    required
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col>
-                  <v-text-field
-                    v-model="signinForm.nickname"
-                    label="별명"
-                    class="textField"
-                    required
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col>
-                  <v-text-field
-                    v-model="signinForm.pw"
-                    label="암호"
-                    type="password"
-                    class="textField"
-                    required
-                    @keyup.enter="gotoStep2()"
-                  ></v-text-field>
+                  <p class="text-center text-subtitle-1">
+                    정말 탈퇴하시겠어요?
+                  </p>
+                  <p>• 한 번 삭제한 계정은 다시 복구할 수 없습니다.</p>
+                  <p>
+                    • 업로드한 작품과 댓글은 삭제되지 않습니다. 삭제가
+                    필요하다면 회원 탈퇴하기 전에 삭제하셔야 합니다.
+                  </p>
                 </v-col>
               </v-row>
             </v-container>
@@ -73,17 +55,27 @@
             <v-container>
               <v-row>
                 <v-col>
-                  <p class="text-center text-body-1">
-                    이메일로 인증 코드를 보내드렸어요.<br />확인하고 입력해
-                    주세요!
+                  <p class="text-center text-subtitle-1">
+                    본인이 맞는지 다시 한 번 확인해 주세요.
                   </p>
                 </v-col>
               </v-row>
               <v-row>
                 <v-col>
                   <v-text-field
-                    v-model="token"
-                    label="이메일로 전송된 인증 코드"
+                    v-model="withdrawForm.email"
+                    label="이메일"
+                    class="textField"
+                    required
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-text-field
+                    v-model="withdrawForm.pw"
+                    label="암호"
+                    type="password"
                     class="textField"
                     required
                     @keyup.enter="gotoStep3()"
@@ -108,20 +100,14 @@
             <v-container>
               <v-row>
                 <v-col>
-                  <p class="text-center text-subtitle-1">
-                    환영해요 {{ signinForm.nickname }}님!
-                  </p>
-                  <p class="text-center">
-                    등록된 이메일은 {{ signinForm.email }}입니다.
-                  </p>
+                  <p class="text-center text-subtitle-1">안녕히 가세요!</p>
+                  <p class="text-center">언제라도 돌아오시길 기다릴게요.</p>
                 </v-col>
               </v-row>
             </v-container>
           </v-card>
           <div class="actionsWrapper">
-            <v-btn class="stuff nextButton" @click="finish()">
-              끝
-            </v-btn>
+            <v-btn class="stuff nextButton" @click="finish()"> 끝 </v-btn>
           </div>
         </v-stepper-content>
       </v-stepper-items>
@@ -136,27 +122,19 @@ export default {
   data() {
     return {
       currentStep: 1,
-      signinForm: {
+      withdrawForm: {
         email: "",
-        nickname: "",
         pw: "",
       },
-      token: "",
     };
   },
   computed: {},
   methods: {
     async gotoStep2() {
-      let response = await axios.post("/ajax/signup", this.signinForm);
-      if (response.data.isOk == true) {
-        this.currentStep = 2;
-        this.$alertElastic(this.$refs.title, response.data.msg);
-      } else {
-        this.$alertElastic(this.$refs.step2Button.$el, response.data.msg);
-      }
+      this.currentStep = 2;
     },
     async gotoStep3() {
-      let response = await axios.post("/ajax/verify", { token: this.token });
+      let response = await axios.post("/ajax/withdraw", this.withdrawForm);
       if (response.data.isOk == true) {
         this.currentStep = 3;
         this.$alertElastic(this.$refs.title, response.data.msg);
@@ -167,12 +145,12 @@ export default {
     async finish() {
       //시트 닫기
       this.$parent.$parent.$emit("input", false);
+      //로그인 상태 갱신
+      this.$root.getUserInfo();
       //초기화
       this.currentStep = 1;
-      this.signinForm.email = "";
-      this.signinForm.nickname = "";
-      this.signinForm.pw = "";
-      this.token = "";
+      this.withdrawForm.email = "";
+      this.withdrawForm.pw = "";
     },
   },
   watch: {},

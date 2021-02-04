@@ -14,7 +14,6 @@
         fluid
         class="pt-14 pb-16 superContainer"
         style="height: 100%"
-        :style="vContainerStyle"
       >
         <transition name="fade" mode="out-in" appear>
           <router-view></router-view>
@@ -50,7 +49,7 @@
 </template>
 
 <script>
-/* global cookies cssVarsPonyfill */
+/* global axios cookies cssVarsPonyfill */
 
 export default {
   data() {
@@ -59,10 +58,27 @@ export default {
       settings: {
         brightMode: false,
       },
+      userInfo: {
+        email: "",
+        nickname: "",
+      },
+      isLoggedin: false,
     };
   },
   computed: {},
-  methods: {},
+  methods: {
+    async getUserInfo() {
+      let response = await axios.post("/ajax/userinfo");
+      if (response.data.isOk == true) {
+        this.userInfo.email = response.data.ref.email;
+        this.userInfo.nickname = response.data.ref.nickname;
+
+        this.isLoggedin = true;
+      } else {
+        this.isLoggedin = false;
+      }
+    },
+  },
   watch: {
     contentTitle(newValue) {
       // 콘텐츠 제목 변수 contentTitle 변경에 따라 웹 페이지 제목도 변경
@@ -109,6 +125,7 @@ export default {
     //저장된 쿠키를 읽어서 반영
     Object.assign(this.settings, cookies.getJSON("settings"));
     this.$setThemeTextColor();
+    this.getUserInfo();
   },
   mounted() {},
   destroyed() {},
@@ -123,14 +140,6 @@ export default {
   &-bottom {
     height: 180px;
   }
-}
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.2s;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
 }
 .superContainer {
   max-width: 1280px;

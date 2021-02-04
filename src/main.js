@@ -11,7 +11,8 @@ import colors from 'vuetify/es5/util/colors'
 
 import '@mdi/font/css/materialdesignicons.css' //Material Design 아이콘 팩. vuetify가 사용함. https://materialdesignicons.com/ 여기가 아이콘 목록.
 
-import './styles/basic.scss'; //CSS 파일은 import하는 것만으로도 전체에 반영돼. 웹팩 기능이야.
+import './styles/common.scss'; //CSS 파일은 import하는 것만으로도 전체에 반영돼. 웹팩 기능이야.
+import './styles/transition.scss';
 import './styles/override.scss';
 
 
@@ -77,7 +78,7 @@ vue.directive('alert-elastic', {
 
     el.addEventListener('mouseover', function () {
       showTimer = setTimeout(function () {
-        vnode.context.$root.$alertElastic(el, binding.value);
+        vnode.context.$alertElastic(el, binding.value);
       }, 500) //500밀리초 동안 마우스를 올리고 있으면 실행한다는 뜻
     })
     el.addEventListener('mouseleave', function () {
@@ -113,35 +114,6 @@ vue.prototype.$alertElastic = function (target, alertText) {
 
 vue.prototype.$alertElasticActive = [];
 
-vue.prototype.$setThemeTextColor = function () {
-  let root = document.body;
-  let themeProperties = [
-    "primary",
-    "secondary",
-    "anchor",
-    "accent",
-    "error",
-    "info",
-    "success",
-    "warning",
-    "backdrop",
-    "area",
-    "stuff",
-  ];
-  themeProperties.forEach((property) => {
-    let backColor = getComputedStyle(root).getPropertyValue(
-      `--v-${property}-base`
-    );
-    let rgb = window.colorConvert.hex.rgb(backColor);
-    let brightness = (0.21 * rgb[0] + 0.72 * rgb[1] + 0.07 * rgb[2]) / 255;
-    if (brightness < 0.65) {
-      root.style.setProperty(`--v-${property}-text`, "#ffffff");
-    } else {
-      root.style.setProperty(`--v-${property}-text`, "#000000");
-    }
-  });
-}
-
 
 
 
@@ -161,6 +133,7 @@ vue.component('login-inputs', require('./forms/login-inputs.vue').default)
 vue.component('settings-inputs', require('./forms/settings-inputs.vue').default)
 vue.component('dev-items', require('./forms/dev-items.vue').default)
 vue.component('signup-inputs', require('./forms/signup-inputs.vue').default)
+vue.component('withdraw-inputs', require('./forms/withdraw-inputs.vue').default)
 
 
 
@@ -185,6 +158,10 @@ const routes = [{
     component: require('./views/tree.vue').default
   },
   {
+    path: '/account',
+    component: require('./views/account.vue').default
+  },
+  {
     path: '*',
     component: require('./views/not-found.vue').default
   }, //마지막으로 남은 모든 경우의 수에서는 not-found 페이지를 표시하라는 뜻
@@ -199,7 +176,7 @@ const routerOpotions = {
 
 
 /*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-▶▶Vuetify 기본값 수정하기
+▶▶Vuetify 테마
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
 const vuetifyOptions = {
@@ -245,6 +222,35 @@ const vuetifyOptions = {
     },
   },
 };
+
+vue.prototype.$setThemeTextColor = function () {
+  let root = document.body;
+  let themeProperties = [
+    "primary",
+    "secondary",
+    "anchor",
+    "accent",
+    "error",
+    "info",
+    "success",
+    "warning",
+    "backdrop",
+    "area",
+    "stuff",
+  ];
+  themeProperties.forEach((property) => {
+    let backColor = getComputedStyle(root).getPropertyValue(
+      `--v-${property}-base`
+    );
+    let rgb = window.colorConvert.hex.rgb(backColor);
+    let brightness = (0.21 * rgb[0] + 0.72 * rgb[1] + 0.07 * rgb[2]) / 255;
+    if (brightness < 0.65) {
+      root.style.setProperty(`--v-${property}-text`, "#ffffff");
+    } else {
+      root.style.setProperty(`--v-${property}-text`, "#000000");
+    }
+  });
+}
 
 require("vuetify/lib").VOverlay.options.props.color.default = "#000000";
 require("vuetify/lib").VTextField.options.props.rounded.default = true;

@@ -13,11 +13,7 @@
       {{ $root.contentTitle == "" ? "Zeminem" : $root.contentTitle }}
     </v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-dialog-elastic
-      v-model="devDialog"
-      scrollable
-      max-width="600px"
-    >
+    <v-dialog-elastic v-model="devDialog" scrollable max-width="600px">
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           text
@@ -32,11 +28,7 @@
       </template>
       <dev-items></dev-items>
     </v-dialog-elastic>
-    <v-dialog-elastic
-      v-model="settingsDialog"
-      scrollable
-      max-width="600px"
-    >
+    <v-dialog-elastic v-model="settingsDialog" scrollable max-width="600px">
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           fab
@@ -55,7 +47,9 @@
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           fab
-          class="stuff ma-1"
+          id="accountButton"
+          :class="accountButtonClass"
+          class="ma-1"
           v-bind="attrs"
           v-on="on"
           v-alert-elastic="'회원 정보'"
@@ -77,7 +71,14 @@ export default {
       loginDialog: false,
     };
   },
-  computed: {},
+  computed: {
+    accountButtonClass() {
+      return {
+        primary: this.$root.isLoggedin,
+        stuff: !this.$root.isLoggedin,
+      };
+    },
+  },
   methods: {},
   watch: {},
   created() {},

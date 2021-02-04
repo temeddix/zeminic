@@ -4,7 +4,7 @@
     class="rounded stuff balloon elevation-8"
   >
     <svg width="12" height="8" :style="pokeStyle">
-      <polygon points="0,0 12,0 6,8" style="fill: var(--v-stuff-base)" />
+      <polygon points="-2,-2 14,-2 6,8" style="fill: var(--v-stuff-base)" />
     </svg>
     <p class="ma-0 pa-0">{{ alertText }}</p>
   </div>
@@ -16,7 +16,7 @@
 export default {
   data() {
     return {
-      duration: 3.5,
+      duration: 6,
       transitionDuration: 0.3,
       xCorrection: 0,
       showUpward: false,
@@ -71,7 +71,7 @@ export default {
         }
         // destroy the vue listeners, etc
         this.$destroy();
-      }, this.transitionDuration*1000);
+      }, this.transitionDuration * 1000);
     },
     setTarget() {
       if (typeof this.target == "string") {
@@ -87,7 +87,7 @@ export default {
         top: elementRect.top, //상단 여백
         left: elementRect.left, //좌측 여백
         right: window.innerWidth - elementRect.right, //우측 여백
-        bottom: window.innerWidth - elementRect.bottom, //하단 여백
+        bottom: window.innerHeight - elementRect.bottom, //하단 여백
         height: elementRect.height, //세로 길이
         width: elementRect.width, //가로 길이
         x: elementRect.left + elementRect.width / 2, //중심점의 좌표
@@ -174,7 +174,7 @@ export default {
 
     setTimeout(() => {
       this.close();
-    }, this.duration*1000);
+    }, this.duration * 1000);
   },
   destroyed() {},
 };
@@ -183,7 +183,7 @@ export default {
 <style lang="scss" scoped>
 .balloon {
   position: fixed;
-  z-index: 150;
+  z-index: 1000;
   pointer-events: none;
   padding: 18px;
   max-width: 280px;
