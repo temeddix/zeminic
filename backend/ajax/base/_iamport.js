@@ -106,22 +106,4 @@ function payOneTime(mUid,amount,cardNum,expiry,birth,pwd2, callback) {//callback
 }
 
 
-//noti
-router.use("/payment_noti/ajtwlswjdejr",function(request,response){
-	console.log("new payment noti!");
-	console.log(request.body);
-	response.end("OK");
-
-	console.log("iamport noti :",request.body);
-
-	if(request.body.status != 'paid'){
-		console.log("status :",request.body.status);
-		return;
-	}
-
-	//TODO: 업데이트 유저 정보
-	
-});
-
-
 module.exports = router;
