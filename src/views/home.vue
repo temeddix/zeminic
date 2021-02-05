@@ -35,44 +35,9 @@
       <v-col class="d-flex justify-center">
         <v-checkbox
           v-model="checkbox"
+          class="ma-0"
           :label="'이건 체크박스다 체크박스'"
         ></v-checkbox>
-      </v-col>
-    </v-row>
-
-    <v-row class="mb-10">
-      <v-col class="d-flex justify-center">
-        <v-bottom-sheet-elastic v-model="sheet">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn class="stuff" v-bind="attrs" v-on="on">
-              Bottom sheet 열기
-            </v-btn>
-          </template>
-          <v-sheet class="text-center pa-4">
-            <v-btn
-              class="ma-2 red lighten-2 white--text"
-              text
-              @click="sheet = !sheet"
-            >
-              Close
-            </v-btn>
-            <div class="ma-2">
-              This is a bottom sheet This is a bottom sheet This is a bottom
-              sheet This is a bottom sheet This is a bottom sheet This is a
-              bottom sheet This is a bottom sheet This is a bottom sheet This is
-              a bottom sheet This is a bottom sheet This is a bottom sheet This
-              is a bottom sheet This is a bottom sheet This is a bottom sheet
-              This is a bottom sheet This is a bottom sheet This is a bottom
-              sheet This is a bottom sheet This is a bottom sheet This is a
-              bottom sheet This is a bottom sheet This is a bottom sheet This is
-              a bottom sheet This is a bottom sheet This is a bottom sheet This
-              is a bottom sheet This is a bottom sheet This is a bottom sheet
-              This is a bottom sheet This is a bottom sheet This is a bottom
-              sheet This is a bottom sheet This is a bottom sheet This is a
-              bottom sheet This is a bottom sheet
-            </div>
-          </v-sheet>
-        </v-bottom-sheet-elastic>
       </v-col>
     </v-row>
 

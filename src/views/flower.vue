@@ -6,10 +6,12 @@
         <br />
         <br />
         <br />
-        <p class="text-h3">{{ this.$route.params.flowerId }}번째 꽃</p>
-        <p>주소 바뀌는 걸 봐봐</p>
-        <p>페이지 불러오기(Reload) 없이도 주소가 바뀌지?</p>
-        <p>이게 vue-router를 이용한 프론트엔드 라우팅이야</p>
+        <p class="text-h4">{{ this.$route.params.flowerId }}번째 꽃</p>
+        <p>
+          주소 바뀌는 걸 봐봐 <br />페이지 불러오기(Reload) 없이도 주소가
+          바뀌지? <br />이게 vue-router를 이용한 프론트엔드 라우팅이야
+        </p>
+        <br />
         <v-pagination v-model="flowerId" :length="8" circle></v-pagination>
       </v-col>
     </v-row>

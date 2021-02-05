@@ -14,6 +14,7 @@ import '@mdi/font/css/materialdesignicons.css' //Material Design 아이콘 팩. 
 import './styles/common.scss'; //CSS 파일은 import하는 것만으로도 전체에 반영돼. 웹팩 기능이야.
 import './styles/transition.scss';
 import './styles/override.scss';
+import './styles/scrollbar.scss';
 
 
 
