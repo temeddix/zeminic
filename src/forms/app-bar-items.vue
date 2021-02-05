@@ -5,12 +5,12 @@
       <v-btn
         class="stuff ma-1 logo-button"
         fab
-        v-alert-elastic="'안녕하세요! 여기는 오픈 웹툰 플랫폼 제미넴입니다!'"
+        v-alert-elastic="'안녕하세요! 여기는 오픈 웹툰 플랫폼 제미닉입니다!'"
       >
       </v-btn>
     </router-link>
     <v-toolbar-title class="mx-2">
-      {{ $root.contentTitle == "" ? "Zeminem" : $root.contentTitle }}
+      {{ $root.contentTitle == "" ? "제미닉" : $root.contentTitle }}
     </v-toolbar-title>
     <v-spacer></v-spacer>
     <v-dialog-elastic v-model="devDialog" scrollable max-width="600px">

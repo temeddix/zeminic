@@ -23,7 +23,7 @@ export default {
   methods: {},
   watch: {},
   created() {
-    this.$root.contentTitle = "Grass";
+    this.$root.contentTitle = "풀";
   },
   mounted() {},
   destroyed() {},

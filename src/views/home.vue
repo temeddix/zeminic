@@ -7,7 +7,7 @@
     </v-row>
     <v-row class="mt-4 mb-n6">
       <v-col class="text-center">
-        <p class="text-h4">제미넴 개발 초기 화면</p>
+        <p class="text-h4">제미닉 개발 초기 화면</p>
       </v-col>
     </v-row>
 

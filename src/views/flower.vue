@@ -33,7 +33,7 @@ export default {
     },
   },
   created() {
-    this.$root.contentTitle = "Flower";
+    this.$root.contentTitle = "꽃";
   },
   mounted() {},
   destroyed() {},

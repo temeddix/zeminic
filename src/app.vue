@@ -41,7 +41,7 @@
         <v-divider></v-divider>
 
         <v-card-text class="text-body-2">
-          {{ new Date().getFullYear() }} — 예쁜 제미넴
+          {{ new Date().getFullYear() }} — 예쁜 제미닉
         </v-card-text>
       </v-card>
     </v-footer>
@@ -83,9 +83,9 @@ export default {
     contentTitle(newValue) {
       // 콘텐츠 제목 변수 contentTitle 변경에 따라 웹 페이지 제목도 변경
       if (newValue == "") {
-        document.title = "Zeminem";
+        document.title = "제미닉";
       } else {
-        document.title = newValue + " - Zeminem";
+        document.title = newValue + " - 제미닉";
       }
     },
     settings: {

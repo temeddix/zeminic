@@ -23,7 +23,7 @@ export default {
   methods: {},
   watch: {},
   created() {
-    this.$root.contentTitle = "Tree";
+    this.$root.contentTitle = "나무";
   },
   mounted() {},
   destroyed() {},
