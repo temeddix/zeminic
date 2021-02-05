@@ -4,6 +4,19 @@
 * {
   &::-webkit-scrollbar {
     //스크롤바 모양 수정(webkit 기반 브라우저)
+    width: 0px;
+    // 세로축 스크롤바 길이
+    height: 0px;
+    // 가로축 스크롤바 길이
+  }
+}
+
+html,
+body {
+  overflow: overlay; // 스크롤바가 영역을 차지하지 않고 위에 겹쳐 얹히기만 하도록
+
+  &::-webkit-scrollbar {
+    //스크롤바 모양 수정(webkit 기반 브라우저)
     width: 6px;
     // 세로축 스크롤바 길이
     height: 6px;
@@ -35,14 +48,8 @@
   }
 
   &::-webkit-scrollbar-button:single-button {
-    background-color: rgba(0,0,0,0);
-    height: 22px; //위아래 화살표 길이
-    width: 22px; //좌우 화살표 길이
+    background-color: rgba(0, 0, 0, 0);
+    height: 0px; //위아래 화살표 길이
+    width: 0px; //좌우 화살표 길이
   }
-}
-
-html,
-body,
-.v-dialog {
-  overflow: overlay; // 스크롤바가 영역을 차지하지 않고 위에 겹쳐 얹히기만 하도록
 }
