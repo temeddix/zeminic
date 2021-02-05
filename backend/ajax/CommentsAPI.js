@@ -1,6 +1,6 @@
 const express = require('express');
-const Chapters = require("./static/Chapters");
-const Comics = require('./static/Comics');
+const Episodes = require("./static/Episodes");
+const Series = require('./static/Series');
 const Comments = require("./static/Comments");
 const Base = require("./base/base");
 const mongoose = require("mongoose");
@@ -16,32 +16,32 @@ router.post("/ajax/comments/create", async function(req,res){
     }
 
     try {
-        let comicTitle = req.body.comicTitle;
+        let seriesTitle = req.body.seriesTitle;
         let chapTitle = req.body.chapTitle;
         let text = req.body.text;
 
-        let comic = await Comics.findOne({title:comicTitle});
+        let series = await Series.findOne({title:seriesTitle});
 
-        if(!comic){
-            Base.resNo(res,"cannot find comic",comicTitle);
+        if(!series){
+            Base.resNo(res,"cannot find series",seriesTitle);
             return;
         }
-        Base.logInfo("found comic",comic);
+        Base.logInfo("found series",series);
 
-        let chapter = await Chapters.findOne({title:chapTitle,comicsId:comic._id});
-        if(!chapter){
-            Base.resNo(res,"cannot find chapter",chapTitle);
+        let episode = await Episodes.findOne({title:chapTitle,seriesId:series._id});
+        if(!episode){
+            Base.resNo(res,"cannot find episode",chapTitle);
             return;
         }
-        Base.logInfo("found chapter",chapter);
+        Base.logInfo("found episode",episode);
 
         let dict = {
             _id : Base.newObjectId(),
             writerId : req.user._id,
             text : text,
             registration : Date.now(),
-            comicsId : comic._id,
-            chaptersId : chapter._id
+            seriesId : series._id,
+            episodesId : episode._id
         };
         Base.logInfo("Comments to create",dict);
         let comment = new Comments(dict);
@@ -61,19 +61,19 @@ router.post("/ajax/comments/create", async function(req,res){
 
 //댓글 리스팅
 router.post("/ajax/comments/list",async function(req,res,next){
-    let chapterId = req.body.chapterId;
+    let episodeId = req.body.episodeId;
 
-    chapterId = Base.newObjectId(chapterId);
+    episodeId = Base.newObjectId(episodeId);
 
-    let chapter = await Chapters.findOne({_id:chapterId});
+    let episode = await Episodes.findOne({_id:episodeId});
 
-    if(!chapter){
-        Base.resNo(res,"No such chapter");
+    if(!episode){
+        Base.resNo(res,"No such episode");
         return;
     }
-    Base.logInfo("Found chapter",chapter);
+    Base.logInfo("Found episode",episode);
 
-    let comments = await Comments.find({chaptersId:chapterId});
+    let comments = await Comments.find({episodesId:episodeId});
     Base.logInfo("Found comments", comments.length);
     Base.resYes(res,"found comments",comments);
 

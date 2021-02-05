@@ -9,12 +9,12 @@ const userSchema = new Schema({
     nickname:{type:String,unique:true},
     billingKey:[String],
     bankAccount:{type:String, default:"undefined"},
-    uploads:[{type:mongoose.Schema.Types.ObjectId, ref:"comics"}],
-    purchased:[{type:mongoose.Schema.Types.ObjectId, ref:"chapters"}],
-    subscribed:[{type:mongoose.Schema.Types.ObjectId, ref:"comics"}],
-    recentlyViewed:[{type:mongoose.Schema.Types.ObjectId, ref:"chapters"}],
-    liked:[{type:mongoose.Schema.Types.ObjectId, ref:"comics"}],
-    disliked:[{type:mongoose.Schema.Types.ObjectId, ref:"comics"}],
+    uploads:[{type:mongoose.Schema.Types.ObjectId, ref:"series"}],
+    purchased:[{type:mongoose.Schema.Types.ObjectId, ref:"episodes"}],
+    subscribed:[{type:mongoose.Schema.Types.ObjectId, ref:"series"}],
+    recentlyViewed:[{type:mongoose.Schema.Types.ObjectId, ref:"episodes"}],
+    liked:[{type:mongoose.Schema.Types.ObjectId, ref:"series"}],
+    disliked:[{type:mongoose.Schema.Types.ObjectId, ref:"series"}],
     registration:{type:Number, default:0},
     searchHistroy:[String]
 });

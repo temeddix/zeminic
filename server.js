@@ -29,15 +29,15 @@ server.use(express.static('dist'));//이 폴더들 속 파일에 클라이언트
 //덕 백엔드 @DEOK
 const Login = require("./backend/ajax/Login"); //로그인 api
 const UsersAPI = require('./backend/ajax/UsersAPI'); //회원 api
-const ComicsAPI = require("./backend/ajax/ComicsAPI"); //웹툰정보 api
-const ChaptersAPI = require("./backend/ajax/ChaptersAPI");
+const SeriesAPI = require("./backend/ajax/SeriesAPI"); //웹툰정보 api
+const EpisodesAPI = require("./backend/ajax/EpisodesAPI");
 const CommentsAPI = require("./backend/ajax/CommentsAPI");
 const PaymentAPI = require("./backend/ajax/PaymentAPI");
 
 server.use(Login);
 server.use(UsersAPI);
-server.use(ComicsAPI);
-server.use(ChaptersAPI);
+server.use(SeriesAPI);
+server.use(EpisodesAPI);
 server.use(CommentsAPI);
 server.use(PaymentAPI);
 server.use(function(req,res,next){

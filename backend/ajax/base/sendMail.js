@@ -11,7 +11,7 @@ function sendMail(email,htmltext){
     };
 
     let message = {
-        from : "no-reply@zeminem.com",
+        from : "no-reply@zeminic.com",
         to : email,
         subject : "Verification Code",
         html : htmltext

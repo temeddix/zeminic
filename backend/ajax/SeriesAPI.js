@@ -1,7 +1,7 @@
 const express = require("express");
-const Comics = require("./static/Comics");
+const Series = require("./static/Series");
 const Users = require("./static/Users");
-const Chapters = require("./static/Chapters");
+const Episodes = require("./static/Episodes");
 const Comments = require("./static/Comments");
 const Base = require("./base/base");
 const Crypto = require("crypto");
@@ -9,8 +9,8 @@ const fs = require("fs");
 
 const router = express.Router();
 
-//Comics 등록
-router.post("/ajax/comics/create",function(req,res,next){
+//Series 등록
+router.post("/ajax/series/create",function(req,res,next){
     if(!req.isAuthenticated()){
         Base.resNo(res,"Login first");
         return;
@@ -49,7 +49,7 @@ router.post("/ajax/comics/create",function(req,res,next){
             Base.uploadBlob(files['poster'][0]['path']);
             Base.uploadBlob(files['thumbnail'][0]['path']);
 
-            Base.logInfo("Before uploading comics, check info",{
+            Base.logInfo("Before uploading series, check info",{
                 title : title,
                 description : description,
                 genre : genre,
@@ -57,10 +57,10 @@ router.post("/ajax/comics/create",function(req,res,next){
                 thumbnail : thumbnail
             });
 
-            let comics = null;
+            let series = null;
             let result = null;
             try {
-                comics = new Comics({
+                series = new Series({
                     _id : Base.newObjectId() ,
                     title : title,
                     description : description,
@@ -71,10 +71,10 @@ router.post("/ajax/comics/create",function(req,res,next){
                     registration:Base.getTime()
                 });
     
-                result = await comics.save();
+                result = await series.save();
 
-                Base.logInfo("Successfully uploaded comics!!",result);
-                Base.resYes(res,"Successfully uploaded comics",result);
+                Base.logInfo("Successfully uploaded series!!",result);
+                Base.resYes(res,"Successfully uploaded series",result);
                 return;
             } catch(err){
                 Base.logInfo("Error occured while uploading comcis",err);
@@ -90,16 +90,16 @@ router.post("/ajax/comics/create",function(req,res,next){
 
 });
 
-//Comics 조회
-router.post("/ajax/comics/search",async function(req,res,next){
+//Series 조회
+router.post("/ajax/series/search",async function(req,res,next){
     let title = req.body.title;
 
     try{
-        let found = await Comics.find({$text:{$search:title}}, {score:{$meta:"textScore"}}).sort({score: { $meta: "textScore"} });
+        let found = await Series.find({$text:{$search:title}}, {score:{$meta:"textScore"}}).sort({score: { $meta: "textScore"} });
 
         if(!found){
-            Base.logInfo("No comic found");
-            Base.resNo(res,"No comic found");
+            Base.logInfo("No series found");
+            Base.resNo(res,"No series found");
             return;
         }
 
@@ -107,16 +107,16 @@ router.post("/ajax/comics/search",async function(req,res,next){
         Base.resYes(res,"search result",found);
     
     } catch(err){
-        Base.logErr("error occured while searching comics",err);
-        Base.resNo(res,"error occured while searching comics",err);
+        Base.logErr("error occured while searching series",err);
+        Base.resNo(res,"error occured while searching series",err);
     }
     
 });
 
-//Comics 삭제
-router.post("/ajax/comics/delete", async function(req,res,next){
-    let comicsId = req.body.comicsId;
-    comicsId = Base.newObjectId(comicsId);
+//Series 삭제
+router.post("/ajax/series/delete", async function(req,res,next){
+    let seriesId = req.body.seriesId;
+    seriesId = Base.newObjectId(seriesId);
 
     if(!req.isAuthenticated()){
         Base.resNo(res,"Login first");
@@ -124,46 +124,46 @@ router.post("/ajax/comics/delete", async function(req,res,next){
     }
 
     try{
-        let found = await Comics.findOne({_id:comicsId});
+        let found = await Series.findOne({_id:seriesId});
         let title = found.title;
 
         if(!found){
-            Base.logInfo("No comic found");
-            Base.resNo(res,"No comic found");
+            Base.logInfo("No series found");
+            Base.resNo(res,"No series found");
             return;
         }
 
-        Base.logInfo("Found Comic "+title,found);
+        Base.logInfo("Found Series "+title,found);
 
         if(found.writerId.toString() != req.user._id.toString()){
-            Base.logInfo("cannot delete comic because WRITER ID != USER ID",[found.writerId,req.user._id]);
-            Base.resNo(res,"cannot delete comics because you are not writer", req.user.email);
+            Base.logInfo("cannot delete series because WRITER ID != USER ID",[found.writerId,req.user._id]);
+            Base.resNo(res,"cannot delete series because you are not writer", req.user.email);
             return;
         }
 
-        let result = await Comics.deleteOne({_id:found._id});
-        Base.logInfo("Comics deleteOne result",result);
+        let result = await Series.deleteOne({_id:found._id});
+        Base.logInfo("Series deleteOne result",result);
         
         if(result.ok){
-            Base.resYes(res,"Comic "+title+" deleted",result);
+            Base.resYes(res,"Series "+title+" deleted",result);
         } else {
-            Base.resNo(res,"Comic "+title+" not deleted",result);
+            Base.resNo(res,"Series "+title+" not deleted",result);
         }
 
         Base.deleteBlob(found.thumbnail);
         Base.deleteBlob(found.poster);
 
-        let chapters = Chapters.find({comicsId:found._id});
-        for(let i in chapters){
-            let thumbnail = chapters[i].thumbnail;
-            let imgList = chapters[i].imagesList;
+        let episodes = Episodes.find({seriesId:found._id});
+        for(let i in episodes){
+            let thumbnail = episodes[i].thumbnail;
+            let imgList = episodes[i].imagesList;
             Base.deleteBlob(thumbnail);
             for(let j in imgList){
                 Base.deleteBlob(imgList[j]);
             }
-            Comments.deleteMany({_id:chapters[i]._id},(err)=>{
+            Comments.deleteMany({_id:episodes[i]._id},(err)=>{
                 if(err){
-                    Base.logErr("Error occured while deleting comments",{error:err,chapterId:chapters[i]._id});
+                    Base.logErr("Error occured while deleting comments",{error:err,episodeId:episodes[i]._id});
                 }
             });
         }

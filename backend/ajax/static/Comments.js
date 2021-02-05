@@ -9,8 +9,8 @@ const userSchema = new Schema({
     dislikes : {type:Number,default:0},
     text : {type:String, default:"undefined"},
     registration : {type:Number, default:0},
-    comicsId : {type:mongoose.Schema.Types.ObjectId, ref:"comics"},
-    chaptersId : {type:mongoose.Schema.Types.ObjectId, ref:"chapters"}
+    seriesId : {type:mongoose.Schema.Types.ObjectId, ref:"series"},
+    episodesId : {type:mongoose.Schema.Types.ObjectId, ref:"episodes"}
 });
 
 let mongomodel = mongoose.model(collectionName, userSchema, collectionName);
