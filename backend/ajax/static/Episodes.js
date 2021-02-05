@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const collectionName = "chapters";
+const collectionName = "episodes";
 const userSchema = new Schema({
     _id : mongoose.Schema.Types.ObjectId,
     title : {type:String, default : "no title"},
@@ -11,8 +11,8 @@ const userSchema = new Schema({
     thumbnail : {type:String,default:"undefined"},
     title : {type:String,default:"notitle"},
     imagesList : [String],
-    comicsId : {type:mongoose.Schema.Types.ObjectId, ref:"comics", default:null},
-    episodeTitle : {type:String, default:null},
+    seriesId : {type:mongoose.Schema.Types.ObjectId, ref:"series", default:null},
+    chapterTitle : {type:String, default:null},
     registration : {type:Number, default:0},
     chargeMethod : {type:String,default:"무료"},
     releaseDate : {type:Number,default:0},

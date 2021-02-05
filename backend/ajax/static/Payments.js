@@ -8,7 +8,7 @@ const userSchema = new Schema({
     registration:Number,
     merchant_uid : String,
     buyerId : {type:mongoose.Types.ObjectId,ref:"users"},
-    chaptersId : {type:mongoose.Types.ObjectId,ref:"chapters"}
+    episodesId : {type:mongoose.Types.ObjectId,ref:"episodes"}
 });
 
 let mongomodel = mongoose.model(collectionName, userSchema, collectionName);
