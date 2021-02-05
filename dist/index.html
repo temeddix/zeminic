@@ -1,113 +1,113 @@
 <!DOCTYPE html><head><title>제미닉</title><meta name="viewport" content="width=device-width,user-scalable=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><style type="text/css">/* 여기 스타일 클래스를 직접 적은 이유는 웹팩으로 컴파일된 스크립트 파일이 로드되기도 전에 보여지는 로딩화면이어야 하기 때문에 */
-        .loading-screen {
-            position: fixed;
-            top: -200px;
-            bottom: -200px;
-            left: -200px;
-            right: -200px;
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #151515;
-            /* 밝은 모드에서는 #f2f2f2 */
+    .loading-screen {
+      position: fixed;
+      top: -200px;
+      bottom: -200px;
+      left: -200px;
+      right: -200px;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #151515;
+      /* 밝은 모드에서는 #f2f2f2 */
+    }
+
+    .progress-bar-shell {
+      display: inline-flex;
+      justify-content: left;
+      align-items: center;
+      width: 240px;
+      border-radius: 1000px;
+      height: 12px;
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 3px;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    .progress-bar-rounder {
+      display: inline-flex;
+      justify-content: left;
+      align-items: center;
+      border-radius: 1000px;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      display: inline-block;
+      border-radius: 1000px;
+      width: 0%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.8);
+      box-sizing: border-box;
+    }</style><link href="/css/app.c546d7c5.css" rel="preload" as="style"><link href="/css/chunk-vendors.aee7339c.css" rel="preload" as="style"><link href="/js/app.7182625c.js" rel="preload" as="script"><link href="/js/chunk-vendors.1a6d93af.js" rel="preload" as="script"><link href="/css/chunk-vendors.aee7339c.css" rel="stylesheet"><link href="/css/app.c546d7c5.css" rel="stylesheet"></head><body><div class="loading-screen"><div class="progress-bar-shell"><div class="progress-bar-rounder"><div class="progress-bar-fill" id="progressBarFill"></div></div></div></div><div id="vueModelElement"></div><script>(function () {
+      var isDocumentReady = false;
+      var allElementsCount = 0;
+      var loadedElementsCount = 0;
+      var targetPercentage = 0
+      var tweenedPercentage = 0;
+
+      var getCookie = function (cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+          }
+          if (c.indexOf(name) == 0) {
+            return JSON.parse(decodeURIComponent(c.substring(name.length, c.length)));
+          }
+        }
+        return "";
+      }
+
+      if (getCookie("settings").brightMode == true) {
+        //쿠키에 밝은 모드가 설정되어 있으면 로딩 색깔을 밝게
+        document.getElementsByClassName('loading-screen')[0].style.backgroundColor = "#f2f2f2";
+        document.getElementsByClassName('progress-bar-shell')[0].style.backgroundColor = "rgba(0,0,0,0.1)";
+        document.getElementsByClassName('progress-bar-fill')[0].style.backgroundColor = "rgba(0,0,0,0.8)";
+      }
+
+      var tweenTimer = setInterval(function () {
+
+        tweenedPercentage = tweenedPercentage + (targetPercentage - tweenedPercentage) * 0.2;
+        document.getElementById("progressBarFill").style.width = tweenedPercentage + '%';
+
+        if (99 < tweenedPercentage) {
+          document.getElementsByClassName('loading-screen')[0].style.visibility = 'hidden';
+          clearInterval(tweenTimer);
         }
 
-        .progress-bar-shell {
-            display: inline-flex;
-            justify-content: left;
-            align-items: center;
-            width: 240px;
-            border-radius: 1000px;
-            height: 12px;
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 3px;
-            box-sizing: border-box;
-            overflow: hidden;
+      }, 10);
+
+      document.onreadystatechange = function (event) {
+        if (document.readyState == 'interactive') {
+          var allElements = document.body.getElementsByTagName('*');
+          allElementsCount = allElements.length;
+
+          for (var i = 0; i < allElements.length; i++) {
+            allElements[i].addEventListener('load', function () {
+              loadedElementsCount++;
+              if (isDocumentReady == false) {
+                targetPercentage = loadedElementsCount * 100 / allElementsCount;
+              }
+            })
+          }
+        } else if (document.readyState == 'complete') {
+          isDocumentReady = true;
+          targetPercentage = 100;
         }
+      }
 
-        .progress-bar-rounder {
-            display: inline-flex;
-            justify-content: left;
-            align-items: center;
-            border-radius: 1000px;
-            width: 100%;
-            height: 100%;
-            box-sizing: border-box;
-            overflow: hidden;
-        }
-
-        .progress-bar-fill {
-            display: inline-block;
-            border-radius: 1000px;
-            width: 0%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.8);
-            box-sizing: border-box;
-        }</style><link href="/css/app.37fa6a1d.css" rel="preload" as="style"><link href="/css/chunk-vendors.aee7339c.css" rel="preload" as="style"><link href="/js/app.84a717fd.js" rel="preload" as="script"><link href="/js/chunk-vendors.1a6d93af.js" rel="preload" as="script"><link href="/css/chunk-vendors.aee7339c.css" rel="stylesheet"><link href="/css/app.37fa6a1d.css" rel="stylesheet"></head><body><div class="loading-screen"><div class="progress-bar-shell"><div class="progress-bar-rounder"><div class="progress-bar-fill" id="progressBarFill"></div></div></div></div><div id="vueModelElement"></div><script>(function () {
-            var isDocumentReady = false;
-            var allElementsCount = 0;
-            var loadedElementsCount = 0;
-            var targetPercentage = 0
-            var tweenedPercentage = 0;
-
-            var getCookie = function (cname) {
-                var name = cname + "=";
-                var ca = document.cookie.split(';');
-                for (var i = 0; i < ca.length; i++) {
-                    var c = ca[i];
-                    while (c.charAt(0) == ' ') {
-                        c = c.substring(1);
-                    }
-                    if (c.indexOf(name) == 0) {
-                        return JSON.parse(decodeURIComponent(c.substring(name.length, c.length)));
-                    }
-                }
-                return "";
-            }
-
-            if (getCookie("settings").brightMode == true) {
-                //쿠키에 밝은 모드가 설정되어 있으면 로딩 색깔을 밝게
-                document.getElementsByClassName('loading-screen')[0].style.backgroundColor = "#f2f2f2";
-                document.getElementsByClassName('progress-bar-shell')[0].style.backgroundColor = "rgba(0,0,0,0.1)";
-                document.getElementsByClassName('progress-bar-fill')[0].style.backgroundColor = "rgba(0,0,0,0.8)";
-            }
-
-            var tweenTimer = setInterval(function () {
-
-                tweenedPercentage = tweenedPercentage + (targetPercentage - tweenedPercentage) * 0.2;
-                document.getElementById("progressBarFill").style.width = tweenedPercentage + '%';
-
-                if (99 < tweenedPercentage) {
-                    document.getElementsByClassName('loading-screen')[0].style.visibility = 'hidden';
-                    clearInterval(tweenTimer);
-                }
-
-            }, 10);
-
-            document.onreadystatechange = function (event) {
-                if (document.readyState == 'interactive') {
-                    var allElements = document.body.getElementsByTagName('*');
-                    allElementsCount = allElements.length;
-
-                    for (var i = 0; i < allElements.length; i++) {
-                        allElements[i].addEventListener('load', function () {
-                            loadedElementsCount++;
-                            if (isDocumentReady == false) {
-                                targetPercentage = loadedElementsCount * 100 / allElementsCount;
-                            }
-                        })
-                    }
-                } else if (document.readyState == 'complete') {
-                    isDocumentReady = true;
-                    targetPercentage = 100;
-                }
-            }
-
-            window.oncontextmenu = function (event) {
-                //우클릭 상황 메뉴(Context Menu) 방지. PC든 모바일이든 다 적용됨.
-                event.preventDefault();
-                event.stopPropagation();
-                return false;
-            };
-        })()</script><script src="/js/chunk-vendors.1a6d93af.js"></script><script src="/js/app.84a717fd.js"></script></body>
+      window.oncontextmenu = function (event) {
+        //우클릭 상황 메뉴(Context Menu) 방지. PC든 모바일이든 다 적용됨.
+        event.preventDefault();
+        event.stopPropagation();
+        return false;
+      };
+    })()</script><script src="/js/chunk-vendors.1a6d93af.js"></script><script src="/js/app.7182625c.js"></script></body>

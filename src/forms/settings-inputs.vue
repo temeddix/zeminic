@@ -1,8 +1,8 @@
 @@ -1,204 +0,0 @@
 <template>
-  <v-card class="backdrop">
+  <v-card class="backdrop giveHeight">
     <v-card-title class="text-h4 justify-center">설정</v-card-title>
-    <v-card-text style="height: 600px">
+    <v-card-text>
       <v-switch
         class="ma-1"
         v-model="$root.settings.brightMode"
@@ -32,4 +32,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.giveHeight {
+  height: 400px;
+}
 </style>
