@@ -32,7 +32,6 @@ window.vue = require('vue').default;
 window.axios = require('axios').default;
 window.gsap = require('gsap').default;
 window.cookies = require('js-cookie');
-window.cssVarsPonyfill = require('css-vars-ponyfill').default; //IE11을 위한 CSS var기능 관련 Polyfill 호환성 확보 라이브러리
 window.deepmerge = require('deepmerge');
 window.colorConvert = require('color-convert'); //https://www.npmjs.com/package/color-convert
 
