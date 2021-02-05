@@ -38,7 +38,7 @@ router.post("/ajax/episodes/create", async function(req,res){
             chapterTitle = fields['chapterTitle'][0];
             let posterPath = files['chapterPoster'][0]['path'];
             let hashedName = Base.createHash(seriesTitle+chapterTitle);
-            let newPosterPath = posterPath.replace(Path.basename(posterPath), hashedName);
+            let newPosterPath = posterPath.replace(Path.basename(posterPath).split(".")[0], hashedName);
             fs.renameSync(posterPath,newPosterPath);
             Base.logInfo("poster path and hashed path",{posterPath:posterPath, hashedName : hashedName});
             Base.uploadBlob(newPosterPath);
