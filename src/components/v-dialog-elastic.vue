@@ -39,7 +39,6 @@ export default {
 
       gsap.set(toElement, {
         zIndex: 202,
-        overflow: "hidden",
         transformOrigin: "top left",
         transform: `translate(${difference.x}px,${difference.y}px) scale( ${difference.xScale}, ${difference.yScale})`,
         boxShadow: "none",
@@ -57,7 +56,7 @@ export default {
         transform: "",
         borderRadius: `${toBorderRadius}px`,
         clearProps:
-          "zIndex, transformOrigin, transform, borderRadius, overflow", //https://greensock.com/docs/v3/GSAP/CorePlugins/CSSPlugin#h3-clearprops 그리고 camelCase로 적어야 함
+          "zIndex, transformOrigin, transform, borderRadius", //https://greensock.com/docs/v3/GSAP/CorePlugins/CSSPlugin#h3-clearprops 그리고 camelCase로 적어야 함
       });
 
       gsap.to(toElement, {

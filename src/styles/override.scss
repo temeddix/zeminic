@@ -17,7 +17,9 @@ $themeProperties: (
 );
 
 @each $property in $themeProperties {
-  #app .#{$property} {color: var(--v-#{$property}-text)}
+  #app .#{$property} {
+    color: var(--v-#{$property}-text);
+  }
 }
 
 /*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
@@ -34,6 +36,7 @@ $themeProperties: (
   text-transform: none; //자동 대문자화 또는 소문자화 방지
   font-size: 1rem;
   letter-spacing: 0em;
+  padding: 0px 18px;
 }
 
 #app .v-card__actions {
@@ -42,10 +45,6 @@ $themeProperties: (
 
 #app .v-card {
   background-color: var(--v-area-base);
-}
-
-#app .v-card__text {
-  overflow: overlay;
 }
 
 #app .v-overlay {
@@ -72,6 +71,7 @@ $themeProperties: (
 
 #app .v-label {
   font-size: 1rem;
+  color: var(--v-backdrop-text);
 }
 
 #app .v-label--active {
@@ -81,4 +81,3 @@ $themeProperties: (
 #app .v-expansion-panel-header {
   font-size: 1rem;
 }
-

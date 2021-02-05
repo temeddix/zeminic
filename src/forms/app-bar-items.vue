@@ -5,15 +5,15 @@
       <v-btn
         class="stuff ma-1 logo-button"
         fab
-        v-alert-elastic="'안녕하세요! 여기는 오픈 웹툰 플랫폼 제미넴입니다!'"
+        v-alert-elastic="'안녕하세요! 여기는 오픈 웹툰 플랫폼 제미닉입니다!'"
       >
       </v-btn>
     </router-link>
     <v-toolbar-title class="mx-2">
-      {{ $root.contentTitle == "" ? "Zeminem" : $root.contentTitle }}
+      {{ $root.contentTitle == "" ? "제미닉" : $root.contentTitle }}
     </v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-dialog-elastic v-model="devDialog" scrollable max-width="600px">
+    <v-dialog-elastic v-model="devDialog">
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           text
@@ -28,7 +28,7 @@
       </template>
       <dev-items></dev-items>
     </v-dialog-elastic>
-    <v-dialog-elastic v-model="settingsDialog" scrollable max-width="600px">
+    <v-dialog-elastic v-model="settingsDialog">
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           fab
@@ -43,7 +43,7 @@
       <settings-inputs></settings-inputs>
     </v-dialog-elastic>
     <!-- 로그인 패널 참고 https://vuetifyjs.com/en/components/dialogs/#form -->
-    <v-dialog-elastic v-model="loginDialog" scrollable>
+    <v-dialog-elastic v-model="loginDialog">
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           fab

@@ -2,7 +2,7 @@
 <template>
   <v-card class="backdrop">
     <template v-if="!$root.isLoggedin">
-      <v-card-title class="text-h4 justify-center my-2">로그인</v-card-title>
+      <v-card-title class="text-h4 justify-center">로그인</v-card-title>
       <v-card-text>
         <v-container>
           <v-row>
@@ -30,12 +30,12 @@
       <v-card-actions>
         <v-bottom-sheet-elastic v-model="signupSheet">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn v-bind="attrs" v-on="on" text> 회원가입 </v-btn>
+            <v-btn v-bind="attrs" v-on="on" text>회원가입</v-btn>
           </template>
           <signup-inputs></signup-inputs>
         </v-bottom-sheet-elastic>
         <v-spacer></v-spacer>
-        <v-btn ref="loginButton" class="stuff" @click="login()"> 로그인 </v-btn>
+        <v-btn ref="loginButton" class="stuff" @click="login()">로그인</v-btn>
       </v-card-actions>
     </template>
     <template v-else>
@@ -44,10 +44,10 @@
         <v-container>
           <v-row>
             <v-col>
-              <p class="text-h5 text-center ma-0">
+              <p class="text-subtitle-1 text-center ma-0">
                 {{ $root.userInfo.nickname }}
               </p>
-              <p class="text-h6 text-center">
+              <p class="text-body-1 text-center">
                 {{ $root.userInfo.email }}
               </p></v-col
             >
