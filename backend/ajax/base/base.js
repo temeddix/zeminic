@@ -30,6 +30,10 @@ module.exports = {
     }
     ,
 
+    createHash : function(str){
+        return Crypto.createHash("sha512").update(str).digest("base64");
+    },
+
     sendMail : sendMail,
 
     randomToken : function f(){

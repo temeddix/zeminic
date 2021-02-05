@@ -34,6 +34,11 @@ router.post("/ajax/series/create",function(req,res,next){
             let title = fields['title'][0];
             let poster = "";
             let thumbnail = "";
+            let chapterClassificationEnabled = fields['chapterClassificationEnabled'];
+
+            if(chapterClassificationEnabled){
+                chapterClassificationEnabled = true;
+            }
 
             if(Object.keys(files).length != 2){
                 Base.resNo(res,"just one of thumb/poster uploaded.",files[0].fieldName);
@@ -68,6 +73,7 @@ router.post("/ajax/series/create",function(req,res,next){
                     poster : poster,
                     thumbnail : thumbnail,
                     writerId : req.user._id,
+                    chapterClassificationEnabled:chapterClassificationEnabled,
                     registration:Base.getTime()
                 });
     

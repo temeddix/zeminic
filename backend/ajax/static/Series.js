@@ -15,7 +15,6 @@ const userSchema = new Schema({
     dislikes : {type:Number,default:0},
     numOfSubscribers : {type:Number,default:0},
     chapterClassificationEnabled : {type:Boolean, default:false},
-    posterPerChapters : [String],
     //chaptersList : [[{type:mongoose.Schema.Types.ObjectId, ref:"episodes"}]],
     registration : {type:Number, default:0},
     ads5secsEnabled : {type:Boolean, default:false},

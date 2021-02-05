@@ -4,10 +4,12 @@ const Series = require('./static/Series');
 const Comments = require("./static/Comments");
 const Base = require("./base/base");
 const mongoose = require("mongoose");
+const fs = require("fs");
+const Path = require('path');
 
 const router = express.Router();
 
-//챕터 등록
+//에피 등록
 router.post("/ajax/episodes/create", async function(req,res){
 
     //Auth 체크
@@ -27,6 +29,21 @@ router.post("/ajax/episodes/create", async function(req,res){
 
         let title = fields['title'][0];
         let seriesTitle = fields['seriesTitle'][0];
+        let chapterTitle = null;
+
+        //챕터 있으면 등록
+        if(fields['chapterTitle'][0] && files['chapterPoster'][0]){
+            Base.logInfo("chapter enabled",fields['chapterTitle'][0]);
+            chapterClassificationEnabled = true;
+            chapterTitle = fields['chapterTitle'][0];
+            let posterPath = files['chapterPoster'][0]['path'];
+            let hashedName = Base.createHash(seriesTitle+chapterTitle);
+            let newPosterPath = posterPath.replace(Path.basename(posterPath), hashedName);
+            fs.renameSync(posterPath,newPosterPath);
+            Base.logInfo("poster path and hashed path",{posterPath:posterPath, hashedName : hashedName});
+            Base.uploadBlob(newPosterPath);
+        }
+
         let seriesID = await Series.findOne({title:seriesTitle});
         if(!seriesID){
             Base.logInfo("failed to create episode. Series does not exist",seriesTitle);
@@ -54,6 +71,7 @@ router.post("/ajax/episodes/create", async function(req,res){
         let newEpisode = new Episodes({
             _id : Base.newObjectId(),
             title : title,
+            chapterTitle : chapterTitle,
             thumbnail : thumbnail,
             seriesId : seriesID,
             chargeMethod:chargeMethod,
@@ -78,7 +96,7 @@ router.post("/ajax/episodes/create", async function(req,res){
 
 } );
 
-//챕터 조회
+//에피 조회
 router.post("/ajax/episodes/search",async function(req,res,next){
     let seriesTitle = req.body.seriesTitle;
     let chapTitle = req.body.chapTitle;
@@ -109,7 +127,7 @@ router.post("/ajax/episodes/search",async function(req,res,next){
     
 });
 
-//챕터 리스팅 by series
+//에피 리스팅 by series
 router.post("/ajax/episodes/list",async function(req,res,next){
     let seriesId = req.body.seriesId;
     seriesId = Base.newObjectId(seriesId);
@@ -118,7 +136,7 @@ router.post("/ajax/episodes/list",async function(req,res,next){
     Base.resYes(res,"found",episodes);
 });
 
-//챕터 삭제
+//에피 삭제
 router.post("/ajax/episodes/delete", async function(req,res){
     
     if(!req.isAuthenticated()){
@@ -173,6 +191,7 @@ router.post("/ajax/episodes/delete", async function(req,res){
     Base.logInfo("Trying to delete images",{thumbnail:thumbnail,imgList:imagesList});
 
     Base.deleteBlob(thumbnail);
+    Base.deleteBlob(Base.createHash(series.title+episode.chapterTitle));
     for(let i in imagesList){
         Base.deleteBlob(imagesList[i]);
     }
