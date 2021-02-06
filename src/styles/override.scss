@@ -1,5 +1,7 @@
+//크롬의 개발자 도구에서 보면서 하면 편함
+
 /*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-▶▶테마
+▶▶테마 클래스에 텍스트 색깔도 추가
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
 $themeProperties: (
@@ -23,7 +25,7 @@ $themeProperties: (
 }
 
 /*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-▶▶자잘자잘한 공통요소에 적용하기
+▶▶모든 상황의 컴포넌트에 덮어쓰기
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 //#app을 붙임으로써 <div id="app"> 최상단 Element의 빽을 업고 우선권이 최고가 됨.
 //그래도 우선권이 !important 붙인 경우보다는 낮음
@@ -36,11 +38,6 @@ $themeProperties: (
   text-transform: none; //자동 대문자화 또는 소문자화 방지
   font-size: 1rem;
   letter-spacing: 0em;
-  padding: 0px 18px;
-}
-
-#app .v-card__actions {
-  padding: 8px 16px 16px;
 }
 
 #app .v-card {
@@ -65,10 +62,6 @@ $themeProperties: (
   justify-content: center;
 }
 
-#app .v-stepper__wrapper {
-  color: inherit;
-}
-
 #app .v-label {
   font-size: 1rem;
   color: var(--v-backdrop-text);
@@ -80,4 +73,28 @@ $themeProperties: (
 
 #app .v-expansion-panel-header {
   font-size: 1rem;
+}
+
+#app .col {
+  padding: 6px;
+}
+
+/*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+▶▶특정 상황의 컴포넌트에 덮어쓰기
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
+
+.v-card__actions > .v-btn.v-btn {
+  padding: 0px 20px;
+}
+
+.v-dialog > .v-card > .v-card__actions {
+  padding: 8px 16px 16px;
+}
+
+/*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+▶▶특정 상황의 컴포넌트에 광역으로 적용하기
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
+
+.v-stepper__content .container {
+  max-width: 460px;
 }
