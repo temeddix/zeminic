@@ -65,6 +65,7 @@
                   <v-text-field
                     v-model="withdrawForm.email"
                     label="이메일"
+                    class="textField"
                     required
                   ></v-text-field>
                 </v-col>
@@ -75,6 +76,7 @@
                     v-model="withdrawForm.pw"
                     label="암호"
                     type="password"
+                    class="textField"
                     required
                     @keyup.enter="gotoStep3()"
                   ></v-text-field>
@@ -168,5 +170,9 @@ export default {
 }
 .actionsWrapper {
   text-align: center;
+}
+.textField {
+  max-width: 400px;
+  margin: auto;
 }
 </style>

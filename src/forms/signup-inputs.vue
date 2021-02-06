@@ -28,6 +28,7 @@
                   <v-text-field
                     v-model="signinForm.email"
                     label="이메일"
+                    class="textField"
                     required
                   ></v-text-field>
                 </v-col>
@@ -37,6 +38,7 @@
                   <v-text-field
                     v-model="signinForm.nickname"
                     label="별명"
+                    class="textField"
                     required
                   ></v-text-field>
                 </v-col>
@@ -47,6 +49,7 @@
                     v-model="signinForm.pw"
                     label="암호"
                     type="password"
+                    class="textField"
                     required
                     @keyup.enter="gotoStep2()"
                   ></v-text-field>
@@ -189,5 +192,9 @@ export default {
 }
 .actionsWrapper {
   text-align: center;
+}
+.textField {
+  max-width: 400px;
+  margin: auto;
 }
 </style>

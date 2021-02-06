@@ -6,7 +6,7 @@
       <v-card class="area pa-4 my-2">
         <router-link to="/">
           <v-btn
-            class="stuff ma-1 testt"
+            class="stuff ma-1"
             @click="$parent.$parent.$parent.devDialog = false"
             >홈으로 가기</v-btn
           >
@@ -96,7 +96,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.testt{
-  padding: 60px;
-}
 </style>
