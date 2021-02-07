@@ -108,8 +108,10 @@ vue.prototype.$alertElastic = function (target, alertText) {
       alertText: alertText,
     },
   });
-  instance.$mount();
-  document.getElementById("app").appendChild(instance.$el);
+  setTimeout(() => {
+    instance.$mount();
+    document.getElementById("app").appendChild(instance.$el);
+  }, 300)
 }
 
 vue.prototype.$alertElasticActive = [];
