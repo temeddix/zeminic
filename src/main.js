@@ -226,7 +226,7 @@ const vuetifyOptions = {
 };
 
 vue.prototype.$setThemeTextColor = function () {
-  let root = document.body;
+  let root = document.documentElement;
   let themeProperties = [
     "primary",
     "secondary",
