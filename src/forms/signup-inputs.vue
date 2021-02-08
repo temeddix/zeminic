@@ -22,7 +22,7 @@
       <v-stepper-items>
         <v-stepper-content class="pt-0 px-0" step="1">
           <v-card class="area mb-4 px-4 d-flex align-center" height="300px">
-            <v-container>
+            <v-container class="sizeLimitor">
               <v-row>
                 <v-col>
                   <v-text-field
@@ -67,7 +67,7 @@
 
         <v-stepper-content class="pt-0 px-0" step="2">
           <v-card class="area mb-4 px-4 d-flex align-center" height="300px">
-            <v-container>
+            <v-container class="sizeLimitor">
               <v-row>
                 <v-col>
                   <p class="text-center text-body-1">
@@ -102,7 +102,7 @@
 
         <v-stepper-content class="pt-0 px-0" step="3">
           <v-card class="area mb-4 px-4 d-flex align-center" height="300px">
-            <v-container>
+            <v-container class="sizeLimitor">
               <v-row>
                 <v-col>
                   <p class="text-center text-subtitle-1">
@@ -180,6 +180,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.sizeLimitor{
+  max-width: 420px;
+}
 .transparentArea {
   background-color: rgba(0, 0, 0, 0);
   box-shadow: unset;
