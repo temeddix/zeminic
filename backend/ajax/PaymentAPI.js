@@ -33,7 +33,7 @@ router.use("/ajax/payment",function(req,res,next){
 });
 
 //For debugging : process iamporter promise
-function processIamporterPromiseForDebugging(promise){
+function processIamporterPromiseForDebugging(res,promise){
 	promise.then(result=>{
 		Base.logInfo("payment api result",result);
 		Base.resYes(res,"payment result",result);
@@ -52,8 +52,9 @@ function processIamporterPromiseForDebugging(promise){
 //빌링키 생성
 router.post("/ajax/payment/subscription/create", function(req,res){
 	processIamporterPromiseForDebugging(
+		res,
 		iamporter.createSubscription({
-			"customer_uid" : req.body.customoer_uid,
+			"customer_uid" : req.body.customer_uid,
 			"card_number" : req.body.card_number,//'1234-1234-1234-1234'
 			"expiry" : req.body.expiry,//'2021-11'
 			"birth" : req.body.birth,///'971002'
@@ -65,6 +66,7 @@ router.post("/ajax/payment/subscription/create", function(req,res){
 //빌링키 조회
 router.post("/ajax/payment/subscription/get",function(req,res){
 	processIamporterPromiseForDebugging(
+		res,
 		iamporter.getSubscription(req.body.customer_uid)
 	);
 });
@@ -72,6 +74,7 @@ router.post("/ajax/payment/subscription/get",function(req,res){
 //빌링키 삭제
 router.post("/ajax/payment/subscription/delete",function(req,res){
 	processIamporterPromiseForDebugging(
+		res,
 		iamporter.deleteSubscription(req.body.customer_uid)
 	);
 });
@@ -79,6 +82,7 @@ router.post("/ajax/payment/subscription/delete",function(req,res){
 //빌링키 결제
 router.post("/ajax/payment/subscription/pay",function(req,res){
 	processIamporterPromiseForDebugging(
+		res,
 		iamporter.paySubscription({
 			"customer_uid" : req.body.customer_uid,
 			"merchant_uid" : req.body.merchant_uid,
