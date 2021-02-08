@@ -1,23 +1,38 @@
 <html>
-    <head>
-        <title>New Episode</title>
-
-    </head>
-
     <body>
-        <form method="post" action="/ajax/episodes/create" enctype="multipart/form-data">
-            Title : <input type="text" placeholder="회차 제목" name="title"><br>
-            Series Title : <input type="text" placeholder="소속 웹툰" name="seriesTitle"><br>
-            Charge Method : <input type="text" placeholder="결제 방식" name="chargeMethod"><br>
-            Thumbnail : <input type="file" name="thumbnail"><br>
-            Release Date (UnixTime) : <input type="number" name="releaseDate"><br>
-            Price : <input type="number" name="price"><br>
-            Images : <input type="file" name="imagesList" multiple><br><br>
+        에피 등록 1단계
+        <form action="/ajax/episodes/create/seriesId" method="post">
+            <input type="text" name="seriesId"><br>
+            <input type="submit" value="조회">
+        </form>
+        <br><br>
 
-            옵션<br>
-            Chapter title : <input type="text" placeholder="챕터 이름" name="chapterTitle"><br>
-            Chapter poster : <input type="file" name="chapterPoster">
-            <input type="submit" value="등록">
+        에피 등록 2단계
+        <form>
+
+        </form>
+        <br><br>
+
+        에피 등록 3단계
+        <form>
+
+        </form>
+        <br><br>
+
+        에피 등록 4단계
+        <form>
+
+        </form>
+        <br><br>
+
+        에피 등록 5단계
+        <form>
+
+        </form>
+        <br><br>
+
+        에피 등록 초기화
+        <form>
 
         </form>
     </body>

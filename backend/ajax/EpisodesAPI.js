@@ -9,107 +9,46 @@ const Path = require('path');
 
 const router = express.Router();
 
-//에피 등록 (구)
-router.post("/ajax/episodes/create", async function(req,res){
-
-    //Auth 체크
+//에피 등록 단계0 : 로긴첵
+let tmpEpisode = {};
+tmpEpisode["sampleUser"]={title:"sampleTitle"};
+router.post("/ajax/episodes/create",function(req,res,next){
     if(!req.isAuthenticated()){
-        Base.logInfo("failed to upload episode. not logined");
         Base.resNo(res,"Login first");
         return;
     }
-
-    //이미지 업로드
-    Base.parseForm(req,async function(err,fields,files){
-        if(err){
-            Base.logErr("Error occured while parsing form",err);
-            Base.resNo(res,"Error occured while parsing form");
-            return;
-        }
-
-        let title = fields['title'][0]; //제목
-        let seriesTitle = fields['seriesTitle'][0]; //웹툰제목
-        let chapterTitle = null;
-
-        //챕터 있으면 등록
-        if(fields['chapterTitle'][0] && files['chapterPoster'][0]){
-            Base.logInfo("chapter enabled",fields['chapterTitle'][0]);
-            chapterClassificationEnabled = true;
-            chapterTitle = fields['chapterTitle'][0];
-            let posterPath = files['chapterPoster'][0]['path'];
-            let hashedName = Base.createHash(seriesTitle+chapterTitle);
-            let newPosterPath = posterPath.replace(Path.basename(posterPath).split(".")[0], hashedName);
-            fs.renameSync(posterPath,newPosterPath);
-            Base.logInfo("poster path and hashed path",{posterPath:posterPath, hashedName : hashedName});
-            Base.uploadBlob(newPosterPath);
-        }
-
-        //소속웹툰 찾기
-        let seriesID = await Series.findOne({title:seriesTitle});
-        if(!seriesID){
-            Base.logInfo("failed to create episode. Series does not exist",seriesTitle);
-            Base.resNo(res,"Series doesn't exist",seriesTitle);
-            return;
-        }
-        Base.logInfo("Found Series info",seriesID);
-        seriesID = seriesID['_id'];
-        Base.logInfo("seriesId",seriesID);
-
-        //변수 초기화
-        let chargeMethod = fields['chargeMethod'][0]; //결제방식
-        let releaseDate = Number(fields['releaseDate'][0]); //공개날짜
-        let price = Number(fields['price'][0]); //가격
-
-        //썸네일 등록
-        let thumbnail = Base.filenameFromPath(files['thumbnail'][0]['path']);
-        Base.uploadBlob(files['thumbnail'][0]['path']);
-
-        //이미지들 등록
-        let imagesList = []
-        for(let i in files['imagesList']){
-            Base.uploadBlob(files['imagesList'][i]['path']);
-            let filename = Base.filenameFromPath(files['imagesList'][i]['path']);
-            imagesList.push(filename);
-            //Base.logInfo("blob upload request",files['imagesList'][i]);
-        }
-
-        let newEpisode = new Episodes({
-            _id : Base.newObjectId(),
-            title : title,
-            chapterTitle : chapterTitle,
-            thumbnail : thumbnail,
-            seriesId : seriesID,
-            chargeMethod:chargeMethod,
-            releaseDate:releaseDate,
-            imagesList:imagesList,
-            price:price,
-            registration:Base.getTime()
-        });
-
-        
-        Base.logInfo("new episode",newEpisode);
-
-        try {
-            let result = await newEpisode.save();
-            Base.logInfo("회차등록 성공",result);
-            Base.resYes(res,"회차등록 성공",result);
-        } catch (err){
-            Base.logErr("회차등록 실패",err);
-            Base.resNo(res,"회차등록 실패",err);
-        }
-    },1024*1024*10);
-
-} );
-
-//에피 등록 단계0 : 이전꺼 확인
-let tmpEpisode = {};
-tmpEpisode["sampleUser"]={title:"sampleTitle"};
-router.post("/ajax/episode/create/ready",async function(req,res){
-
+    next();
 });
 
 //에피 등록 단계1 : 소속웹툰
-router.post("/ajax/episodes/create/seriesId", async function(req,res){
+router.post("/ajax/episodes/create/seriesId", function(req,res){
+    let seriesId = req.body.seriesId;
+
+    //인자체크
+    if(seriesId.length != 24){
+        Base.resNo(res,"id must be 24-length string");
+        return;
+    } 
+
+    //초기화
+    tmpEpisode[req.user.email] = {};
+
+    //소속웹툰 찾기
+    seriesId = Base.newObjectId(seriesId);
+    Series.findOne({_id:seriesId})
+    .exec()
+    .then(result=>{
+        if(result){
+            tmpEpisode[req.user.email]['seriesId'] = seriesId;
+            Base.resYes(res,"Found series",seriesId);
+        } else {
+            Base.resNo(res,"No series. check id again");
+        }
+    })
+    .catch(err=>{
+        Base.logErr("Error : Epi create 1",err);
+        Base.resNo(res,"Error occured");
+    });
 
 });
 
@@ -133,11 +72,12 @@ router.post("/ajax/episodes/create/confirm",async function(req,res){
 
 });
 
-//에피 등록 취소
-router.post("/ajax/episodes/create/cancel",async function(req,res){
-    delete tmpEpisode[req.user.email];
-    Base.resYes(res,"Thank you!",{to:"Donghyun", from:"Deok", msg:"Thank you, co-worker", type:"Easter egg"});
+//에피 등록 : 초기화
+router.post("/ajax/episodes/create/clear",async function(req,res){
+    tmpEpisode[req.user.email]=null;
+    Base.resYes(res,"Thank you!");
 });
+
 
 //에피 조회
 router.post("/ajax/episodes/search",async function(req,res,next){
