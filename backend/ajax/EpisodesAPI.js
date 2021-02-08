@@ -44,6 +44,7 @@ router.post("/ajax/episodes/create", async function(req,res){
             Base.uploadBlob(newPosterPath);
         }
 
+        //find Series
         let seriesID = await Series.findOne({title:seriesTitle});
         if(!seriesID){
             Base.logInfo("failed to create episode. Series does not exist",seriesTitle);
