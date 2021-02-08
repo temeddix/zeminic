@@ -9,7 +9,7 @@ const Path = require('path');
 
 const router = express.Router();
 
-//에피 등록
+//에피 등록 (구)
 router.post("/ajax/episodes/create", async function(req,res){
 
     //Auth 체크
@@ -27,8 +27,8 @@ router.post("/ajax/episodes/create", async function(req,res){
             return;
         }
 
-        let title = fields['title'][0];
-        let seriesTitle = fields['seriesTitle'][0];
+        let title = fields['title'][0]; //제목
+        let seriesTitle = fields['seriesTitle'][0]; //웹툰제목
         let chapterTitle = null;
 
         //챕터 있으면 등록
@@ -44,7 +44,7 @@ router.post("/ajax/episodes/create", async function(req,res){
             Base.uploadBlob(newPosterPath);
         }
 
-        //find Series
+        //소속웹툰 찾기
         let seriesID = await Series.findOne({title:seriesTitle});
         if(!seriesID){
             Base.logInfo("failed to create episode. Series does not exist",seriesTitle);
@@ -54,13 +54,17 @@ router.post("/ajax/episodes/create", async function(req,res){
         Base.logInfo("Found Series info",seriesID);
         seriesID = seriesID['_id'];
         Base.logInfo("seriesId",seriesID);
-        let chargeMethod = fields['chargeMethod'][0];
-        let releaseDate = Number(fields['releaseDate'][0]);
-        let price = Number(fields['price'][0]);
 
+        //변수 초기화
+        let chargeMethod = fields['chargeMethod'][0]; //결제방식
+        let releaseDate = Number(fields['releaseDate'][0]); //공개날짜
+        let price = Number(fields['price'][0]); //가격
+
+        //썸네일 등록
         let thumbnail = Base.filenameFromPath(files['thumbnail'][0]['path']);
         Base.uploadBlob(files['thumbnail'][0]['path']);
 
+        //이미지들 등록
         let imagesList = []
         for(let i in files['imagesList']){
             Base.uploadBlob(files['imagesList'][i]['path']);
@@ -97,10 +101,48 @@ router.post("/ajax/episodes/create", async function(req,res){
 
 } );
 
+//에피 등록 단계0 : 이전꺼 확인
+let tmpEpisode = {};
+tmpEpisode["sampleUser"]={title:"sampleTitle"};
+router.post("/ajax/episode/create/ready",async function(req,res){
+
+});
+
+//에피 등록 단계1 : 소속웹툰
+router.post("/ajax/episodes/create/seriesId", async function(req,res){
+
+});
+
+//에피 등록 단계2 : 제목, 타입
+router.post("/ajax/episodes/create/title", async function(req,res){
+
+});
+
+//에피 등록 단계3 : 결제방식, 공개날짜, 챕터
+router.post("/ajax/episodes/create/charging", async function(req,res){
+
+});
+
+//에피 등록 단계4 : 썸네일, 이미지
+router.post("/ajax/episodes/create/images", async function(req,res){
+
+});
+
+//에피 등록 단계5 : 최종 확인
+router.post("/ajax/episodes/create/confirm",async function(req,res){
+
+});
+
+//에피 등록 취소
+router.post("/ajax/episodes/create/cancel",async function(req,res){
+    delete tmpEpisode[req.user.email];
+    Base.resYes(res,"Thank you!",{to:"Donghyun", from:"Deok", msg:"Thank you, co-worker", type:"Easter egg"});
+});
+
 //에피 조회
 router.post("/ajax/episodes/search",async function(req,res,next){
     let seriesTitle = req.body.seriesTitle;
-    let chapTitle = req.body.chapTitle;
+    let epTitle = req.body.epTitle;
 
     try{
         let series = await Series.findOne({title:seriesTitle});
@@ -112,14 +154,14 @@ router.post("/ajax/episodes/search",async function(req,res,next){
         }
         Base.logInfo("Found series "+seriesTitle,series);
 
-        let episode =await Episodes.findOne({title:chapTitle,seriesId:series._id});
+        let episode =await Episodes.findOne({title:epTitle,seriesId:series._id});
         if(!episode){
             Base.logInfo("No episode found");
             Base.resNo(res,"Series exists but no episode found");
             return;
         }
-        Base.logInfo("Found episode "+chapTitle,episode);
-        Base.resYes(res,"Found episode "+chapTitle,episode);
+        Base.logInfo("Found episode "+epTitle,episode);
+        Base.resYes(res,"Found episode "+epTitle,episode);
     
     } catch(err){
         Base.logErr("ajax/episodes/search error occured",err);

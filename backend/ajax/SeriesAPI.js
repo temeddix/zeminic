@@ -10,6 +10,7 @@ const fs = require("fs");
 const router = express.Router();
 
 //Series 등록
+//TODO: 태그 추가
 router.post("/ajax/series/create",function(req,res,next){
     if(!req.isAuthenticated()){
         Base.resNo(res,"Login first");
@@ -30,7 +31,7 @@ router.post("/ajax/series/create",function(req,res,next){
                 {"fieldName":"","originalFilename":"","path":"","headers":{"content-disposition":"form-data; name=\"files\"; filename=\"다운로드 (1).jpg\"","content-type":"image/jpeg"},"size":}
             */
             let description = fields.description[0];
-            let genre = fields['genre'][0];
+            
             let title = fields['title'][0];
             let poster = "";
             let thumbnail = "";
@@ -57,7 +58,7 @@ router.post("/ajax/series/create",function(req,res,next){
             Base.logInfo("Before uploading series, check info",{
                 title : title,
                 description : description,
-                genre : genre,
+                
                 poster : poster,
                 thumbnail : thumbnail
             });
@@ -69,7 +70,7 @@ router.post("/ajax/series/create",function(req,res,next){
                     _id : Base.newObjectId() ,
                     title : title,
                     description : description,
-                    genre : genre,
+                    
                     poster : poster,
                     thumbnail : thumbnail,
                     writerId : req.user._id,
