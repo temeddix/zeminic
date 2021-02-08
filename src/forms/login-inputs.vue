@@ -39,7 +39,7 @@
       </v-card-actions>
     </template>
     <template v-else>
-      <v-card-title class="text-h4 justify-center my-2">회원 정보</v-card-title>
+      <v-card-title class="text-h4 justify-center">회원 정보</v-card-title>
       <v-card-text>
         <v-container>
           <v-row>
