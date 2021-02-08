@@ -24,17 +24,14 @@
       <v-stepper-items>
         <v-stepper-content class="pt-0 px-0" step="1">
           <v-card class="area mb-4 px-4 d-flex align-center" height="300px">
-            <v-container>
+            <v-container class="sizeLimitor">
               <v-row>
                 <v-col>
                   <p class="text-center text-subtitle-1">
                     정말 탈퇴하시겠어요?
                   </p>
                   <p>• 한 번 삭제한 계정은 다시 복구할 수 없습니다.</p>
-                  <p>
-                    • 업로드한 작품과 댓글은 삭제되지 않습니다. 삭제가
-                    필요하다면 회원 탈퇴하기 전에 삭제하셔야 합니다.
-                  </p>
+                  <p>• 업로드한 작품과 댓글은 저절로 삭제되지 않습니다.</p>
                 </v-col>
               </v-row>
             </v-container>
@@ -52,7 +49,7 @@
 
         <v-stepper-content class="pt-0 px-0" step="2">
           <v-card class="area mb-4 px-4 d-flex align-center" height="300px">
-            <v-container>
+            <v-container class="sizeLimitor">
               <v-row>
                 <v-col>
                   <p class="text-center text-subtitle-1">
@@ -95,7 +92,7 @@
 
         <v-stepper-content class="pt-0 px-0" step="3">
           <v-card class="area mb-4 px-4 d-flex align-center" height="300px">
-            <v-container>
+            <v-container class="sizeLimitor">
               <v-row>
                 <v-col>
                   <p class="text-center text-subtitle-1">안녕히 가세요!</p>
@@ -159,6 +156,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.sizeLimitor {
+  max-width: 420px;
+}
 .transparentArea {
   background-color: rgba(0, 0, 0, 0);
   box-shadow: unset;

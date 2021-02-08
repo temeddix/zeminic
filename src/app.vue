@@ -94,14 +94,12 @@ export default {
       handler(newValue, oldValue) {
         this.$vuetify.theme.dark = !newValue.brightMode;
         cookies.set("settings", newValue, { expires: 365 });
-        this.$setThemeTextColor(); //테마 텍스트 색깔은 Vuetify 자체기능이 아니라 직접 만든 기능임.
       },
     },
   },
   created() {
     //저장된 쿠키를 읽어서 반영
     Object.assign(this.settings, cookies.getJSON("settings"));
-    this.$setThemeTextColor();
     this.getUserInfo();
   },
   mounted() {},

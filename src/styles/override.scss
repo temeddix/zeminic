@@ -1,28 +1,4 @@
-//크롬의 개발자 도구에서 보면서 하면 편함
-
-/*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-▶▶테마 클래스에 텍스트 색깔도 추가
-■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
-
-$themeProperties: (
-  "primary",
-  "secondary",
-  "anchor",
-  "accent",
-  "error",
-  "info",
-  "success",
-  "warning",
-  "backdrop",
-  "area",
-  "stuff"
-);
-
-@each $property in $themeProperties {
-  #app .#{$property} {
-    color: var(--v-#{$property}-text);
-  }
-}
+//크롬의 개발자 도구에서 보면서 수정하길 권장함
 
 /*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 ▶▶모든 상황의 컴포넌트에 덮어쓰기
@@ -64,7 +40,6 @@ $themeProperties: (
 
 #app .v-label {
   font-size: 1rem;
-  color: var(--v-backdrop-text);
 }
 
 #app .v-label--active {
@@ -76,25 +51,10 @@ $themeProperties: (
 }
 
 #app .col {
-  padding: 6px;
+  padding: 6px 12px;
 }
 
-/*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-▶▶특정 상황의 컴포넌트에 덮어쓰기
-■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
-
-.v-card__actions > .v-btn.v-btn {
-  padding: 0px 20px;
-}
-
-.v-dialog > .v-card > .v-card__actions {
-  padding: 8px 16px 16px;
-}
-
-/*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-▶▶특정 상황의 컴포넌트에 광역으로 적용하기
-■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
-
-.v-stepper__content .container {
-  max-width: 460px;
+#app .v-pagination__item {
+  font-size: 1rem;
+  background-color: var(--v-stuff-base);
 }

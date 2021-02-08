@@ -66,7 +66,7 @@
       </v-card>
       <v-card class="area pa-4 my-2" height="1200"> </v-card>
     </v-card-text>
-    <v-card-actions> </v-card-actions>
+    <v-card-actions class="pb-4"> </v-card-actions>
   </v-card>
 </template>
 

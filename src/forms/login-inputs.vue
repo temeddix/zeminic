@@ -27,15 +27,15 @@
           </v-row>
         </v-container>
       </v-card-text>
-      <v-card-actions>
+      <v-card-actions class="pb-4">
         <v-bottom-sheet-elastic v-model="signupSheet">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn v-bind="attrs" v-on="on" text>회원가입</v-btn>
+            <v-btn class="px-5" v-bind="attrs" v-on="on" text>회원가입</v-btn>
           </template>
           <signup-inputs></signup-inputs>
         </v-bottom-sheet-elastic>
         <v-spacer></v-spacer>
-        <v-btn ref="loginButton" class="stuff" @click="login()">로그인</v-btn>
+        <v-btn ref="loginButton" class="stuff px-5" @click="login()">로그인</v-btn>
       </v-card-actions>
     </template>
     <template v-else>
@@ -54,12 +54,12 @@
           </v-row>
         </v-container>
       </v-card-text>
-      <v-card-actions>
+      <v-card-actions class="pb-4">
         <router-link to="/account">
-          <v-btn text @click="closeDialog()"> 계정 페이지 </v-btn>
+          <v-btn class="px-5" text @click="closeDialog()"> 계정 페이지 </v-btn>
         </router-link>
         <v-spacer></v-spacer>
-        <v-btn ref="logoutButton" class="stuff" @click="logout()">
+        <v-btn ref="logoutButton" class="stuff px-5" @click="logout()">
           로그아웃
         </v-btn>
       </v-card-actions>

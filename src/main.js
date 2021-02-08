@@ -7,7 +7,6 @@ import vueTouchEvents from 'vue2-touch-events';
 import vueRouter from 'vue-router';
 import vuetify from 'vuetify/lib'; //Material Design 양식에 기반한 Vue UI 컴포넌트 라이브러리. https://vuetifyjs.com/en/getting-started/installation/ 여기가 사용법 안내.
 import uniqueId from 'vue-unique-id';
-import colors from 'vuetify/es5/util/colors'
 
 import '@mdi/font/css/materialdesignicons.css' //Material Design 아이콘 팩. vuetify가 사용함. https://materialdesignicons.com/ 여기가 아이콘 목록.
 
@@ -108,8 +107,10 @@ vue.prototype.$alertElastic = function (target, alertText) {
       alertText: alertText,
     },
   });
-  instance.$mount();
-  document.getElementById("app").appendChild(instance.$el);
+  setTimeout(() => {
+    instance.$mount();
+    document.getElementById("app").appendChild(instance.$el);
+  }, 300)
 }
 
 vue.prototype.$alertElasticActive = [];
@@ -176,7 +177,7 @@ const routerOpotions = {
 
 
 /*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-▶▶Vuetify 테마
+▶▶Vuetify 테마 및 기본값 수정
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
 const vuetifyOptions = {
@@ -194,8 +195,8 @@ const vuetifyOptions = {
       // 색깔 참고 https://vuetifyjs.com/en/styles/colors/#material-colors
       // 기본 7가지 색상은 텍스트 색상이 안 바뀐다. Custom 색상을 만들어 쓰기.
       light: {
-        primary: colors.shades.black, // Highlight에 쓰임. 그러니까 함부로 부여하지도 쓰지도 말기. =켜진 상태.
-        secondary: colors.grey.darken3, //함부로 부여하지도 쓰지도 말기. 텍스트 컬러는 바뀌지도 않음.
+        primary: '#4900ff', // Highlight에 쓰임. 그러니까 함부로 부여하지도 쓰지도 말기. =켜진 상태.
+        secondary: '#3d3d3d', //함부로 부여하지도 쓰지도 말기.
         anchor: '#000000',
         accent: '#82B1FF',
         error: '#FF5252',
@@ -207,8 +208,8 @@ const vuetifyOptions = {
         stuff: "#ffffff", //custom 작은 것들
       },
       dark: {
-        primary: colors.shades.white, // Highlight에 쓰임. 그러니까 함부로 부여하지 말기. =켜진 상태.
-        secondary: colors.grey.lighten3, //함부로 부여하지도 쓰지도 말기. 텍스트 컬러는 바뀌지도 않음.
+        primary: '#4900ff', // Highlight에 쓰임. 그러니까 함부로 부여하지 말기. =켜진 상태.
+        secondary: '#ff0000', //함부로 부여하지도 쓰지도 말기.
         anchor: '#ffffff',
         accent: '#82B1FF',
         error: '#FF5252',
@@ -222,35 +223,6 @@ const vuetifyOptions = {
     },
   },
 };
-
-vue.prototype.$setThemeTextColor = function () {
-  let root = document.body;
-  let themeProperties = [
-    "primary",
-    "secondary",
-    "anchor",
-    "accent",
-    "error",
-    "info",
-    "success",
-    "warning",
-    "backdrop",
-    "area",
-    "stuff",
-  ];
-  themeProperties.forEach((property) => {
-    let backColor = getComputedStyle(root).getPropertyValue(
-      `--v-${property}-base`
-    );
-    let rgb = window.colorConvert.hex.rgb(backColor);
-    let brightness = (0.21 * rgb[0] + 0.72 * rgb[1] + 0.07 * rgb[2]) / 255;
-    if (brightness < 0.65) {
-      root.style.setProperty(`--v-${property}-text`, "#ffffff");
-    } else {
-      root.style.setProperty(`--v-${property}-text`, "#000000");
-    }
-  });
-}
 
 require("vuetify/lib").VOverlay.options.props.color.default = "#000000";
 require("vuetify/lib").VTextField.options.props.rounded.default = true;
