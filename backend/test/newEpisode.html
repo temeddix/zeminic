@@ -2,26 +2,33 @@
     <body>
         에피 등록 1단계
         <form action="/ajax/episodes/create/seriesId" method="post">
-            <input type="text" name="seriesId"><br>
+            seriesId : <input type="text" name="seriesId"><br>
             <input type="submit" value="조회">
         </form>
         <br><br>
 
         에피 등록 2단계
-        <form>
-
+        <form action="/ajax/episodes/create/title" method="post">
+            title : <input type="text" name="title"><br>
+            episodeType : <input type="text" name="episodeType"><br>
+            <input type="submit" value="등록"> 
         </form>
         <br><br>
 
         에피 등록 3단계
-        <form>
-
+        <form action="/ajax/episodes/create/charging" method="post">
+            chapterTitle : <input type="text" name="chapterTitle"><br>
+            chargeMethod : <input type="text" name="chargeMethod"><br>
+            releaseDate : <input type="text" name="releaseDate"><br>
+            <input type="submit" value="등록"><br>
         </form>
         <br><br>
 
         에피 등록 4단계
-        <form>
-
+        <form enctype="multipart/form-data" action="/ajax/episodes/create/images" method="post">
+            thumbnail : <input type="file" name="thumbnail"><br>
+            imagesList : <input type="file" name="imagesList" multiple><br>
+            <input type="submit" value="전송">
         </form>
         <br><br>
 

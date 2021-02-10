@@ -54,17 +54,52 @@ router.post("/ajax/episodes/create/seriesId", function(req,res){
 
 //에피 등록 단계2 : 제목, 타입
 router.post("/ajax/episodes/create/title", async function(req,res){
+    let title = req.body.title;
+    let episodeType = req.body.episodeType;
 
+    tmpEpisode[req.user.email]['title'] = title;
+    tmpEpisode[req.user.email]['episodeType'] = episodeType;
+
+    Base.resYes(res,"ok",tmpEpisode[req.user.email]);
 });
 
 //에피 등록 단계3 : 결제방식, 공개날짜, 챕터
 router.post("/ajax/episodes/create/charging", async function(req,res){
+    let chapterTitle = req.body.chapterTitle;
+    let chargeMethod = req.body.chargeMethod;
+    let releaseDate = Number(req.body.releaseDate);
 
+    tmpEpisode[req.user.email]['chapterTitle'] = chapterTitle;
+    tmpEpisode[req.user.email]['chargeMethod'] = chargeMethod;
+    tmpEpisode[req.user.email]['releaseDate'] = releaseDate;
+
+    Base.resYes(res,"ok",tmpEpisode[req.user.email]);
 });
 
 //에피 등록 단계4 : 썸네일, 이미지
 router.post("/ajax/episodes/create/images", async function(req,res){
+    Base.parseForm(req,function(err,fields,files){
+        if(err){
+            Base.logErr("parsing error",err);
+            Base.resNo(res,"parsing error");
+            return;
+        }
 
+        let thumbnail = files['thumbnail'][0];
+        let imagesList = files['imagesList'];
+
+        Base.uploadBlob(thumbnail['path']);
+        thumbnail = Base.filenameFromPath(thumbnail['path']);
+        for(let i = 0; i < imagesList.length; i++){
+            Base.uploadBlob(imagesList[i]['path']);
+            imagesList[i] = Base.filenameFromPath(imagesList[i]['path']);
+        }
+
+        tmpEpisode[req.user.email]['thumbnail'] = thumbnail;
+        tmpEpisode[req.user.email]['imagesList'] = imagesList;
+
+        Base.resYes(res,"ok",tmpEpisode[req.user.email]);
+    }, 1024*1024*8);
 });
 
 //에피 등록 단계5 : 최종 확인
