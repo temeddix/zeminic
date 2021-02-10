@@ -16,6 +16,7 @@ const userSchema = new Schema({
 
     //3. 소속 챕터 설정, 결제방식, 공개날짜
     chapterTitle : {type:String, default:null},
+    price : {type:Number,default:0},
     chargeMethod : {type:String,default:"free"}, //유료 charged, 기무 waitCharged
     releaseDate : {type:Number,default:0},
     
@@ -29,8 +30,7 @@ const userSchema = new Schema({
     episodeNumber : {type:Number, default:-1},
     likes : {type:Number,default:0},
     dislikes : {type:Number,default:0},
-    viewed : {type:Number,default:0},
-    price : {type:Number,default:0},
+    viewed : {type:Number,default:0}
 });
 
 let mongomodel = mongoose.model(collectionName, userSchema, collectionName);

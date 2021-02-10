@@ -67,8 +67,10 @@ router.post("/ajax/episodes/create/title", async function(req,res){
 router.post("/ajax/episodes/create/charging", async function(req,res){
     let chapterTitle = req.body.chapterTitle;
     let chargeMethod = req.body.chargeMethod;
+    let price = Number(req.body.price);
     let releaseDate = Number(req.body.releaseDate);
 
+    tmpEpisode[req.user.email]['price'] = price;
     tmpEpisode[req.user.email]['chapterTitle'] = chapterTitle;
     tmpEpisode[req.user.email]['chargeMethod'] = chargeMethod;
     tmpEpisode[req.user.email]['releaseDate'] = releaseDate;
@@ -103,8 +105,80 @@ router.post("/ajax/episodes/create/images", async function(req,res){
 });
 
 //에피 등록 단계5 : 최종 확인
+router.post("/ajax/episodes/create/check",async function(req,res){
+    Base.resYes(res,"check this out!",tmpEpisode[req.user.email]);
+});
 router.post("/ajax/episodes/create/confirm",async function(req,res){
+    let tmp = tmpEpisode[req.user.email];
 
+    if(!tmp.seriesId){
+        Base.resNo(res,"seriesId blank");
+        return;
+    }
+
+    if(!tmp.title){
+        Base.resNo(res,"title blank");
+        return;
+    }
+
+    if(!tmp.episodeType){
+        Base.resNo(res,"episodeType blank");
+        return;
+    }
+
+    let cce = await Series.findOne({_id:tmp.seriesId});
+    if(!tmp.chapterTitle && cce.chapterClasscificationEnabled){
+        Base.resNo(res,"chapterTitle blank");
+        return;
+    }
+
+    if(!tmp.chargeMethod){
+        Base.resNo(res,"chargeMethod blank");
+        return;
+    }
+
+    if(!tmp.releaseDate){
+        Base.resNo(res,"releaseDate blank");
+        return;
+    }
+
+    if(!tmp.thumbnail && tmp.episodeType=="comic"){
+        Base.resNo(res,"thumbnail blank");
+        return;
+    }
+
+    if(!tmp.imagesList && tmp.episodeType=="comic"){
+        Base.resNo(res,"imagesList blank");
+        return;
+    }
+
+    tmp._id = Base.newObjectId();
+    tmp.registration = Base.getTime();
+    tmp.likes = 0;
+    tmp.dislikes = 0;
+    tmp.viewed = 0;
+
+    if(tmp.episodeType!="comic"){
+        tmp.episodeNumber = -1;
+    } else {
+        tmp.episodeNumber = await Episodes.find({seriesId:tmp.seriesId}).sort({episodeNumber:-1}).limit(1);
+
+        Base.logInfo("found result",tmp.episodeNumber);
+
+        if(tmp.episodeNumber.length == 0){
+            tmp.episodeNumber = 0;
+        } else{
+            tmp.episodeNumber = tmp.episodeNumber[0].episodeNumber+1;
+        }
+    }
+
+    console.log(tmp.episodeNumber);
+
+    let episode = new Episodes(tmp);
+    let result = await episode.save();
+
+    Base.logInfo("episode create result",result);
+    Base.resYes(res,"episode created",episode);
 });
 
 //에피 등록 : 초기화

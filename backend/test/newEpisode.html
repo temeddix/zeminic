@@ -19,6 +19,7 @@
         <form action="/ajax/episodes/create/charging" method="post">
             chapterTitle : <input type="text" name="chapterTitle"><br>
             chargeMethod : <input type="text" name="chargeMethod"><br>
+            price : <input type="text" name="price"><br>
             releaseDate : <input type="text" name="releaseDate"><br>
             <input type="submit" value="등록"><br>
         </form>
@@ -33,14 +34,17 @@
         <br><br>
 
         에피 등록 5단계
-        <form>
-
+        <form method="post" action="/ajax/episodes/create/check">
+            <input type="submit" value="체크하기">
+        </form><br>
+        <form method="post" action="/ajax/episodes/create/confirm">
+            <input type="submit" value="등록!">
         </form>
         <br><br>
 
         에피 등록 초기화
-        <form>
-
+        <form method="post" action="/ajax/episodes/create/clear">
+            <input type="submit" value="초기화">
         </form>
     </body>
 </html>
