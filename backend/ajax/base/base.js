@@ -5,8 +5,11 @@ const Crypto = require('crypto');
 const Path = require('path');
 const Blob = require('./blob');
 const Multiparty = require('multiparty');
+const Strtest = require("./strtest");
 
 module.exports = {
+    Strtest : Strtest,
+
     getTime : function(){
         return Date.now();
     },

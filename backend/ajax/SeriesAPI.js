@@ -10,7 +10,6 @@ const fs = require("fs");
 const router = express.Router();
 
 //Series 등록
-//TODO: 태그 추가
 router.post("/ajax/series/create",function(req,res,next){
     if(!req.isAuthenticated()){
         Base.resNo(res,"Login first");
@@ -33,36 +32,42 @@ router.post("/ajax/series/create",function(req,res,next){
             let description = fields.description[0];
             
             let title = fields['title'][0];
+            let tags = fields['tags'][0];
             let poster = "";
             let thumbnail = "";
             let chapterClassificationEnabled = fields['chapterClassificationEnabled'];
 
+            //챕터 분류기능
             if(chapterClassificationEnabled){
                 chapterClassificationEnabled = true;
             }
 
-            if(Object.keys(files).length != 2){
-                Base.resNo(res,"just one of thumb/poster uploaded.",files[0].fieldName);
-                return;
+            //태그
+            tags = tags.split();
+            if(tags.length>10){
+            	Base.resNo(res,"Too many tags. Up to 10 allowed");
+            	return;
             }
+
 
             Base.logInfo("Form upload fields",fields);
             Base.logInfo("Form upload files",files);
 
+            //포스터,썸네일 등록
             poster = Base.filenameFromPath(files['poster'][0]['path']);
             thumbnail = Base.filenameFromPath(files['thumbnail'][0]['path']);
-
             Base.uploadBlob(files['poster'][0]['path']);
             Base.uploadBlob(files['thumbnail'][0]['path']);
 
             Base.logInfo("Before uploading series, check info",{
                 title : title,
                 description : description,
-                
+                tags: tags
                 poster : poster,
                 thumbnail : thumbnail
             });
 
+            //등록!
             let series = null;
             let result = null;
             try {
@@ -70,7 +75,7 @@ router.post("/ajax/series/create",function(req,res,next){
                     _id : Base.newObjectId() ,
                     title : title,
                     description : description,
-                    
+                    tags : tags,
                     poster : poster,
                     thumbnail : thumbnail,
                     writerId : req.user._id,
