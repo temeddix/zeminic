@@ -6,6 +6,7 @@ const Comments = require("./static/Comments");
 const Base = require("./base/base");
 const Crypto = require("crypto");
 const fs = require("fs");
+const Strtest = Base.Strtest;
 
 const router = express.Router();
 
@@ -47,6 +48,17 @@ router.post("/ajax/series/create",function(req,res,next){
             if(tags.length>10){
             	Base.resNo(res,"Too many tags. Up to 10 allowed");
             	return;
+            }
+            for(let i in tags){
+            	if(!Strtest.testLen(tags[i],2,10)){
+            		Base.resNo(res,"tags: len must be in range of 2~10");
+            		return;
+            	}
+
+            	if(Strtest.testSpc(tags[i])){
+            		Base.resNo(res,"tags: special characters are not allowed");
+            		return;
+            	}
             }
 
 

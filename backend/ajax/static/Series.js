@@ -30,6 +30,7 @@ const userSchema = new Schema({
 });
 //userSchema.index({"$**":"text"});
 userSchema.index({title:"text"});
+userSchema.index({tags:"text"});
 
 let mongomodel = mongoose.model(collectionName, userSchema, collectionName);
 
