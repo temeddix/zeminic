@@ -31,8 +31,21 @@ router.post("/ajax/series/create",function(req,res,next){
                 {"fieldName":"","originalFilename":"","path":"","headers":{"content-disposition":"form-data; name=\"files\"; filename=\"다운로드 (1).jpg\"","content-type":"image/jpeg"},"size":}
             */
             let description = fields.description[0];
+            if(!Strtest.testLen(description,0,200)){
+            	Base.resNo(res,"title len only allowed up to 200");
+            	return;
+            }
             
             let title = fields['title'][0];
+            if(!Strtest.testLen(title,2,20)){
+            	Base.resNo(res,"title len must be in range from 2 to 20");
+            	return;
+            }
+            if(Strtest.testSpc(title)){
+            	Base.resNo(res,"Speical characters are not allowed in title");
+            	return;
+            }
+
             let tags = fields['tags'][0];
             let poster = "";
             let thumbnail = "";

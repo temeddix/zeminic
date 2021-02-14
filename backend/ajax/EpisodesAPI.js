@@ -6,6 +6,7 @@ const Base = require("./base/base");
 const mongoose = require("mongoose");
 const fs = require("fs");
 const Path = require('path');
+const Strtest = Base.Strtest;
 
 const router = express.Router();
 
@@ -57,7 +58,20 @@ router.post("/ajax/episodes/create/title", async function(req,res){
     let title = req.body.title;
     let episodeType = req.body.episodeType;
 
+    if(Strtest.testSpc(title)){
+        Base.resNo(res,"special characters are not allowed in title");
+        return;
+    }
+    if(!Strtest.testLen(title,2,20)){
+        Base.resNo(res,"title len : 2~20 allowed");
+        return;
+    }
     tmpEpisode[req.user.email]['title'] = title;
+
+    if(episodeType!="text" && episodeType!="illust" && episodeType!="comic"){
+        Base.resNo(res,"episodeType : one of text,illust,comic");
+        return;
+    }
     tmpEpisode[req.user.email]['episodeType'] = episodeType;
 
     Base.resYes(res,"ok",tmpEpisode[req.user.email]);
@@ -66,8 +80,30 @@ router.post("/ajax/episodes/create/title", async function(req,res){
 //에피 등록 단계3 : 결제방식, 공개날짜, 챕터
 router.post("/ajax/episodes/create/charging", async function(req,res){
     let chapterTitle = req.body.chapterTitle;
+    if(Strtest.testSpc(chapterTitle)){
+        Base.resNo(res,"special characters are not allowed in chapterTitle");
+        return;
+    }
+    if(!Strtest.testLen(chapterTitle,2,20)){
+        Base.resNo(res,"chapterTitle len : 2~20 allowed");
+        return;
+    }
+
     let chargeMethod = req.body.chargeMethod;
+    if(chargeMethod!="free" && chargeMethod!="charged" && chargeMethod!="waitCharged"){
+        Base.resNo(res,"chargeMethod : one of free,charged,waitCharged");
+        return;
+    }
+
+    if(isNaN(req.body.price)){
+        Base.resNo(res,"price must be number");
+        return;
+    }
     let price = Number(req.body.price);
+
+     if(isNaN(req.body.releaseDate)){
+        Base.resNo(res,"releaseDate must be number");
+        return;
     let releaseDate = Number(req.body.releaseDate);
 
     tmpEpisode[req.user.email]['price'] = price;
