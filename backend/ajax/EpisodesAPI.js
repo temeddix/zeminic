@@ -101,9 +101,10 @@ router.post("/ajax/episodes/create/charging", async function(req,res){
     }
     let price = Number(req.body.price);
 
-     if(isNaN(req.body.releaseDate)){
+    if(isNaN(req.body.releaseDate)){
         Base.resNo(res,"releaseDate must be number");
         return;
+    }
     let releaseDate = Number(req.body.releaseDate);
 
     tmpEpisode[req.user.email]['price'] = price;

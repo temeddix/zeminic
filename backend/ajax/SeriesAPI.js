@@ -87,7 +87,7 @@ router.post("/ajax/series/create",function(req,res,next){
             Base.logInfo("Before uploading series, check info",{
                 title : title,
                 description : description,
-                tags: tags
+                tags: tags,
                 poster : poster,
                 thumbnail : thumbnail
             });

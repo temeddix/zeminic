@@ -94,21 +94,35 @@ router.post("/ajax/payment/subscription/pay",function(req,res){
 //비인증 일회성 결제
 router.post("/ajax/payment/onetime/pay",function(req,res){
 	processIamporterPromiseForDebugging(
-		
+		res,
+		iamporter.payOnetime({
+			'merchant_uid':req.body.merchant_uid,
+			'amount' : Number(req.body.amount),
+			'card_number' : req.body.card_number,
+			'expiry' : req.body.expiry,
+			'birth' : req.body.birth,
+			'pwd_2digit' : req.body.pwd_2digit
+		})
 	);
 });
 
 //해외카드 비인증 결제
 router.post("/ajax/payment/foreign/pay",function(req,res){
 	processIamporterPromiseForDebugging(
-		
-		);
+		res,
+		iamporter.payForeign({
+		  'merchant_uid': req.body.merchant_uid,
+		  'amount': Number(req.body.amount),
+		  'card_number': req.body.card_number,
+		  'expiry': req.body.expiry,
+		})
+	);
 });
 
 //결제 취소 : 아임포트 고유 아이디 : 설정된 계좌로 환불
 router.post("/ajax/payment/cancel/iamport/refund",function(req,res){
 	processIamporterPromiseForDebugging(
-		
+
 		);
 });
 
