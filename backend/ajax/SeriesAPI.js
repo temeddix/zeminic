@@ -6,6 +6,7 @@ const Comments = require("./static/Comments");
 const Base = require("./base/base");
 const Crypto = require("crypto");
 const fs = require("fs");
+const FileType = require('file-type');
 const Strtest = Base.Strtest;
 
 const router = express.Router();
@@ -57,18 +58,18 @@ router.post("/ajax/series/create",function(req,res,next){
             }
 
             //태그
-            tags = tags.split();
-            if(tags.length>10){
+            let tagsArray = tags.split(' ');
+            if(tagsArray.length>10){
             	Base.resNo(res,"Too many tags. Up to 10 allowed");
             	return;
             }
-            for(let i in tags){
-            	if(!Strtest.testLen(tags[i],2,10)){
-            		Base.resNo(res,"tags: len must be in range of 2~10");
+            for(let i in tagsArray){
+            	if(!Strtest.testLen(tagsArray[i],2,10)){
+            		Base.resNo(res,"tags: len must be in range of 2~10",tagsArray[i]);
             		return;
             	}
 
-            	if(Strtest.testSpc(tags[i])){
+            	if(Strtest.testSpc(tagsArray[i])){
             		Base.resNo(res,"tags: special characters are not allowed");
             		return;
             	}
@@ -78,9 +79,24 @@ router.post("/ajax/series/create",function(req,res,next){
             Base.logInfo("Form upload fields",fields);
             Base.logInfo("Form upload files",files);
 
-            //포스터,썸네일 등록
+            //포스터,썸네일
             poster = Base.filenameFromPath(files['poster'][0]['path']);
             thumbnail = Base.filenameFromPath(files['thumbnail'][0]['path']);
+
+            //사진인지 체크
+            let filetype = await FileType.fromFile(files['poster'][0]['path']);
+            
+            if(!filetype || filetype['mime'].slice(0,5)!="image"){
+            	Base.resNo(res,"Poster File Type is not image",filetype);
+            	return;
+            }
+            filetype = await FileType.fromFile(files['thumbnail'][0]['path']);
+            if(!filetype || filetype['mime'].slice(0,5)!="image"){
+            	Base.resNo(res,"Thumbnail file type is not image",filetype);
+            	return;
+            }
+
+            //업로드
             Base.uploadBlob(files['poster'][0]['path']);
             Base.uploadBlob(files['thumbnail'][0]['path']);
 

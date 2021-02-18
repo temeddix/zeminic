@@ -14,8 +14,8 @@ const path = require('path');
 
 const Sharp = require('sharp');
 
-if (!fs.existsSync("tmpblobs")) {
-    fs.mkdirSync("tmpblobs");
+if (!fs.existsSync("./backend/ajax/base/tmpblobs")) {
+    fs.mkdirSync("./backend/ajax/base/tmpblobs");
 }
 
 const BLOBSVC = Azure.createBlobService(
@@ -39,6 +39,7 @@ function resize(imgPath,w,h, outImg, callback) { //callback : err, resizeImage
 
 //upload blob
 function uploadBlob(filepath) {
+
 	let fileNameToUpload = path.basename(filepath);
 	BLOBSVC.createBlockBlobFromLocalFile(CONTAINER_NAME, fileNameToUpload, filepath, (err,data)=>{
 		Log.logInfo("Blob upload result",[err,data]);

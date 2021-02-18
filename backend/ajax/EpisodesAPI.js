@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const fs = require("fs");
 const Path = require('path');
 const Strtest = Base.Strtest;
+const FileType = require('file-type');
 
 const router = express.Router();
 
@@ -117,7 +118,7 @@ router.post("/ajax/episodes/create/charging", async function(req,res){
 
 //에피 등록 단계4 : 썸네일, 이미지
 router.post("/ajax/episodes/create/images", async function(req,res){
-    Base.parseForm(req,function(err,fields,files){
+    Base.parseForm(req,async function(err,fields,files){
         if(err){
             Base.logErr("parsing error",err);
             Base.resNo(res,"parsing error");
@@ -127,6 +128,21 @@ router.post("/ajax/episodes/create/images", async function(req,res){
         let thumbnail = files['thumbnail'][0];
         let imagesList = files['imagesList'];
 
+        //check mime type
+        let filetype = await FileType.fromFile(thumbnail['path']);
+        if(!filetype ||filetype['mime'].slice(0,5)!="image"){
+        	Base.resNo(res,"Thumbnail type is not image",filetype);
+        	return;
+        }
+        for(let i = 0; i < imagesList.length; i++){
+        	filetype = await FileType.fromFile(imagesList[i]['path']);
+        	if(!filetype ||filetype['mime'].slice(0,5)!="image"){
+        		Base.resNo(res,"some images in imagesList are not image",filetype);
+        		return;
+        	}
+        }
+
+        //upload
         Base.uploadBlob(thumbnail['path']);
         thumbnail = Base.filenameFromPath(thumbnail['path']);
         for(let i = 0; i < imagesList.length; i++){

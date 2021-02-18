@@ -23,6 +23,7 @@
         "crypto": "^1.0.1",
         "express": "^4.17.1",
         "express-session": "^1.17.1",
+        "file-type": "^16.2.0",
         "formidable": "^1.2.2",
         "http-proxy-middleware": "^1.0.6",
         "iamporter": "^1.4.2",
