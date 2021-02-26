@@ -27,7 +27,7 @@ router.post("/konq/check",function(req,res){
 	if(correct[0]+correct[1]==2){
 		res.end("사실 이게 세 번째 과제였다. 고생했다 ;)");
 	} else {
-		res.end("put과 delete 문제를 먼저 푸시오~");
+		res.end("quiz 1,2를 푸시오!");
 	}
 });
 
