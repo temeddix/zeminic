@@ -103,6 +103,7 @@ router.post("/ajax/payment/subscription/create", function(req,res){
 
 			req.user.billingKey.push({alias:alias,key:customer_uid});
 			await req.user.save();
+			Base.resYes(res,"saved");
 		})
 	);
 });
@@ -125,59 +126,74 @@ router.post("/ajax/payment/subscription/delete",function(req,res){
 	catchPaymentError(
 		res,
 		iamporter.deleteSubscription(req.body.customer_uid)
+		.then(result => {
+			Base.logInfo("billing key delete result",result);
+			Base.resYes(res,"billing key deleted",result);
+		})
 	);
 });
 
-//빌링키 결제
-router.post("/ajax/payment/subscription/pay",function(req,res){
+//빌링키로 Episode결제
+router.post("/ajax/payment/subscription/pay/episode",function(req,res){
 	let workObjectId = Base.newObjectId(req.body.workObjectId);
-	let workType = req.body.workType;
+	let customer_uid = req.body.customer_uid;
 
-	let work;
-	let merchant_uid;
-	let price;
-
-	if(workType == "Series"){
-		work = await Series.findOne({_id:workObjectId});
-		if(!work){
-			Base.resNo(res,"No Series found. please check object id again",workObjectId);
-			return;
-		}
-
-		allEpisodes = await Episodes.find({seriesId:work._id});
-		if(allEpisodes.length == 0){
-			Base.resNo(res,work.title + " has no episode");
-			return;
-		}
-
-		purchased = []
-		notPurchased = []
-		//TODO : 시발 어떻게 하지
-
-
-	} else if (workType = "Episodes"){
-		work = await Episodes.findOne({_id:workObjectId});
-		if(!work){
-			Base.resNo(res,"No Episode found. please check object id again",workObjectId);
-			return;
-		}
-
-		price = work.price;
-	} else {
-		Base.resNo(res,"Invalid work type. \"Series\" and \"Episodes\" allowed",workType);
+	if(customer_uid.split("_")[0]!=req.user.email){
+		Base.resNo(res,"billing key is not yours",{
+			"your email" : req.user.email,
+			"billing key email" : customer_uid.split("_")[0]
+		});
 		return;
 	}
-	merchant_uid = genMerchantUid(req.user,workType,work);
+
+	let work = await Episodes.findOne({_id:workObjectId});
+	if(!work){
+		Base.resNo(res,"No Episode found. please check object id again",workObjectId);
+		return;
+	}
+
+	let price = work.price;
+	let merchant_uid = genMerchantUid(req.user,"Episodes",work);
 
 	catchPaymentError(
 		res,
 		iamporter.paySubscription({
-			"customer_uid" : req.body.customer_uid,
-			"merchant_uid" : req.body.merchant_uid,
+			"customer_uid" : customer_uid,
+			"merchant_uid" : merchant_uid,
 			"amount" : price
+		}).then(result => {
+			let purchasedMap = req.user.purchased;
+			let seriesTitle = (await Series.findOne({_id:work.seriesId})).title;
+
+			let purchasedArray = purchasedMap.get(seriesTitle);
+			if(!purchasedArray.includes(work._id)){
+				purchasedArray.push(work._id);
+				req.user.purchased.set(seriesTitle,purchasedArray);
+				await req.user.save();
+				Base.resYes(res,"purchased");
+			} else{
+				Base.resNo(res,"already purchased");
+				return;
+			}
 		})
 	);
 });
+
+//결제 취소 : 상점 고유 아이디
+router.post("/ajax/payment/cancel/merchant",function(req,res){
+	catchPaymentError(
+		res,
+		iamporter.cancelByMerchantUid(req.body.merchant_uid)
+  		.then(result => {
+
+		  })
+		);
+});
+
+
+
+
+
 
 //비인증 일회성 결제
 router.post("/ajax/payment/onetime/pay",function(req,res){
@@ -194,42 +210,9 @@ router.post("/ajax/payment/onetime/pay",function(req,res){
 	);
 });
 
-//해외카드 비인증 결제
-router.post("/ajax/payment/foreign/pay",function(req,res){
-	catchPaymentError(
-		res,
-		iamporter.payForeign({
-		  'merchant_uid': req.body.merchant_uid,
-		  'amount': Number(req.body.amount),
-		  'card_number': req.body.card_number,
-		  'expiry': req.body.expiry,
-		})
-	);
-});
-
-//결제 취소 : 아임포트 고유 아이디 : 설정된 계좌로 환불
-router.post("/ajax/payment/cancel/iamport/refund",function(req,res){
-	catchPaymentError(
-
-		);
-});
-
-//결제 취소 : 아임포트 고유 아이디
-router.post("/ajax/payment/cancel/iamport",function(req,res){
-	catchPaymentError(
-		
-		);
-});
 
 //결제 취소 : 상점 고유 아이디 : 부분 취소
 router.post("/ajax/payment/cancel/merchant/part",function(req,res){
-	catchPaymentError(
-		
-		);
-});
-
-//결제 취소 : 상점 고유 아이디
-router.post("/ajax/payment/cancel/merchant",function(req,res){
 	catchPaymentError(
 		
 		);

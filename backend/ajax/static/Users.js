@@ -11,7 +11,10 @@ const userSchema = new Schema({
     billingKey:[],
     bankAccount:{type:String, default:"undefined"},
     uploads:[{type:mongoose.Schema.Types.ObjectId, ref:"series"}],
-    purchased:[{type:mongoose.Schema.Types.ObjectId, ref:"episodes"}],
+    purchased:{
+        type : Map,
+        of : [{type:mongoose.Schema.Types.ObjectId, ref:"episodes"}]
+    },
     subscribed:[{type:mongoose.Schema.Types.ObjectId, ref:"series"}],
     recentlyViewed:[{type:mongoose.Schema.Types.ObjectId, ref:"episodes"}],
     liked:[{type:mongoose.Schema.Types.ObjectId, ref:"series"}],
