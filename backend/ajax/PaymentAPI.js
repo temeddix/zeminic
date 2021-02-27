@@ -32,13 +32,8 @@ function genCustomerUid(user,alias){
 }
 
 //구매id 생성 
-function genMerchantUid(user, workType, work){
-	/*
-		user : req.user
-		workType : 상품 타입 (Series, Episodes, Novels, Chapters 등)
-		work : 상품의 Mongoose 인스턴스
-	*/
-	return user.email + "_" + workType + "_" + String(work._id);
+function genMerchantUid(user,episode){
+	return user.email + "_" + String(episode._id);
 }
 
 //훅
@@ -46,7 +41,7 @@ router.post("/payment/notification",function(req,res){
 	Base.logInfo("Payment Hooked",req.body);
 
 	/*
-		TODO : 로깅하기
+		TODO : 결제 결과 로깅하기, 웬만하면 blob?
 	*/
 
 	res.end("OK");
@@ -134,8 +129,8 @@ router.post("/ajax/payment/subscription/delete",function(req,res){
 });
 
 //빌링키로 Episode결제
-router.post("/ajax/payment/subscription/pay/episode",function(req,res){
-	let workObjectId = Base.newObjectId(req.body.workObjectId);
+router.post("/ajax/payment/subscription/pay/episodes",function(req,res){
+	let episodeIds = req.body.workIds.split(" ");
 	let customer_uid = req.body.customer_uid;
 
 	if(customer_uid.split("_")[0]!=req.user.email){
@@ -146,14 +141,8 @@ router.post("/ajax/payment/subscription/pay/episode",function(req,res){
 		return;
 	}
 
-	let work = await Episodes.findOne({_id:workObjectId});
-	if(!work){
-		Base.resNo(res,"No Episode found. please check object id again",workObjectId);
-		return;
-	}
-
-	let price = work.price;
-	let merchant_uid = genMerchantUid(req.user,"Episodes",work);
+	// TODO : 구매를 원하는 에피 아이디들이랑 내가 구매한거랑 intersection해서
+	// 구매 안한 것만 추려내기
 
 	catchPaymentError(
 		res,
@@ -162,19 +151,9 @@ router.post("/ajax/payment/subscription/pay/episode",function(req,res){
 			"merchant_uid" : merchant_uid,
 			"amount" : price
 		}).then(result => {
-			let purchasedMap = req.user.purchased;
-			let seriesTitle = (await Series.findOne({_id:work.seriesId})).title;
-
-			let purchasedArray = purchasedMap.get(seriesTitle);
-			if(!purchasedArray.includes(work._id)){
-				purchasedArray.push(work._id);
-				req.user.purchased.set(seriesTitle,purchasedArray);
-				await req.user.save();
-				Base.resYes(res,"purchased");
-			} else{
-				Base.resNo(res,"already purchased");
-				return;
-			}
+			//TODO: 내가 구매한 리스트에 구매한거 추가하ㅓ고 저장
+			Base.resYes(res,"purchased");//TODO : 결제된거 리스트 리턴하기
+			return;
 		})
 	);
 });
