@@ -5,26 +5,20 @@
     </head>
 
     <body>
-        Email <input type="text" id="email"><br>
         PW <input type="password" id="pw"><br>
         New PW <input type="password" id="newpw"><br>
-        New PW Repeat <input type="password" id="repeat"><br>
         <input type="button" onclick="f();" id="submit" value="Submit"><br>
 
 
         <script>
-            let email = document.getElementById("email");
             let pw = document.getElementById("pw");
-            let newpw = document.getElementById("newpw");
             let repeat = document.getElementById("repeat");
             let submit = document.getElementById("submit");
 
             async function f(){
                 let response = await axios.post("/ajax/chpw", {
-                    email: email.value,
                     pw:pw.value,
-                    newpw:newpw.value,
-                    repeat:repeat.value
+                    newpw:newpw.value
                 });
         
                 console.log("result",response);

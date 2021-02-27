@@ -152,39 +152,26 @@ router.post("/ajax/withdraw", async function (req, res) {
 
 //비밀번호 변경
 router.post("/ajax/chpw", async function (req, res) {
-	let email = req.body.email;
-	let pw = req.body.pw;
-	let newpw = req.body.newpw;
-	let repeat = req.body.repeat;
 
-	if (newpw != repeat) {
-		Base.resNo(res, "New password and repeat password do not match", null);
+	if(!req.isAuthenticated()){
+		Base.resNo(res,"Login first");
 		return;
 	}
 
-	let result = await Users.findOne({ email: email });
-	let crypted = Crypto.createHash("sha512").update(pw).digest("base64");
+	
+	let crypted = Crypto.createHash("sha512").update(req.body.pw).digest("base64");
+	let newcrypt = Crypto.createHash("sha512").update(req.body.newpw).digest("base64");
 
-	if (result.pw == crypted) {
-		let newcrypt = Crypto.createHash("sha512")
-			.update(newpw)
-			.digest("base64");
-		let changed = await Users.updateOne(
-			{ email: email },
-			{ $set: { pw: newcrypt } }
-		);
-
-		if (changed.ok) {
-			Base.resYes(res, "Password changed", changed.ok);
-			return;
-		} else {
-			Base.resNo(res, "Error occured", changed.ok);
-			return;
-		}
+	if(req.user.pw == crypted){
+		req.user.pw = newcrypt;
+		await req.user.save();
+		Base.resYes(res,"password changed");
+		return;
 	} else {
-		Base.resNo(res, "password incorrect", null);
+		Base.resNo(res,"password incorrect");
 		return;
 	}
+
 });
 
 //현재 로그인된 유저 정보 get

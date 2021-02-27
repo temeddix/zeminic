@@ -43,7 +43,7 @@ server.use(CommentsAPI);
 server.use(PaymentTestAPI);
 server.use(OpenAPI);
 server.use(function(req,res,next){
-    console.log("디버깅용 : 로그인여부 ",req.isAuthenticated());
+    console.log("디버깅용 : 로그인여부 ",req.isAuthenticated(),typeof(req.user));
     next();
 });
 server.use("/test",express.static("./backend/test"));
