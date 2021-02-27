@@ -13,7 +13,7 @@ const userSchema = new Schema({
     uploads:[{type:mongoose.Schema.Types.ObjectId, ref:"series"}],
     purchased:{
         type : Map,
-        of : [{type:mongoose.Schema.Types.ObjectId, ref:"episodes"}]
+        of : {type:mongoose.Schema.Types.ObjectId, ref:"episodes"}
     },
     subscribed:[{type:mongoose.Schema.Types.ObjectId, ref:"series"}],
     recentlyViewed:[{type:mongoose.Schema.Types.ObjectId, ref:"episodes"}],
