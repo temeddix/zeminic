@@ -1,9 +1,14 @@
 const express = require('express');
 const router = express.Router();
+const Series = require("./static/Series");
+const Episodes = require("./static/Episodes");
+const Comments = require("./static/Comments");
+const Users = require("./static/Users");
 const Base = require("./base/base");
 const Strtest = Base.Strtest;
 
 const { Iamporter, IamporterError } = require('iamporter');
+const { services } = require('azure-storage');
 
 //상수 초기화
 //가맹점 식별코드 imp48416773
@@ -27,13 +32,13 @@ function genCustomerUid(user,alias){
 }
 
 //구매id 생성 
-function genMerchantUid(user, merchantType, merchant){
+function genMerchantUid(user, workType, work){
 	/*
 		user : req.user
-		merchantType : 상품 타입 (Series, Episodes, Novels, Chapters 등)
-		merchant : 상품의 Mongoose 인스턴스
+		workType : 상품 타입 (Series, Episodes, Novels, Chapters 등)
+		work : 상품의 Mongoose 인스턴스
 	*/
-	return user.email + "_" + merchantType + "_" + String(merchant._id);
+	return user.email + "_" + workType + "_" + String(work._id);
 }
 
 //훅
@@ -102,11 +107,16 @@ router.post("/ajax/payment/subscription/create", function(req,res){
 	);
 });
 
+
 //빌링키 조회
 router.post("/ajax/payment/subscription/get",function(req,res){
 	catchPaymentError(
 		res,
 		iamporter.getSubscription(req.body.customer_uid)
+		.then(async result => {
+			Base.logInfo("billing key get result",result);
+			Base.resYes(res,"billing key get result from iamporter",result);
+		})
 	);
 });
 
@@ -120,12 +130,51 @@ router.post("/ajax/payment/subscription/delete",function(req,res){
 
 //빌링키 결제
 router.post("/ajax/payment/subscription/pay",function(req,res){
+	let workObjectId = Base.newObjectId(req.body.workObjectId);
+	let workType = req.body.workType;
+
+	let work;
+	let merchant_uid;
+	let price;
+
+	if(workType == "Series"){
+		work = await Series.findOne({_id:workObjectId});
+		if(!work){
+			Base.resNo(res,"No Series found. please check object id again",workObjectId);
+			return;
+		}
+
+		allEpisodes = await Episodes.find({seriesId:work._id});
+		if(allEpisodes.length == 0){
+			Base.resNo(res,work.title + " has no episode");
+			return;
+		}
+
+		purchased = []
+		notPurchased = []
+		//TODO : 시발 어떻게 하지
+
+
+	} else if (workType = "Episodes"){
+		work = await Episodes.findOne({_id:workObjectId});
+		if(!work){
+			Base.resNo(res,"No Episode found. please check object id again",workObjectId);
+			return;
+		}
+
+		price = work.price;
+	} else {
+		Base.resNo(res,"Invalid work type. \"Series\" and \"Episodes\" allowed",workType);
+		return;
+	}
+	merchant_uid = genMerchantUid(req.user,workType,work);
+
 	catchPaymentError(
 		res,
 		iamporter.paySubscription({
 			"customer_uid" : req.body.customer_uid,
 			"merchant_uid" : req.body.merchant_uid,
-			"amount" : Number(req.body.amount)
+			"amount" : price
 		})
 	);
 });

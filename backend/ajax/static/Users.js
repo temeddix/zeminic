@@ -7,6 +7,7 @@ const userSchema = new Schema({
     email:{type:String,unique:true},
     pw:String,
     nickname:{type:String,unique:true},
+    income:{type:Number, default:0},
     billingKey:[],
     bankAccount:{type:String, default:"undefined"},
     uploads:[{type:mongoose.Schema.Types.ObjectId, ref:"series"}],

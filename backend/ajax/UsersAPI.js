@@ -179,7 +179,6 @@ router.post("/ajax/userinfo", function (req, res) {
 	if (req.isAuthenticated()) {
 		let user = JSON.parse(JSON.stringify(req.user));
 		delete user["pw"];
-		delete user["billingKey"];
 		Base.resYes(res, "Successfully found user info", user);
 	} else {
 		Base.resNo(res, "Not logined", null);
