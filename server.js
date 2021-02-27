@@ -32,7 +32,7 @@ const UsersAPI = require('./backend/ajax/UsersAPI'); //회원 api
 const SeriesAPI = require("./backend/ajax/SeriesAPI"); //웹툰정보 api
 const EpisodesAPI = require("./backend/ajax/EpisodesAPI");
 const CommentsAPI = require("./backend/ajax/CommentsAPI");
-const PaymentAPI = require("./backend/ajax/PaymentAPI");
+const PaymentTestAPI = require("./backend/ajax/PaymentTestAPI");
 const OpenAPI = require("./backend/ajax/OpenAPI");
 
 server.use(Login);
@@ -40,7 +40,7 @@ server.use(UsersAPI);
 server.use(SeriesAPI);
 server.use(EpisodesAPI);
 server.use(CommentsAPI);
-server.use(PaymentAPI);
+server.use(PaymentTestAPI);
 server.use(OpenAPI);
 server.use(function(req,res,next){
     console.log("디버깅용 : 로그인여부 ",req.isAuthenticated());
