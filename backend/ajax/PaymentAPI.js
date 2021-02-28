@@ -9,6 +9,7 @@ const Strtest = Base.Strtest;
 
 const { Iamporter, IamporterError } = require('iamporter');
 const { services } = require('azure-storage');
+const base = require('./base/base');
 
 //상수 초기화
 //가맹점 식별코드 imp48416773
@@ -32,8 +33,8 @@ function genCustomerUid(user,alias){
 }
 
 //구매id 생성 
-function genMerchantUid(user,episode){
-	return user.email + "_" + String(episode._id);
+function genMerchantUid(user,episode,numOfEpisodes){
+	return user.email + "_" + String(episode._id)+"_"+String(numOfEpisodes);
 }
 
 //훅
@@ -128,8 +129,18 @@ router.post("/ajax/payment/subscription/delete",function(req,res){
 	);
 });
 
-//빌링키로 Episode결제
-router.post("/ajax/payment/subscription/pay/episodes",function(req,res){
+//빌링키 Episodes 결제 준비
+let tmpPrepare = new Map();
+function intersection(mmap, epArray){
+	let retlst = []
+	for(let i = 0; i < epArray.length; i++){
+		if (!mmap.get(epArray[i])){
+			retlst.push(Base.newObjectId(epArray[i]));
+		}
+	}
+	return retlst;
+}
+router.post("/ajax/payment/subscription/pay/episodes/prepare",function(req,res){
 	let episodeIds = req.body.workIds.split(" ");
 	let customer_uid = req.body.customer_uid;
 
@@ -141,18 +152,69 @@ router.post("/ajax/payment/subscription/pay/episodes",function(req,res){
 		return;
 	}
 
-	// TODO : 구매를 원하는 에피 아이디들이랑 내가 구매한거랑 intersection해서
-	// 구매 안한 것만 추려내기
+	if(episodeIds.length>10){
+		Base.resNo(res,"episode list length is limited up to 10");
+		return;
+	}
+
+	// 구매 안한 것만 추려내고 응답 (토큰, 에피소드-가격 리스트, 총가격)
+	notPurchased = intersection(req.user.purchased, episodeIds);
+	if(notPurchased.length == 0){
+		Base.resNo(res,"you already bought all these episodes",episodeIds);
+		return;
+	}
+
+	tmpPrepare.set(req.user.email,{
+		notPurchased:notPurchased,
+		registration : Base.getTime()
+	});
+	Base.resYes(res,"List of episodes to be purchased",notPurchased);
+	
+});
+
+//빌링키 episodes 결제 확인
+router.post("/ajax/payment/subscription/pay/episodes/confirm",async function(req,res){
+
+	let customer_uid = req.body.customer_uid;
+
+	if(!req.user.billingKey.some(a => {return a.key})){
+		Base.resNo(res,"No such customer_uid. check again");
+		return;
+	}
+
+	let tmp = tmpPrepare.get(req.user.email);
+	if(!tmp){
+		Base.resNo(res,"No prepared payment");
+		return;
+	} else if(tmp['registration'] + 1000*60*60 < Base.getTime()){
+		Base.resNo(res,"you must confirm within 1 hour after preparation");
+		return;
+	}
+
+	tmp = tmp['notPurchased'];
+	let sumAmount = 0;
+	let merchant_uid = genMerchantUid(user,tmp[0],tmp.length);
+	let epis = await Episodes.find({_id:{$in:tmp}});
+	for(let i in epis){
+		sumAmount += epis.price;
+	}
 
 	catchPaymentError(
 		res,
 		iamporter.paySubscription({
 			"customer_uid" : customer_uid,
 			"merchant_uid" : merchant_uid,
-			"amount" : price
+			"amount" : sumAmount
 		}).then(result => {
-			//TODO: 내가 구매한 리스트에 구매한거 추가하ㅓ고 저장
-			Base.resYes(res,"purchased");//TODO : 결제된거 리스트 리턴하기
+			for(let i in epis){
+				req.user.purchased.set(String(epis[i]),1);
+			}
+			await req.user.save();
+			Base.resYes(res,"purchased",{
+				"customer_uid" : customer_uid,
+				"merchant_uid" : merchant_uid,
+				"amount" : sumAmount
+			});
 			return;
 		})
 	);
@@ -164,14 +226,10 @@ router.post("/ajax/payment/cancel/merchant",function(req,res){
 		res,
 		iamporter.cancelByMerchantUid(req.body.merchant_uid)
   		.then(result => {
-
+				Base.resYes(res,"canceled",req.body.merchant_uid);
 		  })
 		);
 });
-
-
-
-
 
 
 //비인증 일회성 결제
@@ -190,12 +248,6 @@ router.post("/ajax/payment/onetime/pay",function(req,res){
 });
 
 
-//결제 취소 : 상점 고유 아이디 : 부분 취소
-router.post("/ajax/payment/cancel/merchant/part",function(req,res){
-	catchPaymentError(
-		
-		);
-});
 
 //조회 : 아임포트 고유 아이디
 router.post("/ajax/payment/find/iamport",function(req,res){
@@ -206,34 +258,6 @@ router.post("/ajax/payment/find/iamport",function(req,res){
 
 //조회 : 상점 고유 아이디
 router.post("/ajax/payment/find/merchant",function(req,res){
-	catchPaymentError(
-		
-		);
-});
-
-//조회 : 결제 상태
-router.post("/ajax/payment/findall/status",function(req,res){
-	catchPaymentError(
-		
-		);
-});
-
-//조회 : 예약된 결제건
-router.post("/ajax/payment/find/prepared",function(req,res){
-	catchPaymentError(
-		
-		);
-});
-
-//예약
-router.post("/ajax/payment/prepare",function(req,res){
-	catchPaymentError(
-		
-		);
-});
-
-//가상 계좌 발급
-router.post("/ajax/payment/vbank",function(req,res){
 	catchPaymentError(
 		
 		);

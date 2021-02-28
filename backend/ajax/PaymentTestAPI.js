@@ -114,36 +114,10 @@ router.post("/test/payment/foreign/pay",function(req,res){
 	);
 });
 
-//결제 취소 : 아임포트 고유 아이디 : 설정된 계좌로 환불
-router.post("/test/payment/cancel/iamport/refund",function(req,res){
-	processIamporterPromiseForDebugging(
 
-		);
-});
-
-//결제 취소 : 아임포트 고유 아이디
-router.post("/test/payment/cancel/iamport",function(req,res){
-	processIamporterPromiseForDebugging(
-		
-		);
-});
-
-//결제 취소 : 상점 고유 아이디 : 부분 취소
-router.post("/test/payment/cancel/merchant/part",function(req,res){
-	processIamporterPromiseForDebugging(
-		
-		);
-});
 
 //결제 취소 : 상점 고유 아이디
 router.post("/test/payment/cancel/merchant",function(req,res){
-	processIamporterPromiseForDebugging(
-		
-		);
-});
-
-//조회 : 아임포트 고유 아이디
-router.post("/test/payment/find/iamport",function(req,res){
 	processIamporterPromiseForDebugging(
 		
 		);
@@ -156,33 +130,7 @@ router.post("/test/payment/find/merchant",function(req,res){
 		);
 });
 
-//조회 : 결제 상태
-router.post("/test/payment/findall/status",function(req,res){
-	processIamporterPromiseForDebugging(
-		
-		);
-});
 
-//조회 : 예약된 결제건
-router.post("/test/payment/find/prepared",function(req,res){
-	processIamporterPromiseForDebugging(
-		
-		);
-});
-
-//예약
-router.post("/test/payment/prepare",function(req,res){
-	processIamporterPromiseForDebugging(
-		
-		);
-});
-
-//가상 계좌 발급
-router.post("/test/payment/vbank",function(req,res){
-	processIamporterPromiseForDebugging(
-		
-		);
-});
 
 
 module.exports = router;
