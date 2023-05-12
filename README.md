@@ -1,6 +1,9 @@
-# 제미닉 - 오픈 웹툰 플랫폼
+# About This Repository
 
-## Vue CLI 화면으로 NPM과 웹팩을 완전히 제어하기
+This project is an attempt to create an open webtoon platform where creators can share their works and gain popularity from the crowd. It's currently in the development phase.
+
+# Command Line Scripts
+Control NPM and Webpack with Vue CLI.
 ```
 vue ui
 ```
